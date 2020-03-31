@@ -1,6 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
-
-const registerStyles = makeStyles(theme => ({
+export default theme => ({
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
@@ -23,6 +21,4 @@ const registerStyles = makeStyles(theme => ({
     alignItems: "center",
     display: "flex"
   }
-}));
-
-export default registerStyles;
+});

@@ -1,6 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
-
-const loginStyles = makeStyles(theme => ({
+export default theme => ({
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
@@ -22,6 +20,4 @@ const loginStyles = makeStyles(theme => ({
     alignItems: "center",
     display: "flex"
   }
-}));
-
-export default loginStyles;
+});
