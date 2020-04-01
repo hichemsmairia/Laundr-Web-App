@@ -12,6 +12,7 @@ import Container from "@material-ui/core/Container";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import registerStyles from "../styles/registerStyles";
+import loginRegisterLogo from "../images/loginRegisterLogo.png";
 
 function Copyright() {
   return (
@@ -29,6 +30,12 @@ function Copyright() {
 class Register extends Component {
   constructor(props) {
     super(props);
+
+    this.state = { rerender: false };
+  }
+
+  componentDidMount() {
+    this.setState = { rerender: true };
   }
 
   render() {
@@ -44,7 +51,7 @@ class Register extends Component {
                 width: 500,
                 height: 200
               }}
-              src="https://www.laundr.io/wp-content/uploads/2020/03/user_img.png"
+              src={loginRegisterLogo}
             ></img>
           </Container>
           <Typography component="h1" variant="h5">
