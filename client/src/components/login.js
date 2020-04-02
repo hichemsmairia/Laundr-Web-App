@@ -29,7 +29,174 @@ function Copyright() {
 class Login extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      loginError: false,
+      emailError: false,
+      passwordError: false,
+      email: "",
+      password: ""
+    };
   }
+
+  handleSubmit = event => {
+    event.preventDefault();
+
+    let email = this.state.email;
+    let password = this.state.password;
+    let canLogin = true;
+
+    console.log("email: " + this.state.email);
+    console.log("password: " + this.state.password);
+    if (email == "") {
+      this.setState({ emailError: true });
+      canLogin = false;
+    } else {
+      this.setState({ emailError: false });
+    }
+
+    if (password == "") {
+      this.setState({ passwordError: true });
+      canLogin = false;
+    } else {
+      this.setState({ passwordError: false });
+    }
+
+    if (canLogin) {
+      console.log("able to login");
+    }
+  };
+
+  handleEmailChange = email => {
+    this.setState({ email: email });
+  };
+
+  handlePasswordChange = password => {
+    this.setState({ password: password });
+  };
+
+  evaluateEmailError = () => {
+    if (this.state.loginError) {
+      return (
+        <React.Fragment>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            label="Email Address"
+            autoComplete="email"
+            autoFocus
+            error
+            helperText="Email or password is incorrect. Please try again."
+            onChange={event => {
+              this.handleEmailChange(event.target.value);
+            }}
+            value={this.state.email}
+          />
+        </React.Fragment>
+      );
+    } else if (this.state.emailError) {
+      return (
+        <React.Fragment>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            label="Email Address"
+            autoComplete="email"
+            autoFocus
+            error
+            helperText="Please provide an email."
+            onChange={event => {
+              this.handleEmailChange(event.target.value);
+            }}
+            value={this.state.email}
+          />
+        </React.Fragment>
+      );
+    } else {
+      return (
+        <React.Fragment>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            label="Email Address"
+            autoComplete="email"
+            autoFocus
+            onChange={event => {
+              this.handleEmailChange(event.target.value);
+            }}
+            value={this.state.email}
+          />
+        </React.Fragment>
+      );
+    }
+  };
+
+  evaluatePasswordError = () => {
+    if (this.state.loginError) {
+      return (
+        <React.Fragment>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            label="Password"
+            type="password"
+            autoComplete="current-password"
+            error
+            onChange={event => {
+              this.handlePasswordChange(event.target.value);
+            }}
+            value={this.state.password}
+          />
+        </React.Fragment>
+      );
+    } else if (this.state.passwordError) {
+      return (
+        <React.Fragment>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            label="Password"
+            type="password"
+            autoComplete="current-password"
+            error
+            helperText="Please provide a password."
+            onChange={event => {
+              this.handlePasswordChange(event.target.value);
+            }}
+            value={this.state.password}
+          />
+        </React.Fragment>
+      );
+    } else {
+      return (
+        <React.Fragment>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            label="Password"
+            type="password"
+            autoComplete="current-password"
+            onChange={event => {
+              this.handlePasswordChange(event.target.value);
+            }}
+            value={this.state.password}
+          />
+        </React.Fragment>
+      );
+    }
+  };
 
   render() {
     const classes = this.props.classes;
@@ -44,45 +211,23 @@ class Login extends Component {
                 width: 500,
                 height: 200
               }}
+              alt="Company Logo"
               src="https://www.laundr.io/wp-content/uploads/2020/03/user_img.png"
             ></img>
           </Container>
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
+          <form onSubmit={this.handleSubmit} className={classes.form}>
+            {this.evaluateEmailError()}
+            {this.evaluatePasswordError()}
             <Button
               type="submit"
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={this.handleSubmit}
             >
               Sign In
             </Button>
