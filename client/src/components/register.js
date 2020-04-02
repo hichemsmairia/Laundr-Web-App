@@ -137,8 +137,8 @@ class Register extends Component {
     if (
       password === "" ||
       password.length < 6 ||
-      /[A-Z]+/.test(password) === false ||
-      /[\s~`!@#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?()\._]/g.test(password) === false
+      /[A-Z]+/.test(password) === false || //to disable warning from regex:
+      /[\s~`!@#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?()\._]/g.test(password) === false //eslint-disable-line
     ) {
       this.setState({
         passwordError: true,
