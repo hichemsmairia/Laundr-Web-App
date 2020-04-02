@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
@@ -13,11 +11,19 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import loginStyles from "../styles/loginStyles";
 
+//todo: forgot password functionality
+//todo: change button colors to match logo/stuff
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://laundr.io/">
+      <Link
+        color="inherit"
+        target="_blank"
+        rel="noopener"
+        href="https://laundr.io/"
+      >
         Laundr LLC
       </Link>{" "}
       {new Date().getFullYear()}
@@ -42,20 +48,23 @@ class Login extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    let email = this.state.email;
-    let password = this.state.password;
     let canLogin = true;
 
-    console.log("email: " + this.state.email);
-    console.log("password: " + this.state.password);
-    if (email == "") {
+    //console.log("email: " + this.state.email);
+    //console.log("password: " + this.state.password);
+
+    if (
+      this.state.email === "" ||
+      /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(this.state.email) ===
+        false
+    ) {
       this.setState({ emailError: true });
       canLogin = false;
     } else {
       this.setState({ emailError: false });
     }
 
-    if (password == "") {
+    if (this.state.password === "") {
       this.setState({ passwordError: true });
       canLogin = false;
     } else {
@@ -82,13 +91,11 @@ class Login extends Component {
           <TextField
             variant="outlined"
             margin="normal"
-            required
             fullWidth
             label="Email Address"
             autoComplete="email"
-            autoFocus
             error
-            helperText="Email or password is incorrect. Please try again."
+            helperText="*Email or password is incorrect. Please try again."
             onChange={event => {
               this.handleEmailChange(event.target.value);
             }}
@@ -102,13 +109,11 @@ class Login extends Component {
           <TextField
             variant="outlined"
             margin="normal"
-            required
             fullWidth
             label="Email Address"
             autoComplete="email"
-            autoFocus
             error
-            helperText="Please provide an email."
+            helperText="*Please enter a valid email."
             onChange={event => {
               this.handleEmailChange(event.target.value);
             }}
@@ -122,11 +127,9 @@ class Login extends Component {
           <TextField
             variant="outlined"
             margin="normal"
-            required
             fullWidth
             label="Email Address"
             autoComplete="email"
-            autoFocus
             onChange={event => {
               this.handleEmailChange(event.target.value);
             }}
@@ -144,7 +147,6 @@ class Login extends Component {
           <TextField
             variant="outlined"
             margin="normal"
-            required
             fullWidth
             label="Password"
             type="password"
@@ -163,13 +165,12 @@ class Login extends Component {
           <TextField
             variant="outlined"
             margin="normal"
-            required
             fullWidth
             label="Password"
             type="password"
             autoComplete="current-password"
             error
-            helperText="Please provide a password."
+            helperText="*Please enter a password."
             onChange={event => {
               this.handlePasswordChange(event.target.value);
             }}
@@ -183,7 +184,6 @@ class Login extends Component {
           <TextField
             variant="outlined"
             margin="normal"
-            required
             fullWidth
             label="Password"
             type="password"
@@ -218,7 +218,7 @@ class Login extends Component {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form onSubmit={this.handleSubmit} className={classes.form}>
+          <form className={classes.form} onSubmit={this.handleSubmit}>
             {this.evaluateEmailError()}
             {this.evaluatePasswordError()}
             <Button

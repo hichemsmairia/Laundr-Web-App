@@ -8,9 +8,11 @@ export default class App extends Component {
     return (
       <React.Fragment>
         <Switch>
-          <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
-          <Route path="/" component={Login} />
+          <Route path="/login" component={Login} />
+          <Route path="/">
+            <Redirect to="/login" />
+          </Route>
         </Switch>
         <br />
       </React.Fragment>

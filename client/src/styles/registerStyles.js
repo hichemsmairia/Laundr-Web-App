@@ -20,5 +20,13 @@ export default theme => ({
     justifyContent: "center",
     alignItems: "center",
     display: "flex"
+  },
+  formControl: {
+    margin: theme.spacing(0),
+    minWidth: 120
+  },
+  error: {
+    color: "red",
+    fontSize: "small"
   }
 });
