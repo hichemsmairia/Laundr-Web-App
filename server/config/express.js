@@ -3,7 +3,8 @@ const path = require("path"),
   mongoose = require("mongoose"),
   morgan = require("morgan"),
   bodyParser = require("body-parser"),
-  routes = require("../routes/routes");
+  routes = require("../routes/routes"),
+  cors = require("cors");
 
 module.exports.init = () => {
   //connect to db
@@ -17,7 +18,7 @@ module.exports.init = () => {
   //initialize app
   const app = express();
 
-  //app.use(cors());
+  app.use(cors());
 
   //morgan used for logging HTTP requests to the console
   app.use(morgan("dev"));
@@ -33,7 +34,7 @@ module.exports.init = () => {
   connection.on("error", error => console.log("Error: " + error));
 
   //add routers
-  app.use("/", routes);
+  app.use("/api", routes);
 
   //for production build
   if (process.env.NODE_ENV === "production") {

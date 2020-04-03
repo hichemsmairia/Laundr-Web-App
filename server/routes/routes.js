@@ -1,7 +1,7 @@
-const examples = require("../controllers/example.controller.js"),
+const { twilioVerify } = require("../controllers/twilio.js"),
   express = require("express"),
   router = express.Router();
 
-router.route("/").get(examples.hello);
+router.post("/verifyPhone", twilioVerify);
 
 module.exports = router;
