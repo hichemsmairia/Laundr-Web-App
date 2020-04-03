@@ -92,16 +92,16 @@ class Register extends Component {
 
     let canRegister = true;
 
-    console.log("fname: " + this.state.fname);
-    console.log("lname: " + this.state.lname);
-    console.log("city: " + this.state.city);
-    console.log("email: " + this.state.email);
-    console.log("password: " + this.state.password);
-    console.log("phone: " + this.state.phone);
-    console.log("phone length: " + this.state.phone.length);
-    console.log("referral: " + this.state.referral);
-    console.log("tos: " + this.state.tos);
-    console.log("=============");
+    // console.log("fname: " + this.state.fname);
+    // console.log("lname: " + this.state.lname);
+    // console.log("city: " + this.state.city);
+    // console.log("email: " + this.state.email);
+    // console.log("password: " + this.state.password);
+    // console.log("phone: " + this.state.phone);
+    // console.log("phone length: " + this.state.phone.length);
+    // console.log("referral: " + this.state.referral);
+    // console.log("tos: " + this.state.tos);
+    // console.log("=============");
 
     if (this.state.fname === "") {
       this.setState({
@@ -412,8 +412,9 @@ class Register extends Component {
                 <DialogContent>
                   <DialogContentText>
                     To finish registering, please enter the verification code we
-                    just sent to you. If you didn't receive a code, make sure
-                    your entered phone number is correct and resend the code.
+                    just sent to your phone. If you didn't receive a code, make
+                    sure your entered phone number is correct and sign up again.
+                    Your code will expire upon closing this popup.
                   </DialogContentText>
                   <Grid item xs={12} align="center">
                     <Grid item xs={12} align="center">
