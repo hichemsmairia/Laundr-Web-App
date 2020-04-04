@@ -93,11 +93,11 @@ class Register extends Component {
       didRegister: false,
       openFinishRegister: false,
       finishRegisterMessage: "",
-      redirectRegister: false
+      redirectRegister: false,
     };
   }
 
-  handleSubmit = async event => {
+  handleSubmit = async (event) => {
     event.preventDefault();
     let canRegister = true;
 
@@ -107,12 +107,12 @@ class Register extends Component {
       canRegister = false;
       this.setState({
         fnameError: true,
-        fnameMsg: "*Please enter a first name."
+        fnameMsg: "*Please enter a first name.",
       });
     } else {
       this.setState({
         fnameError: false,
-        fnameMsg: ""
+        fnameMsg: "",
       });
     }
 
@@ -120,12 +120,12 @@ class Register extends Component {
       canRegister = false;
       this.setState({
         lnameError: true,
-        lnameMsg: "*Please enter a last name."
+        lnameMsg: "*Please enter a last name.",
       });
     } else {
       this.setState({
         lnameError: false,
-        lnameMsg: ""
+        lnameMsg: "",
       });
     }
 
@@ -137,12 +137,12 @@ class Register extends Component {
       canRegister = false;
       this.setState({
         emailError: true,
-        emailMsg: "*Please enter a valid email."
+        emailMsg: "*Please enter a valid email.",
       });
     } else {
       this.setState({
         emailError: false,
-        emailMsg: ""
+        emailMsg: "",
       });
     }
 
@@ -157,12 +157,12 @@ class Register extends Component {
       this.setState({
         passwordError: true,
         passwordMsg:
-          "*Passwords must be at least 6 characters long, contain one capital letter, and contain one special character."
+          "*Passwords must be at least 6 characters long, contain one capital letter, and contain one special character.",
       });
     } else {
       this.setState({
         passwordError: false,
-        passwordMsg: ""
+        passwordMsg: "",
       });
     }
 
@@ -170,12 +170,12 @@ class Register extends Component {
       canRegister = false;
       this.setState({
         phoneError: true,
-        phoneMsg: "*Please enter a 10-digit phone number."
+        phoneMsg: "*Please enter a 10-digit phone number.",
       });
     } else {
       this.setState({
         phoneError: false,
-        phoneMsg: ""
+        phoneMsg: "",
       });
     }
 
@@ -183,12 +183,12 @@ class Register extends Component {
       canRegister = false;
       this.setState({
         tosError: true,
-        tosMsg: "*Please accept the Terms of Service."
+        tosMsg: "*Please accept the Terms of Service.",
       });
     } else {
       this.setState({
         tosError: false,
-        tosMsg: ""
+        tosMsg: "",
       });
     }
 
@@ -199,7 +199,7 @@ class Register extends Component {
 
       await axios
         .post(baseURL + "/user/checkDuplicate", { email, phone })
-        .then(res => {
+        .then((res) => {
           if (res.data.success) {
             //console.log("dupe: " + res.data.success);
             //console.log("code: " + res.data.message);
@@ -208,7 +208,7 @@ class Register extends Component {
             alert("Error code: " + res.data.message);
           }
         })
-        .catch(error => {
+        .catch((error) => {
           alert("Error: " + error);
         });
     }
@@ -220,18 +220,18 @@ class Register extends Component {
     } else if (duplicateCode === 1) {
       this.setState({
         openDuplicate: true,
-        duplicateError: "Email address is already in use. Please try again."
+        duplicateError: "Email address is already in use. Please try again.",
       });
     } else if (duplicateCode === 2) {
       this.setState({
         openDuplicate: true,
-        duplicateError: "Phone number is already in use. Please try again."
+        duplicateError: "Phone number is already in use. Please try again.",
       });
     } else if (duplicateCode === 3) {
       this.setState({
         openDuplicate: true,
         duplicateError:
-          "Email address and phone number are already in use. Please try again."
+          "Email address and phone number are already in use. Please try again.",
       });
     }
   };
@@ -243,7 +243,7 @@ class Register extends Component {
 
     await axios
       .post(baseURL + "/twilio/verifyPhone", { to })
-      .then(res => {
+      .then((res) => {
         if (res.data.success) {
           //alert("Verification code: " + res.data.message);
           code = res.data.message;
@@ -251,7 +251,7 @@ class Register extends Component {
           alert("Error code: " + res.data.message);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         alert("Error: " + error);
       });
 
@@ -264,7 +264,7 @@ class Register extends Component {
 
     await axios
       .post(baseURL + "/twilio/verifyPhone", { to })
-      .then(res => {
+      .then((res) => {
         if (res.data.success) {
           //alert("Verification code: " + res.data.message);
           code = res.data.message;
@@ -272,7 +272,7 @@ class Register extends Component {
           alert("Error code: " + res.data.message);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         alert("Error: " + error);
       });
 
@@ -284,14 +284,14 @@ class Register extends Component {
             verifyCode: code,
             openResent: true,
             showResentLoad: false,
-            disableCode: false
+            disableCode: false,
           });
         }, 5000);
       }
     );
   };
 
-  handleFnameChange = fname => {
+  handleFnameChange = (fname) => {
     const regex = /^[a-zA-Z][a-zA-Z\s]*$/;
 
     if (fname === "" || regex.test(fname)) {
@@ -299,7 +299,7 @@ class Register extends Component {
     }
   };
 
-  handleLnameChange = lname => {
+  handleLnameChange = (lname) => {
     const regex = /^[a-zA-Z][a-zA-Z\s]*$/;
 
     if (lname === "" || regex.test(lname)) {
@@ -307,19 +307,19 @@ class Register extends Component {
     }
   };
 
-  handleCityChange = city => {
+  handleCityChange = (city) => {
     this.setState({ city: city });
   };
 
-  handleEmailChange = email => {
+  handleEmailChange = (email) => {
     this.setState({ email: email });
   };
 
-  handlePasswordChange = password => {
+  handlePasswordChange = (password) => {
     this.setState({ password: password });
   };
 
-  handlePhoneChange = phone => {
+  handlePhoneChange = (phone) => {
     const regex = /^[0-9\b]+$/;
 
     if (phone === "" || regex.test(phone)) {
@@ -330,7 +330,7 @@ class Register extends Component {
     }
   };
 
-  handleReferralChange = referral => {
+  handleReferralChange = (referral) => {
     this.setState({ referral: referral });
   };
 
@@ -338,7 +338,7 @@ class Register extends Component {
     this.setState({ tos: !this.state.tos });
   };
 
-  handleCodeChange = code => {
+  handleCodeChange = (code) => {
     this.setState({ checkCode: code });
   };
 
@@ -347,6 +347,8 @@ class Register extends Component {
   };
 
   handleVerifySubmit = () => {
+    console.log("typed: " + this.state.checkCode);
+    console.log("real: " + this.state.verifyCode);
     if (this.state.verifyCode == this.state.checkCode) {
       this.handleRegister(
         this.state.email.toLowerCase(), //users saved with lowercase email
@@ -360,7 +362,7 @@ class Register extends Component {
     } else {
       this.setState({
         openFinishRegister: true,
-        finishRegisterMessage: "Verification code is incorrect."
+        finishRegisterMessage: "Verification code is incorrect.",
       });
     }
   };
@@ -384,21 +386,21 @@ class Register extends Component {
         city,
         phone,
         password,
-        referral
+        referral,
       })
-      .then(res => {
+      .then((res) => {
         if (res.data.success) {
           this.setState({
             openFinishRegister: true,
             finishRegisterMessage:
               "You've successfully registered. Welcome to the Laundr family! Please sign in to continue.",
-            didRegister: true
+            didRegister: true,
           });
         } else {
           this.setState({
             openFinishRegister: true,
             finishRegisterMessage:
-              "There was an error during registration. Please try again."
+              "There was an error during registration. Please try again.",
           });
         }
         //const token = res.data.token;
@@ -406,7 +408,7 @@ class Register extends Component {
         //this.defaults.headers.common.token = token;
         //const data = jwtDecode(token);
       })
-      .catch(error => {
+      .catch((error) => {
         alert("Error: " + error);
       });
 
@@ -432,7 +434,7 @@ class Register extends Component {
     const classes = this.props.classes;
 
     if (this.state.redirectRegister) {
-      return <Redirect to="/login" />;
+      return <Redirect push to="/login" />;
     }
 
     return (
@@ -443,7 +445,7 @@ class Register extends Component {
             <img
               style={{
                 width: 500,
-                height: 200
+                height: 200,
               }}
               alt="Company Logo"
               src="https://www.laundr.io/wp-content/uploads/2020/03/user_img.png"
@@ -463,7 +465,7 @@ class Register extends Component {
                   error={this.state.fnameError}
                   helperText={this.state.fnameMsg}
                   value={this.state.fname}
-                  onChange={event => {
+                  onChange={(event) => {
                     this.handleFnameChange(event.target.value);
                   }}
                 />
@@ -477,7 +479,7 @@ class Register extends Component {
                   error={this.state.lnameError}
                   helperText={this.state.lnameMsg}
                   value={this.state.lname}
-                  onChange={event => {
+                  onChange={(event) => {
                     this.handleLnameChange(event.target.value);
                   }}
                 />
@@ -489,7 +491,7 @@ class Register extends Component {
                     native
                     label="City"
                     value={this.state.city}
-                    onChange={event => {
+                    onChange={(event) => {
                       this.handleCityChange(event.target.value);
                     }}
                   >
@@ -525,7 +527,7 @@ class Register extends Component {
                       disabled={this.state.disableCode}
                       style={{ width: 100 }}
                       value={this.state.checkCode}
-                      onChange={event => {
+                      onChange={(event) => {
                         this.handleCodeChange(event.target.value);
                       }}
                     />
@@ -607,7 +609,7 @@ class Register extends Component {
                   error={this.state.emailError}
                   helperText={this.state.emailMsg}
                   value={this.state.email}
-                  onChange={event => {
+                  onChange={(event) => {
                     this.handleEmailChange(event.target.value);
                   }}
                 />
@@ -622,7 +624,7 @@ class Register extends Component {
                   error={this.state.passwordError}
                   value={this.state.password}
                   helperText={this.state.passwordMsg}
-                  onChange={event => {
+                  onChange={(event) => {
                     this.handlePasswordChange(event.target.value);
                   }}
                 />
@@ -635,7 +637,7 @@ class Register extends Component {
                   error={this.state.phoneError}
                   helperText={this.state.phoneMsg}
                   value={this.state.phone}
-                  onChange={event => {
+                  onChange={(event) => {
                     this.handlePhoneChange(event.target.value);
                   }}
                 />
@@ -646,7 +648,7 @@ class Register extends Component {
                   label="Referral Code"
                   helperText="*Optional"
                   value={this.state.referral}
-                  onChange={event => {
+                  onChange={(event) => {
                     this.handleReferralChange(event.target.value);
                   }}
                 />
@@ -706,7 +708,7 @@ class Register extends Component {
 }
 
 Register.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(registerStyles)(Register);

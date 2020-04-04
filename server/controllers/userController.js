@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const signToken = require("../authHelpers").signToken;
 
 const checkDuplicate = async (req, res) => {
   let email = req.body.email.toLowerCase();
@@ -7,28 +8,28 @@ const checkDuplicate = async (req, res) => {
   let phoneDupe = false;
 
   await User.findOne({ email: email })
-    .then(user => {
+    .then((user) => {
       if (user) {
         emailDupe = true;
       }
     })
-    .catch(error => {
+    .catch((error) => {
       return res.json({
         success: false,
-        message: error.code
+        message: error.code,
       });
     });
 
   await User.findOne({ phone: phone })
-    .then(user => {
+    .then((user) => {
       if (user) {
         phoneDupe = true;
       }
     })
-    .catch(error => {
+    .catch((error) => {
       return res.json({
         success: false,
-        message: error.code
+        message: error.code,
       });
     });
 
@@ -52,21 +53,47 @@ const register = (req, res) => {
     city: req.body.city,
     phone: req.body.phone,
     password: req.body.password,
-    usedReferral: req.body.referral
+    usedReferral: req.body.referral,
   })
-    .then(user => {
+    .then((user) => {
       if (user) {
         return res.json({
           success: true,
-          message: "User successfully created"
+          message: "User successfully created",
         });
       } else {
         return res.json({ success: true, message: "Error with creating user" });
       }
     })
-    .catch(error => {
+    .catch((error) => {
       return res.json({ success: false, message: error.code });
     });
 };
 
-module.exports = { checkDuplicate, register };
+const login = (req, res) => {
+  User.findOne({ email: req.body.email })
+    .then(async (user) => {
+      if (!user || !user.validPassword(req.body.password)) {
+        return res.json({
+          success: false,
+          message: "Invalid login credentials",
+        });
+      }
+
+      //granting access to the token, the information for current user
+      const token = await signToken(user);
+      res.json({
+        success: true,
+        message: "Successfully logged in, token is attached",
+        token: token,
+      });
+    })
+    .catch((error) => {
+      return res.json({
+        success: false,
+        message: error.code,
+      });
+    });
+};
+
+module.exports = { checkDuplicate, register, login };

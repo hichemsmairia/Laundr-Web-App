@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
@@ -9,11 +10,19 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import loginStyles from "../styles/loginStyles";
+import axios from "axios";
+import baseURL from "../baseURL";
 
 //todo: forgot password functionality
 //todo: change button colors to match logo/stuff
 //todo: change textbox + moving word to laundr colors, buttons to colors as well (WIP)
+//todo: big thing is to verify token on each page and redirect if necessary
 
 function Copyright() {
   return (
@@ -42,11 +51,13 @@ class Login extends Component {
       emailError: false,
       passwordError: false,
       email: "",
-      password: ""
+      password: "",
+      invalidLogin: false,
+      validLogin: false,
     };
   }
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     event.preventDefault();
 
     let canLogin = true;
@@ -73,19 +84,38 @@ class Login extends Component {
     }
 
     if (canLogin) {
-      console.log("able to login");
+      this.handleLogin(this.state.email.toLowerCase(), this.state.password);
     }
   };
 
-  handleEmailChange = email => {
+  handleLogin = async (email, password) => {
+    await axios
+      .post(baseURL + "/user/login", { email, password })
+      .then((res) => {
+        if (res.data.success) {
+          const token = res.data.token;
+          localStorage.setItem("token", token); //use stuff here. check token in constructor.
+          //axios.defaults.headers.common["token"] = token;
+          //const data = jwtDecode(token);
+          this.setState({ validLogin: true });
+        } else {
+          this.setState({ invalidLogin: true });
+        }
+      })
+      .catch((error) => {
+        alert("Error: " + error);
+      });
+  };
+
+  handleEmailChange = (email) => {
     this.setState({ email: email });
   };
 
-  handlePasswordChange = password => {
+  handlePasswordChange = (password) => {
     this.setState({ password: password });
   };
 
-  evaluateEmailError = classes => {
+  evaluateEmailError = () => {
     if (this.state.loginError) {
       return (
         <React.Fragment>
@@ -97,7 +127,7 @@ class Login extends Component {
             autoComplete="email"
             error
             helperText="*Email or password is incorrect. Please try again."
-            onChange={event => {
+            onChange={(event) => {
               this.handleEmailChange(event.target.value);
             }}
             value={this.state.email}
@@ -114,8 +144,8 @@ class Login extends Component {
             label="Email Address"
             autoComplete="email"
             error
-            helperText="*Please enter a valid email."
-            onChange={event => {
+            helperText="*Please enter a validLogin email."
+            onChange={(event) => {
               this.handleEmailChange(event.target.value);
             }}
             value={this.state.email}
@@ -131,7 +161,7 @@ class Login extends Component {
             fullWidth
             label="Email Address"
             autoComplete="email"
-            onChange={event => {
+            onChange={(event) => {
               this.handleEmailChange(event.target.value);
             }}
             value={this.state.email}
@@ -141,7 +171,7 @@ class Login extends Component {
     }
   };
 
-  evaluatePasswordError = classes => {
+  evaluatePasswordError = () => {
     if (this.state.loginError) {
       return (
         <React.Fragment>
@@ -153,7 +183,7 @@ class Login extends Component {
             type="password"
             autoComplete="current-password"
             error
-            onChange={event => {
+            onChange={(event) => {
               this.handlePasswordChange(event.target.value);
             }}
             value={this.state.password}
@@ -172,7 +202,7 @@ class Login extends Component {
             autoComplete="current-password"
             error
             helperText="*Please enter a password."
-            onChange={event => {
+            onChange={(event) => {
               this.handlePasswordChange(event.target.value);
             }}
             value={this.state.password}
@@ -189,7 +219,7 @@ class Login extends Component {
             label="Password"
             type="password"
             autoComplete="current-password"
-            onChange={event => {
+            onChange={(event) => {
               this.handlePasswordChange(event.target.value);
             }}
             value={this.state.password}
@@ -199,7 +229,15 @@ class Login extends Component {
     }
   };
 
+  handleInvalidClose = () => {
+    this.setState({ invalidLogin: false });
+  };
+
   render() {
+    if (this.state.validLogin) {
+      return <Redirect push to="/userDashboard" />;
+    }
+
     const classes = this.props.classes;
 
     return (
@@ -210,7 +248,7 @@ class Login extends Component {
             <img
               style={{
                 width: 500,
-                height: 200
+                height: 200,
               }}
               alt="Company Logo"
               src="https://www.laundr.io/wp-content/uploads/2020/03/user_img.png"
@@ -219,6 +257,23 @@ class Login extends Component {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
+          <Dialog
+            open={this.state.invalidLogin}
+            onClose={this.handleInvalidClose}
+            aria-labelledby="form-dialog-title"
+          >
+            <DialogTitle id="form-dialog-title">Alert</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                Email or password is incorrect. Please try again.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={this.handleInvalidClose} color="primary">
+                Okay
+              </Button>
+            </DialogActions>
+          </Dialog>
           <form className={classes.form} onSubmit={this.handleSubmit}>
             {this.evaluateEmailError()}
             {this.evaluatePasswordError()}
@@ -255,7 +310,7 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(loginStyles)(Login);

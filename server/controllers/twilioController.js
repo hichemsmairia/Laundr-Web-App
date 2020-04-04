@@ -18,16 +18,16 @@ const twilioVerify = (req, res) => {
         code +
         ".",
       from: from,
-      to: to
+      to: to,
     })
     .then(() => {
       //not including twilio's response
       return res.json({
         success: true,
-        message: "Verification code sent successfully"
+        message: code,
       });
     })
-    .catch(error => {
+    .catch((error) => {
       return res.json({ success: false, message: error.code });
     });
 };
