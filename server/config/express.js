@@ -3,7 +3,8 @@ const path = require("path"),
   mongoose = require("mongoose"),
   morgan = require("morgan"),
   bodyParser = require("body-parser"),
-  routes = require("../routes/routes"),
+  twilioRoutes = require("../routes/twilioRoutes"),
+  userRoutes = require("../routes/userRoutes"),
   cors = require("cors");
 
 module.exports.init = () => {
@@ -34,7 +35,8 @@ module.exports.init = () => {
   connection.on("error", error => console.log("Error: " + error));
 
   //add routers
-  app.use("/api", routes);
+  app.use("/api/twilio", twilioRoutes);
+  app.use("/api/user", userRoutes);
 
   //for production build
   if (process.env.NODE_ENV === "production") {

@@ -13,6 +13,7 @@ import loginStyles from "../styles/loginStyles";
 
 //todo: forgot password functionality
 //todo: change button colors to match logo/stuff
+//todo: change textbox + moving word to laundr colors, buttons to colors as well (WIP)
 
 function Copyright() {
   return (
@@ -84,7 +85,7 @@ class Login extends Component {
     this.setState({ password: password });
   };
 
-  evaluateEmailError = () => {
+  evaluateEmailError = classes => {
     if (this.state.loginError) {
       return (
         <React.Fragment>
@@ -140,7 +141,7 @@ class Login extends Component {
     }
   };
 
-  evaluatePasswordError = () => {
+  evaluatePasswordError = classes => {
     if (this.state.loginError) {
       return (
         <React.Fragment>
@@ -239,7 +240,7 @@ class Login extends Component {
               </Grid>
               <Grid item>
                 <Link href="/register" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  {"Don't have an account? Sign up"}
                 </Link>
               </Grid>
             </Grid>

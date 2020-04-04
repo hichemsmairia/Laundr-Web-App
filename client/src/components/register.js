@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
@@ -32,7 +33,10 @@ import baseURL from "../baseURL";
 //todo: fix positioning of city "we currently..." msg to match
 //todo: get loading from resending code to hover rather than appear?
 //todo: fix imports to 1st level
-//todo: check over views on mobile
+//todo: check over views on mobile, maybe resize logo to fit just a bit more
+//todo: change token time to infinite(?) when implementing
+//in backend, caught errors = return error.code and success false. in frontend, if success is false, print error: message from the response which should be said code
+//in frontend, caught errors = use error itself and alert error: error
 
 function Copyright() {
   return (
@@ -83,33 +87,28 @@ class Register extends Component {
       openVerify: false,
       openResent: false,
       showResentLoad: false,
-      disableCode: false
+      disableCode: false,
+      openDuplicate: false,
+      duplicateError: "",
+      didRegister: false,
+      openFinishRegister: false,
+      finishRegisterMessage: "",
+      redirectRegister: false
     };
   }
 
-  handleSubmit = event => {
+  handleSubmit = async event => {
     event.preventDefault();
-
     let canRegister = true;
 
-    // console.log("fname: " + this.state.fname);
-    // console.log("lname: " + this.state.lname);
-    // console.log("city: " + this.state.city);
-    // console.log("email: " + this.state.email);
-    // console.log("password: " + this.state.password);
-    // console.log("phone: " + this.state.phone);
-    // console.log("phone length: " + this.state.phone.length);
-    // console.log("referral: " + this.state.referral);
-    // console.log("tos: " + this.state.tos);
-    // console.log("=============");
+    //this.setState({ canRegister: true });
 
     if (this.state.fname === "") {
+      canRegister = false;
       this.setState({
         fnameError: true,
         fnameMsg: "*Please enter a first name."
       });
-
-      canRegister = false;
     } else {
       this.setState({
         fnameError: false,
@@ -118,12 +117,11 @@ class Register extends Component {
     }
 
     if (this.state.lname === "") {
+      canRegister = false;
       this.setState({
         lnameError: true,
         lnameMsg: "*Please enter a last name."
       });
-
-      canRegister = false;
     } else {
       this.setState({
         lnameError: false,
@@ -136,12 +134,11 @@ class Register extends Component {
       /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(this.state.email) ===
         false
     ) {
+      canRegister = false;
       this.setState({
         emailError: true,
         emailMsg: "*Please enter a valid email."
       });
-
-      canRegister = false;
     } else {
       this.setState({
         emailError: false,
@@ -156,13 +153,12 @@ class Register extends Component {
       /[A-Z]+/.test(password) === false || //to disable warning from regex:
       /[\s~`!@#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?()\._]/g.test(password) === false //eslint-disable-line
     ) {
+      canRegister = false;
       this.setState({
         passwordError: true,
         passwordMsg:
           "*Passwords must be at least 6 characters long, contain one capital letter, and contain one special character."
       });
-
-      canRegister = false;
     } else {
       this.setState({
         passwordError: false,
@@ -171,12 +167,11 @@ class Register extends Component {
     }
 
     if (this.state.phone === "" || this.state.phone.length < 10) {
+      canRegister = false;
       this.setState({
         phoneError: true,
         phoneMsg: "*Please enter a 10-digit phone number."
       });
-
-      canRegister = false;
     } else {
       this.setState({
         phoneError: false,
@@ -185,12 +180,11 @@ class Register extends Component {
     }
 
     if (this.state.tos === false) {
+      canRegister = false;
       this.setState({
         tosError: true,
         tosMsg: "*Please accept the Terms of Service."
       });
-
-      canRegister = false;
     } else {
       this.setState({
         tosError: false,
@@ -198,9 +192,47 @@ class Register extends Component {
       });
     }
 
+    let duplicateCode = -1;
     if (canRegister) {
-      //test
+      let email = this.state.email;
+      let phone = this.state.phone;
+
+      await axios
+        .post(baseURL + "/user/checkDuplicate", { email, phone })
+        .then(res => {
+          if (res.data.success) {
+            //console.log("dupe: " + res.data.success);
+            //console.log("code: " + res.data.message);
+            duplicateCode = res.data.message;
+          } else {
+            alert("Error code: " + res.data.message);
+          }
+        })
+        .catch(error => {
+          alert("Error: " + error);
+        });
+    }
+
+    //handle duplicate code, if its 0 then move to handleVerify
+    //0: none, 1: email, 2: phone, 3: both
+    if (duplicateCode === 0) {
       this.handleVerify();
+    } else if (duplicateCode === 1) {
+      this.setState({
+        openDuplicate: true,
+        duplicateError: "Email address is already in use. Please try again."
+      });
+    } else if (duplicateCode === 2) {
+      this.setState({
+        openDuplicate: true,
+        duplicateError: "Phone number is already in use. Please try again."
+      });
+    } else if (duplicateCode === 3) {
+      this.setState({
+        openDuplicate: true,
+        duplicateError:
+          "Email address and phone number are already in use. Please try again."
+      });
     }
   };
 
@@ -210,17 +242,17 @@ class Register extends Component {
     let code;
 
     await axios
-      .post(baseURL + "verifyPhone", { to })
+      .post(baseURL + "/twilio/verifyPhone", { to })
       .then(res => {
         if (res.data.success) {
-          alert("Verification code: " + res.data.message);
+          //alert("Verification code: " + res.data.message);
           code = res.data.message;
         } else {
           alert("Error code: " + res.data.message);
         }
       })
       .catch(error => {
-        alert("Error code: " + error.code);
+        alert("Error: " + error);
       });
 
     this.setState({ verifyCode: code, openVerify: true });
@@ -231,17 +263,17 @@ class Register extends Component {
     let code;
 
     await axios
-      .post(baseURL + "verifyPhone", { to })
+      .post(baseURL + "/twilio/verifyPhone", { to })
       .then(res => {
         if (res.data.success) {
-          alert("Verification code: " + res.data.message);
+          //alert("Verification code: " + res.data.message);
           code = res.data.message;
         } else {
           alert("Error code: " + res.data.message);
         }
       })
       .catch(error => {
-        alert("Error code: " + error.code);
+        alert("Error: " + error);
       });
 
     this.setState(
@@ -316,26 +348,92 @@ class Register extends Component {
 
   handleVerifySubmit = () => {
     if (this.state.verifyCode == this.state.checkCode) {
-      //number vs string, so ==
-      alert("you good bro");
-    } else {
-      alert(
-        "WRONG!!!" +
-          "verify code: " +
-          this.state.verifyCode +
-          " " +
-          "entered code: " +
-          this.state.checkCode
+      this.handleRegister(
+        this.state.email.toLowerCase(), //users saved with lowercase email
+        this.state.fname,
+        this.state.lname,
+        this.state.city,
+        this.state.phone,
+        this.state.password,
+        this.state.referral
       );
+    } else {
+      this.setState({
+        openFinishRegister: true,
+        finishRegisterMessage: "Verification code is incorrect."
+      });
     }
+  };
+
+  handleRegister = async (
+    email,
+    fname,
+    lname,
+    city,
+    phone,
+    password,
+    referral
+  ) => {
+    this.setState({ showResentLoad: true, disableCode: true });
+
+    await axios
+      .post(baseURL + "/user/register", {
+        email,
+        fname,
+        lname,
+        city,
+        phone,
+        password,
+        referral
+      })
+      .then(res => {
+        if (res.data.success) {
+          this.setState({
+            openFinishRegister: true,
+            finishRegisterMessage:
+              "You've successfully registered. Welcome to the Laundr family! Please sign in to continue.",
+            didRegister: true
+          });
+        } else {
+          this.setState({
+            openFinishRegister: true,
+            finishRegisterMessage:
+              "There was an error during registration. Please try again."
+          });
+        }
+        //const token = res.data.token;
+        //localStorage.setItem("token", token);
+        //this.defaults.headers.common.token = token;
+        //const data = jwtDecode(token);
+      })
+      .catch(error => {
+        alert("Error: " + error);
+      });
+
+    this.setState({ showResentLoad: false, disableCode: false });
   };
 
   handleResentClose = () => {
     this.setState({ openResent: false });
   };
 
+  handleDuplicateClose = () => {
+    this.setState({ openDuplicate: false });
+  };
+
+  handleFinishRegClose = () => {
+    if (this.state.didRegister) {
+      this.setState({ redirectRegister: true });
+    }
+    this.setState({ openFinishRegister: false });
+  };
+
   render() {
     const classes = this.props.classes;
+
+    if (this.state.redirectRegister) {
+      return <Redirect to="/login" />;
+    }
 
     return (
       <Container component="main" maxWidth="xs">
@@ -462,6 +560,40 @@ class Register extends Component {
                 </DialogContent>
                 <DialogActions>
                   <Button onClick={this.handleResentClose} color="primary">
+                    Okay
+                  </Button>
+                </DialogActions>
+              </Dialog>
+              <Dialog
+                open={this.state.openDuplicate}
+                onClose={this.handleDuplicateClose}
+                aria-labelledby="form-dialog-title"
+              >
+                <DialogTitle id="form-dialog-title">Alert</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    {this.state.duplicateError}
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={this.handleDuplicateClose} color="primary">
+                    Okay
+                  </Button>
+                </DialogActions>
+              </Dialog>
+              <Dialog
+                open={this.state.openFinishRegister}
+                onClose={this.handleFinishRegClose}
+                aria-labelledby="form-dialog-title"
+              >
+                <DialogTitle id="form-dialog-title">Alert</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    {this.state.finishRegisterMessage}
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={this.handleFinishRegClose} color="primary">
                     Okay
                   </Button>
                 </DialogActions>

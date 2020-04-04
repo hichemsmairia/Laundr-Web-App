@@ -9,5 +9,6 @@ module.exports = {
     accountSID: "", //place your twilio SID here
     authToken: "", //place your twilio authToken here
     from: "" //place your twilio phone number here, starting with +1
-  }
+  },
+  secret: "" //place the secret that will be used to hash passwords
 };

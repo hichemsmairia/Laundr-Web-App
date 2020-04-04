@@ -24,7 +24,7 @@ const twilioVerify = (req, res) => {
       //not including twilio's response
       return res.json({
         success: true,
-        message: code
+        message: "Verification code sent successfully"
       });
     })
     .catch(error => {
