@@ -33,8 +33,8 @@ const Topbar = (props) => {
         <RouterLink to="/">
           <img
             style={{
-              width: 100,
-              height: 40,
+              width: 150,
+              height: 60,
             }}
             alt="Company Logo"
             src="https://www.laundr.io/wp-content/uploads/2020/03/user_img.png"
