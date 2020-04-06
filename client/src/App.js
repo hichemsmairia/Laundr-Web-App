@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
-import Login from "./components/login";
-import Register from "./components/register";
-import UserDashboard from "./components/userDashboard";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import UserDashboard from "./components/UserDashboard";
+import NewOrder from "./components/NewOrder/NewOrder";
+import OldOrder from "./components/NewOrder/OldOrder";
 
 //todo: make page not found
 
@@ -14,6 +16,8 @@ export default class App extends Component {
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/userDashboard" component={UserDashboard} />
+          <Route exact path="/newOrderTest" component={NewOrder} />
+          <Route exact path="/oldOrder" component={OldOrder} />
           <Route exact path="/">
             <Redirect to="/login" />
           </Route>

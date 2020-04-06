@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
+import Logo from "../images/LogRegLogo.png";
 import {
   Button,
   CssBaseline,
@@ -248,12 +249,12 @@ class Login extends Component {
         <div className={classes.paper}>
           <Container className={classes.center}>
             <img
-              style={{
-                width: 500,
-                height: 200,
-              }}
               alt="Company Logo"
-              src="https://www.laundr.io/wp-content/uploads/2020/03/user_img.png"
+              src={Logo}
+              style={{
+                width: 400,
+                height: 160,
+              }}
             ></img>
           </Container>
           <Typography component="h1" variant="h5">
