@@ -12,13 +12,13 @@ import GoogleMapReact from "google-map-react";
 import Geocode from "react-geocode";
 import PropTypes from "prop-types";
 import addressStyles from "../../styles/NewOrder/addressStyles";
-import MarkerIcon from "../../images/NewOrder/marker.png";
+import MarkerIcon from "../../images/NewOrder/Marker.png";
 
 //todo: when on mobile, review goes outside of box
 
 const Marker = () => (
   <div>
-    <Icon style={{ textAlign: "center" }}>
+    <Icon style={{ textAlign: "center", transform: "translate(-50%, -50%)" }}>
       <img alt="Marker" style={{ height: "100%" }} src={MarkerIcon} />
     </Icon>
   </div>
@@ -35,6 +35,8 @@ class Address extends Component {
       },
       zoom: 12,
       address: "",
+      markerLat: 0,
+      markerLong: 0,
     };
   }
 
@@ -51,6 +53,8 @@ class Address extends Component {
             lng: lng,
           },
           zoom: 16,
+          markerLat: lat,
+          markerLong: lng,
         });
       },
       (error) => {
@@ -65,6 +69,7 @@ class Address extends Component {
 
   onMapChange = (properties) => {
     this.setState({
+      center: properties.center,
       zoom: properties.zoom,
     });
   };
@@ -92,7 +97,7 @@ class Address extends Component {
               zoom={this.state.zoom}
               onChange={this.onMapChange}
             >
-              <Marker lat={this.state.center.lat} lng={this.state.center.lng} />
+              <Marker lat={this.state.markerLat} lng={this.state.markerLong} />
             </GoogleMapReact>
           </div>
         </Box>
