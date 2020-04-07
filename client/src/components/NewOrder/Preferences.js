@@ -1,10 +1,7 @@
 import React, { Component } from "react";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import preferencesStyles from "../../styles/NewOrder/preferencesStyles";
+import { Grid, Typography, TextField, withStyles } from "@material-ui/core";
 import PropTypes from "prop-types";
-import TextField from "@material-ui/core/TextField";
-import { withStyles } from "@material-ui/core";
+import preferencesStyles from "../../styles/NewOrder/preferencesStyles";
 import PreferenceCard from "../NewOrder/components/PreferenceCard";
 import ScentedUnselected from "../../images/NewOrder/ScentedUnselected.png";
 import ScentedSelected from "../../images/NewOrder/ScentedSelected.png";

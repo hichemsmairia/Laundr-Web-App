@@ -1,19 +1,16 @@
 import React, { Component } from "react";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
+import { Grid, Typography, Button, withStyles } from "@material-ui/core";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
-import schedulingStyles from "../../styles/NewOrder/schedulingStyles";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core";
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
-  KeyboardDatePicker,
 } from "@material-ui/pickers";
+import PropTypes from "prop-types";
 import DateFnsUtils from "@date-io/date-fns";
 import ScheduleIcon from "@material-ui/icons/Schedule";
-var moment = require("moment");
+import schedulingStyles from "../../styles/NewOrder/schedulingStyles";
+
+let moment = require("moment");
 
 class Scheduling extends Component {
   getDate = (when) => {
