@@ -14,6 +14,8 @@ import PropTypes from "prop-types";
 import addressStyles from "../../styles/NewOrder/addressStyles";
 import MarkerIcon from "../../images/NewOrder/Marker.png";
 
+const apiKEY =
+  process.env.GOOGLE_MAPS_API_KEY || require("../../config").google.mapsKEY;
 //todo: when on mobile, review goes outside of box
 
 const Marker = () => (
@@ -50,7 +52,7 @@ class Address extends Component {
   handleAddressSelect = async (suggestion) => {
     this.setState({ address: suggestion.description });
 
-    Geocode.setApiKey("AIzaSyAgeR-44LigrSfD-b6LXb4K3ZpO1fWnHik");
+    Geocode.setApiKey(apiKEY);
     await Geocode.fromAddress(suggestion.description).then(
       (res) => {
         const { lat, lng } = res.results[0].geometry.location;
@@ -105,7 +107,7 @@ class Address extends Component {
           <div style={{ height: "40vh", width: "100%" }}>
             <GoogleMapReact
               bootstrapURLKeys={{
-                key: "AIzaSyAgeR-44LigrSfD-b6LXb4K3ZpO1fWnHik",
+                key: apiKEY,
               }}
               center={this.state.center}
               zoom={this.state.zoom}
