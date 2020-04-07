@@ -18,7 +18,13 @@ import MarkerIcon from "../../images/NewOrder/Marker.png";
 
 const Marker = () => (
   <div>
-    <Icon style={{ textAlign: "center", transform: "translate(-50%, -50%)" }}>
+    <Icon
+      style={{
+        textAlign: "center",
+        transform: "translate(-50%, -50%)",
+        position: "absolute",
+      }}
+    >
       <img alt="Marker" style={{ height: "100%" }} src={MarkerIcon} />
     </Icon>
   </div>
@@ -30,13 +36,14 @@ class Address extends Component {
 
     this.state = {
       center: {
-        lat: 29.6516, //default is gainesville
+        lat: 29.6516, //default view is gainesville
         lng: -82.3248,
       },
       zoom: 12,
       address: "",
       markerLat: 0,
       markerLong: 0,
+      renderMarker: false,
     };
   }
 
@@ -55,6 +62,7 @@ class Address extends Component {
           zoom: 16,
           markerLat: lat,
           markerLong: lng,
+          renderMarker: true,
         });
       },
       (error) => {
@@ -72,6 +80,12 @@ class Address extends Component {
       center: properties.center,
       zoom: properties.zoom,
     });
+  };
+
+  renderMarker = () => {
+    if (this.state.renderMarker) {
+      return <Marker lat={this.state.markerLat} lng={this.state.markerLong} />;
+    }
   };
 
   render() {
@@ -97,7 +111,7 @@ class Address extends Component {
               zoom={this.state.zoom}
               onChange={this.onMapChange}
             >
-              <Marker lat={this.state.markerLat} lng={this.state.markerLong} />
+              {this.renderMarker()}
             </GoogleMapReact>
           </div>
         </Box>
