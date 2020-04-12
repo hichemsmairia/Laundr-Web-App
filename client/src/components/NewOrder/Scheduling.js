@@ -10,17 +10,45 @@ import DateFnsUtils from "@date-io/date-fns";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import schedulingStyles from "../../styles/NewOrder/schedulingStyles";
 
-let moment = require("moment");
+const moment = require("moment");
 
 class Scheduling extends Component {
-  getDate = (when) => {
-    if (when === "today") {
-      return moment().format("MM/DD/YYYY");
-    } else if (when === "tomorrow") {
-      return moment().add(1, "days").format("MM/DD/YYYY");
-    }
+  constructor(props) {
+    super(props);
 
-    return "N/A";
+    this.state = {
+      date: "N/A",
+      time: "N/A",
+      todaySelected: false,
+      tomorrowSelected: false,
+      formattedTime: "N/A",
+      rawTime: null,
+    };
+
+    this.today = moment().format("MM/DD/YYYY");
+    this.tomorrow = moment().add(1, "days").format("MM/DD/YYYY");
+  }
+
+  handleToday = () => {
+    this.setState({
+      todaySelected: true,
+      tomorrowSelected: false,
+      date: this.today,
+    });
+  };
+
+  handleTomorrow = () => {
+    this.setState({
+      todaySelected: false,
+      tomorrowSelected: true,
+      date: this.tomorrow,
+    });
+  };
+
+  handleTime = (time) => {
+    let formatted = moment(time, "HH:mm:ss").format("LT");
+    this.setState({ rawTime: time, formattedTime: formatted });
+    alert(formatted + " " + time);
   };
 
   render() {
@@ -34,24 +62,28 @@ class Scheduling extends Component {
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6}>
             <Button
+              disabled={this.state.todaySelected}
+              onClick={this.handleToday}
               variant="contained"
               color="primary"
               fullWidth
               size="large"
               startIcon={<CalendarTodayIcon />}
             >
-              Today: {this.getDate("today")}
+              Today: {this.today}
             </Button>
           </Grid>
           <Grid item xs={12} sm={6}>
             <Button
+              disabled={this.state.tomorrowSelected}
+              onClick={this.handleTomorrow}
               variant="contained"
               color="primary"
               fullWidth
               size="large"
               startIcon={<CalendarTodayIcon />}
             >
-              Tomorrow: {this.getDate("tomorrow")}
+              Tomorrow: {this.tomorrow}
             </Button>
           </Grid>
         </Grid>
@@ -73,6 +105,10 @@ class Scheduling extends Component {
                   "aria-label": "change time",
                 }}
                 keyboardIcon={<ScheduleIcon />}
+                onChange={(value) => {
+                  this.handleTime(value);
+                }}
+                value={this.state.rawTime}
               />
             </MuiPickersUtilsProvider>
           </Grid>

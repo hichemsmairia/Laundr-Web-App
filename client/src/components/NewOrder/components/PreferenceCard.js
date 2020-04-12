@@ -33,12 +33,22 @@ class PreferenceCard extends Component {
 
   handleSelect = () => {
     if (this.state.selected) {
-      this.setState({
-        selected: false,
-        currentImage: this.props.unselectedImage,
-      });
+      this.setState(
+        {
+          selected: false,
+          currentImage: this.props.unselectedImage,
+        },
+        () => {
+          this.props.updateSelected(this.state.selected);
+        }
+      );
     } else {
-      this.setState({ selected: true, currentImage: this.props.selectedImage });
+      this.setState(
+        { selected: true, currentImage: this.props.selectedImage },
+        () => {
+          this.props.updateSelected(this.state.selected);
+        }
+      );
     }
   };
 

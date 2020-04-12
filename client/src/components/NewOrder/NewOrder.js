@@ -12,6 +12,11 @@ import {
   Link,
   Typography,
   Fade,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import Scheduling from "./Scheduling";
@@ -47,10 +52,13 @@ class NewOrder extends Component {
       addressStep: false,
       pricingStep: false,
       reviewStep: false,
+      error: true,
+      errorMessage: "",
     };
   }
 
   handleNext = () => {
+    //also handle validation in here!
     switch (this.state.activeStep) {
       case 0:
         this.setState({ schedulingStep: false, preferencesStep: true });
@@ -90,6 +98,16 @@ class NewOrder extends Component {
     this.setState({ activeStep: this.state.activeStep - 1 });
   };
 
+  updateScheduling = () => {};
+
+  updatePreferences = () => {};
+
+  updateAddress = () => {};
+
+  handleErrorClose = () => {
+    this.setState({ error: false, errorMessage: "" });
+  };
+
   render() {
     const classes = this.props.classes;
 
@@ -119,6 +137,23 @@ class NewOrder extends Component {
               ))}
             </Stepper>
             <React.Fragment>
+              <Dialog
+                open={this.state.error}
+                onClose={this.handleErrorClose}
+                aria-labelledby="form-dialog-title"
+              >
+                <DialogTitle id="form-dialog-title">Alert</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    {this.state.errorMessage}
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={this.handleErrorClose} color="primary">
+                    Okay
+                  </Button>
+                </DialogActions>
+              </Dialog>
               {this.state.activeStep === steps.length ? (
                 <React.Fragment>
                   <Typography variant="h5" gutterBottom>

@@ -46,6 +46,7 @@ class Address extends Component {
       markerLat: 0,
       markerLong: 0,
       renderMarker: false,
+      addressPreferences: "",
     };
   }
 
@@ -73,11 +74,11 @@ class Address extends Component {
     );
   };
 
-  handleSearchChange = (address) => {
+  handleAddressChange = (address) => {
     this.setState({ address: address });
   };
 
-  onMapChange = (properties) => {
+  handleMapChange = (properties) => {
     this.setState({
       center: properties.center,
       zoom: properties.zoom,
@@ -88,6 +89,10 @@ class Address extends Component {
     if (this.state.renderMarker) {
       return <Marker lat={this.state.markerLat} lng={this.state.markerLong} />;
     }
+  };
+
+  handlePreferencesChange = (preferences) => {
+    this.setState({ addressPreferences: preferences });
   };
 
   render() {
@@ -111,7 +116,7 @@ class Address extends Component {
               }}
               center={this.state.center}
               zoom={this.state.zoom}
-              onChange={this.onMapChange}
+              onChange={this.handleMapChange}
             >
               {this.renderMarker()}
             </GoogleMapReact>
@@ -142,6 +147,10 @@ class Address extends Component {
                           fullWidth
                           multiline
                           variant="outlined"
+                          value={this.state.preferences}
+                          onChange={(event) => {
+                            this.handlePreferencesChange(event.target.value);
+                          }}
                         />
                       </Grid>
                     </Grid>
@@ -153,7 +162,7 @@ class Address extends Component {
                   label: "Search for an address",
                   value: this.state.address,
                   onChange: (event) =>
-                    this.handleSearchChange(event.target.value),
+                    this.handleAddressChange(event.target.value),
                 }}
               />
             </div>
