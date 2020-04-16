@@ -80,7 +80,7 @@ class Preferences extends Component {
               variant="outlined"
               value={this.props.washerPreferences}
               onChange={(event) => {
-                this.props.handlePreferencesChange(event.target.value);
+                this.props.handleWasherPrefsChange(event.target.value);
               }}
             />
           </Grid>

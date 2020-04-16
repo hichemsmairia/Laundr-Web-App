@@ -211,7 +211,7 @@ class NewOrder extends Component {
     this.setState({ towelsSheets: towelsSheets });
   };
 
-  handlePreferencesChange = (preferences) => {
+  handleWasherPrefsChange = (preferences) => {
     this.setState({ washerPreferences: preferences });
   };
 
@@ -251,7 +251,7 @@ class NewOrder extends Component {
     });
   };
 
-  handlePreferencesChange = (preferences) => {
+  handleAddressPrefsChange = (preferences) => {
     this.setState({ addressPreferences: preferences });
   };
 
@@ -358,7 +358,7 @@ class NewOrder extends Component {
                         handleDelicates={this.handleDelicates}
                         handleSeparate={this.handleSeparate}
                         handleTowelsSheets={this.handleTowelsSheets}
-                        handlePreferencesChange={this.handlePreferencesChange}
+                        handleWasherPrefsChange={this.handleWasherPrefsChange}
                       />
                     </div>
                   </Fade>
@@ -380,7 +380,7 @@ class NewOrder extends Component {
                         addressPreferences={this.state.addressPreferences}
                         handleAddressSelect={this.handleAddressSelect}
                         handleAddressChange={this.handleAddressChange}
-                        handlePreferencesChange={this.handlePreferencesChange}
+                        handleAddressPrefsChange={this.handleAddressPrefsChange}
                         handleMapChange={this.handleMapChange}
                       />
                     </div>

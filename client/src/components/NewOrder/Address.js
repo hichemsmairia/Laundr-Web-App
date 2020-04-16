@@ -97,7 +97,7 @@ class Address extends Component {
                           variant="outlined"
                           value={this.props.preferences}
                           onChange={(event) => {
-                            this.props.handlePreferencesChange(
+                            this.props.handleAddressPrefsChange(
                               event.target.value
                             );
                           }}
