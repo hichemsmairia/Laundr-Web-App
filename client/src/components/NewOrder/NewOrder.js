@@ -19,12 +19,17 @@ import {
   DialogTitle,
 } from "@material-ui/core";
 import PropTypes from "prop-types";
+import Geocode from "react-geocode";
 import Scheduling from "./Scheduling";
 import Preferences from "./Preferences";
 import Address from "./Address";
 import Pricing from "./Pricing";
 import Review from "./Review";
 import newOrderStyles from "../../styles/NewOrder/newOrderStyles";
+
+const moment = require("moment");
+const apiKEY =
+  process.env.GOOGLE_MAPS_API_KEY || require("../../config").google.mapsKEY;
 
 function Copyright() {
   return (
@@ -45,29 +50,91 @@ class NewOrder extends Component {
   constructor(props) {
     super(props);
 
+    this.now = moment();
+    this.today = this.now.format("MM/DD/YYYY");
+    this.tomorrow = this.now.add(1, "days").format("MM/DD/YYYY");
+    this.nowFormattedTime = moment(this.now, "HH:mm:ss").format("LT");
+
     this.state = {
-      activeStep: 0,
+      activeStep: 0, //navigation
       schedulingStep: true,
       preferencesStep: false,
       addressStep: false,
       pricingStep: false,
       reviewStep: false,
-      error: true,
+      error: false,
       errorMessage: "",
+      date: "N/A", //scheduling
+      todaySelected: false,
+      tomorrowSelected: false,
+      formattedTime: this.nowFormattedTime,
+      rawTime: new Date(),
+      scented: false, //preferences
+      delicates: false,
+      separate: false,
+      towelsSheets: false,
+      washerPreferences: "",
+      center: {
+        //address
+        lat: 29.6516, //default view is gainesville
+        lng: -82.3248,
+      },
+      zoom: 12,
+      address: "",
+      markerLat: 0,
+      markerLong: 0,
+      renderMarker: false,
+      addressPreferences: "",
     };
   }
 
   handleNext = () => {
     //also handle validation in here!
+    let canNext = true;
     switch (this.state.activeStep) {
       case 0:
-        this.setState({ schedulingStep: false, preferencesStep: true });
+        console.log("today: " + this.state.todaySelected);
+        console.log("tomorrow:" + this.state.tomorrowSelected);
+        console.log("formatted time: " + this.state.formattedTime);
+        console.log("raw time: " + this.state.rawTime);
+        console.log("====================================");
+
+        if (!this.state.todaySelected && !this.state.tomorrowSelected) {
+          this.setState({
+            error: true,
+            errorMessage: "Please select a pickup date.",
+          });
+          canNext = false;
+        } else {
+          this.setState({ schedulingStep: false, preferencesStep: true });
+        }
+
         break;
       case 1:
+        console.log("scented: " + this.state.scented);
+        console.log("delicates: " + this.state.delicates);
+        console.log("separate: " + this.state.separate);
+        console.log("towels and sheets: " + this.state.towelsSheets);
+        console.log("washer preferences: " + this.state.washerPreferences);
+        console.log("====================================");
+
         this.setState({ preferencesStep: false, addressStep: true });
         break;
       case 2:
-        this.setState({ addressStep: false, pricingStep: true });
+        console.log("address: " + this.state.address);
+        console.log("driver instructions: " + this.state.addressPreferences);
+        console.log("====================================");
+
+        if (this.state.address === "") {
+          this.setState({
+            error: true,
+            errorMessage: "Please enter an address.",
+          });
+          canNext = false;
+        } else {
+          this.setState({ addressStep: false, pricingStep: true });
+        }
+
         break;
       case 3:
         this.setState({ pricingStep: false, reviewStep: true });
@@ -75,7 +142,10 @@ class NewOrder extends Component {
       default:
         break;
     }
-    this.setState({ activeStep: this.state.activeStep + 1 });
+
+    if (canNext) {
+      this.setState({ activeStep: this.state.activeStep + 1 });
+    }
   };
 
   handleBack = () => {
@@ -98,14 +168,91 @@ class NewOrder extends Component {
     this.setState({ activeStep: this.state.activeStep - 1 });
   };
 
-  updateScheduling = () => {};
+  //scheduling
+  handleToday = () => {
+    this.setState({
+      todaySelected: true,
+      tomorrowSelected: false,
+      date: this.today,
+    });
+  };
 
-  updatePreferences = () => {};
+  handleTomorrow = () => {
+    this.setState({
+      todaySelected: false,
+      tomorrowSelected: true,
+      date: this.tomorrow,
+    });
+  };
 
-  updateAddress = () => {};
+  handleTime = (time) => {
+    let formatted = moment(time, "HH:mm:ss").format("LT");
+    this.setState({ rawTime: time, formattedTime: formatted });
+  };
 
   handleErrorClose = () => {
     this.setState({ error: false, errorMessage: "" });
+  };
+
+  //preferences
+  handleScented = (scented) => {
+    this.setState({ scented: scented });
+  };
+
+  handleDelicates = (delicates) => {
+    this.setState({ delicates: delicates });
+  };
+
+  handleSeparate = (separate) => {
+    this.setState({ separate: separate });
+  };
+
+  handleTowelsSheets = (towelsSheets) => {
+    this.setState({ towelsSheets: towelsSheets });
+  };
+
+  handlePreferencesChange = (preferences) => {
+    this.setState({ washerPreferences: preferences });
+  };
+
+  //address
+  handleAddressSelect = async (suggestion) => {
+    this.setState({ address: suggestion.description });
+
+    Geocode.setApiKey(apiKEY);
+    await Geocode.fromAddress(suggestion.description).then(
+      (res) => {
+        const { lat, lng } = res.results[0].geometry.location;
+        this.setState({
+          center: {
+            lat: lat,
+            lng: lng,
+          },
+          zoom: 16,
+          markerLat: lat,
+          markerLong: lng,
+          renderMarker: true,
+        });
+      },
+      (error) => {
+        alert("Error: " + error);
+      }
+    );
+  };
+
+  handleAddressChange = (address) => {
+    this.setState({ address: address });
+  };
+
+  handleMapChange = (properties) => {
+    this.setState({
+      center: properties.center,
+      zoom: properties.zoom,
+    });
+  };
+
+  handlePreferencesChange = (preferences) => {
+    this.setState({ addressPreferences: preferences });
   };
 
   render() {
@@ -177,7 +324,18 @@ class NewOrder extends Component {
                     }}
                   >
                     <div>
-                      <Scheduling />
+                      <Scheduling
+                        today={this.today}
+                        tomorrow={this.tomorrow}
+                        update={this.handleScheduling}
+                        todaySelected={this.state.todaySelected}
+                        tomorrowSelected={this.state.tomorrowSelected}
+                        formattedTime={this.state.formattedTime}
+                        rawTime={this.state.rawTime}
+                        handleToday={this.handleToday}
+                        handleTomorrow={this.handleTomorrow}
+                        handleTime={this.handleTime}
+                      />
                     </div>
                   </Fade>
                   <Fade
@@ -190,7 +348,18 @@ class NewOrder extends Component {
                     }}
                   >
                     <div>
-                      <Preferences />
+                      <Preferences
+                        scented={this.state.scented}
+                        delicates={this.state.delicates}
+                        separate={this.state.separate}
+                        towelsSheets={this.state.towelsSheets}
+                        washerPreferences={this.state.washerPreferences}
+                        handleScented={this.handleScented}
+                        handleDelicates={this.handleDelicates}
+                        handleSeparate={this.handleSeparate}
+                        handleTowelsSheets={this.handleTowelsSheets}
+                        handlePreferencesChange={this.handlePreferencesChange}
+                      />
                     </div>
                   </Fade>
                   <Fade
@@ -201,7 +370,19 @@ class NewOrder extends Component {
                     }}
                   >
                     <div>
-                      <Address />
+                      <Address
+                        center={this.state.center}
+                        zoom={this.state.zoom}
+                        address={this.state.address}
+                        markerLat={this.state.markerLat}
+                        markerLong={this.state.markerLong}
+                        renderMarker={this.state.renderMarker}
+                        addressPreferences={this.state.addressPreferences}
+                        handleAddressSelect={this.handleAddressSelect}
+                        handleAddressChange={this.handleAddressChange}
+                        handlePreferencesChange={this.handlePreferencesChange}
+                        handleMapChange={this.handleMapChange}
+                      />
                     </div>
                   </Fade>
                   <Fade

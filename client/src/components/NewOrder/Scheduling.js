@@ -1,55 +1,15 @@
 import React, { Component } from "react";
 import { Grid, Typography, Button, withStyles } from "@material-ui/core";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-} from "@material-ui/pickers";
+import { MuiPickersUtilsProvider, TimePicker } from "@material-ui/pickers";
 import PropTypes from "prop-types";
 import DateFnsUtils from "@date-io/date-fns";
-import ScheduleIcon from "@material-ui/icons/Schedule";
 import schedulingStyles from "../../styles/NewOrder/schedulingStyles";
-
-const moment = require("moment");
 
 class Scheduling extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      date: "N/A",
-      time: "N/A",
-      todaySelected: false,
-      tomorrowSelected: false,
-      formattedTime: "N/A",
-      rawTime: null,
-    };
-
-    this.today = moment().format("MM/DD/YYYY");
-    this.tomorrow = moment().add(1, "days").format("MM/DD/YYYY");
   }
-
-  handleToday = () => {
-    this.setState({
-      todaySelected: true,
-      tomorrowSelected: false,
-      date: this.today,
-    });
-  };
-
-  handleTomorrow = () => {
-    this.setState({
-      todaySelected: false,
-      tomorrowSelected: true,
-      date: this.tomorrow,
-    });
-  };
-
-  handleTime = (time) => {
-    let formatted = moment(time, "HH:mm:ss").format("LT");
-    this.setState({ rawTime: time, formattedTime: formatted });
-    alert(formatted + " " + time);
-  };
 
   render() {
     const classes = this.props.classes;
@@ -62,28 +22,28 @@ class Scheduling extends Component {
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6}>
             <Button
-              disabled={this.state.todaySelected}
-              onClick={this.handleToday}
+              disabled={this.props.todaySelected}
+              onClick={this.props.handleToday}
               variant="contained"
               color="primary"
               fullWidth
               size="large"
               startIcon={<CalendarTodayIcon />}
             >
-              Today: {this.today}
+              Today: {this.props.today}
             </Button>
           </Grid>
           <Grid item xs={12} sm={6}>
             <Button
-              disabled={this.state.tomorrowSelected}
-              onClick={this.handleTomorrow}
+              disabled={this.props.tomorrowSelected}
+              onClick={this.props.handleTomorrow}
               variant="contained"
               color="primary"
               fullWidth
               size="large"
               startIcon={<CalendarTodayIcon />}
             >
-              Tomorrow: {this.tomorrow}
+              Tomorrow: {this.props.tomorrow}
             </Button>
           </Grid>
         </Grid>
@@ -98,17 +58,14 @@ class Scheduling extends Component {
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <KeyboardTimePicker
+              <TimePicker
                 margin="normal"
                 id="time-picker"
-                KeyboardButtonProps={{
-                  "aria-label": "change time",
-                }}
-                keyboardIcon={<ScheduleIcon />}
+                label="Select a time"
                 onChange={(value) => {
-                  this.handleTime(value);
+                  this.props.handleTime(value);
                 }}
-                value={this.state.rawTime}
+                value={this.props.rawTime}
               />
             </MuiPickersUtilsProvider>
           </Grid>

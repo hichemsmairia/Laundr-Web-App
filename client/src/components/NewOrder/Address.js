@@ -9,14 +9,14 @@ import {
 } from "@material-ui/core";
 import MUIPlacesAutocomplete from "mui-places-autocomplete";
 import GoogleMapReact from "google-map-react";
-import Geocode from "react-geocode";
 import PropTypes from "prop-types";
 import addressStyles from "../../styles/NewOrder/addressStyles";
 import MarkerIcon from "../../images/NewOrder/Marker.png";
 
+//todo: when on mobile, review goes outside of box
+
 const apiKEY =
   process.env.GOOGLE_MAPS_API_KEY || require("../../config").google.mapsKEY;
-//todo: when on mobile, review goes outside of box
 
 const Marker = () => (
   <div>
@@ -35,64 +35,12 @@ const Marker = () => (
 class Address extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      center: {
-        lat: 29.6516, //default view is gainesville
-        lng: -82.3248,
-      },
-      zoom: 12,
-      address: "",
-      markerLat: 0,
-      markerLong: 0,
-      renderMarker: false,
-      addressPreferences: "",
-    };
   }
 
-  handleAddressSelect = async (suggestion) => {
-    this.setState({ address: suggestion.description });
-
-    Geocode.setApiKey(apiKEY);
-    await Geocode.fromAddress(suggestion.description).then(
-      (res) => {
-        const { lat, lng } = res.results[0].geometry.location;
-        this.setState({
-          center: {
-            lat: lat,
-            lng: lng,
-          },
-          zoom: 16,
-          markerLat: lat,
-          markerLong: lng,
-          renderMarker: true,
-        });
-      },
-      (error) => {
-        alert("Error: " + error);
-      }
-    );
-  };
-
-  handleAddressChange = (address) => {
-    this.setState({ address: address });
-  };
-
-  handleMapChange = (properties) => {
-    this.setState({
-      center: properties.center,
-      zoom: properties.zoom,
-    });
-  };
-
   renderMarker = () => {
-    if (this.state.renderMarker) {
-      return <Marker lat={this.state.markerLat} lng={this.state.markerLong} />;
+    if (this.props.renderMarker) {
+      return <Marker lat={this.props.markerLat} lng={this.props.markerLong} />;
     }
-  };
-
-  handlePreferencesChange = (preferences) => {
-    this.setState({ addressPreferences: preferences });
   };
 
   render() {
@@ -114,9 +62,9 @@ class Address extends Component {
               bootstrapURLKeys={{
                 key: apiKEY,
               }}
-              center={this.state.center}
-              zoom={this.state.zoom}
-              onChange={this.handleMapChange}
+              center={this.props.center}
+              zoom={this.props.zoom}
+              onChange={this.props.handleMapChange}
             >
               {this.renderMarker()}
             </GoogleMapReact>
@@ -127,7 +75,7 @@ class Address extends Component {
             <div style={{ position: "relative" }}>
               <MUIPlacesAutocomplete
                 onSuggestionSelected={(suggestion) =>
-                  this.handleAddressSelect(suggestion)
+                  this.props.handleAddressSelect(suggestion)
                 }
                 renderTarget={() => (
                   <React.Fragment>
@@ -147,9 +95,11 @@ class Address extends Component {
                           fullWidth
                           multiline
                           variant="outlined"
-                          value={this.state.preferences}
+                          value={this.props.preferences}
                           onChange={(event) => {
-                            this.handlePreferencesChange(event.target.value);
+                            this.props.handlePreferencesChange(
+                              event.target.value
+                            );
                           }}
                         />
                       </Grid>
@@ -160,9 +110,9 @@ class Address extends Component {
                   fullWidth: true,
                   variant: "outlined",
                   label: "Search for an address",
-                  value: this.state.address,
+                  value: this.props.address,
                   onChange: (event) =>
-                    this.handleAddressChange(event.target.value),
+                    this.props.handleAddressChange(event.target.value),
                 }}
               />
             </div>

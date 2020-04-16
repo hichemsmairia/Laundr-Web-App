@@ -15,43 +15,7 @@ import TowelsSelected from "../../images/NewOrder/TowelsSelected.png";
 class Preferences extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      scented: false,
-      delicates: false,
-      separate: false,
-      towelsSheets: false,
-      washerPreferences: "",
-    };
   }
-
-  handleScented = (scented) => {
-    this.setState({ scented: scented }, () => {
-      console.log("scented updated" + this.state.scented);
-    });
-  };
-
-  handleDelicates = (delicates) => {
-    this.setState({ delicates: delicates }, () => {
-      console.log("delicates updated" + this.state.delicates);
-    });
-  };
-
-  handleSeparate = (separate) => {
-    this.setState({ separate: separate }, () => {
-      console.log("separate updated" + this.state.separate);
-    });
-  };
-
-  handleTowelsSheets = (towelsSheets) => {
-    this.setState({ towelsSheets: towelsSheets }, () => {
-      console.log("towelsSheets updated" + this.state.towelsSheets);
-    });
-  };
-
-  handlePreferencesChange = (preferences) => {
-    this.setState({ washerPreferences: preferences });
-  };
 
   render() {
     const classes = this.props.classes;
@@ -68,7 +32,7 @@ class Preferences extends Component {
               info="Unscented detergent is hypoallergenic."
               unselectedImage={ScentedUnselected}
               selectedImage={ScentedSelected}
-              updateSelected={this.handleScented}
+              updateSelected={this.props.handleScented}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -77,7 +41,7 @@ class Preferences extends Component {
               info="Delicate clothing is washed in a mesh bag and dried on low heat."
               unselectedImage={DelicatesUnselected}
               selectedImage={DelicatesSelected}
-              updateSelected={this.handleDelicates}
+              updateSelected={this.props.handleDelicates}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -86,7 +50,7 @@ class Preferences extends Component {
               info="Separated clothing is divided into whites and colors."
               unselectedImage={SeparateUnselected}
               selectedImage={SeparateSelected}
-              updateSelected={this.handleSeparate}
+              updateSelected={this.props.handleSeparate}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -95,7 +59,7 @@ class Preferences extends Component {
               info="Towels and sheets are washed separately and dried on high heat."
               unselectedImage={TowelsUnselected}
               selectedImage={TowelsSelected}
-              updateSelected={this.handleTowelsSheets}
+              updateSelected={this.props.handleTowelsSheets}
             />
           </Grid>
         </Grid>
@@ -114,9 +78,9 @@ class Preferences extends Component {
               fullWidth
               multiline
               variant="outlined"
-              value={this.state.washerPreferences}
+              value={this.props.washerPreferences}
               onChange={(event) => {
-                this.handlePreferencesChange(event.target.value);
+                this.props.handlePreferencesChange(event.target.value);
               }}
             />
           </Grid>

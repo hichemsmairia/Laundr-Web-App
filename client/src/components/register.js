@@ -37,6 +37,7 @@ import baseURL from "../baseURL";
 //todo: get loading from resending code to hover rather than appear?
 //todo: check over views on mobile, maybe resize logo to fit just a bit more
 //todo: change token time to infinite(?) when implementing
+//todo: split states into different objects
 
 //in backend, caught errors = return error.code and success false. in frontend, if success is false, print error: message from the response which should be said code
 //in frontend, caught errors = use error itself and alert error: error
@@ -64,21 +65,21 @@ class Register extends Component {
     super(props);
 
     this.state = {
-      fname: "",
+      fname: "", //inputs
       lname: "",
       city: "Gainesville",
       email: "",
       password: "",
       phone: "",
       referral: "",
-      tos: false,
+      tos: false, //error tracking
       fnameError: false,
       lnameError: false,
       emailError: false,
       passwordError: false,
       phoneError: false,
       tosError: false,
-      fnameMsg: "",
+      fnameMsg: "", //error messages
       lnameMsg: "",
       emailMsg: "",
       passwordMsg:
@@ -87,7 +88,7 @@ class Register extends Component {
       tosMsg: "",
       verifyCode: "",
       checkCode: "",
-      openVerify: false,
+      openVerify: false, //verification and registration
       openResent: false,
       showResentLoad: false,
       disableCode: false,
