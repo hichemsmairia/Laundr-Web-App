@@ -3,12 +3,12 @@
 
 module.exports = {
   db: {
-    uri: "" //place the uri of your mongoDB database here
+    uri: "", //place the uri of your mongoDB database here
   },
   twilio: {
     accountSID: "", //place your twilio SID here
     authToken: "", //place your twilio authToken here
-    from: "" //place your twilio phone number here, starting with +1
+    from: "", //place your twilio phone number here, starting with +1
   },
-  secret: "" //place the secret that will be used to hash passwords
+  secret: "", //place the secret that will be used to hash jwt tokens
 };
