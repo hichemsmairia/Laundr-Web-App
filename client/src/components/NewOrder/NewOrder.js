@@ -28,6 +28,7 @@ import Review from "./Review";
 import newOrderStyles from "../../styles/NewOrder/newOrderStyles";
 
 const moment = require("moment");
+const geolib = require("geolib");
 const apiKEY =
   process.env.GOOGLE_MAPS_API_KEY || require("../../config").google.mapsKEY;
 
@@ -89,7 +90,7 @@ class NewOrder extends Component {
     };
   }
 
-  handleNext = () => {
+  handleNext = async () => {
     //also handle validation in here!
     let canNext = true;
     switch (this.state.activeStep) {
@@ -130,7 +131,7 @@ class NewOrder extends Component {
           //if pickup time isnt between 10 am and 7 pm
           this.setState({
             error: true,
-            errorMessage: "Pickup time must be between 10 AM and 7 PM.",
+            errorMessage: "The pickup time must be between 10 AM and 7 PM.",
           });
           canNext = false;
         } else if (
@@ -140,7 +141,7 @@ class NewOrder extends Component {
           //if 1 hr in advance is between 10 and 7 AND pickup time is before that
           this.setState({
             error: true,
-            errorMessage: "Pickup time must be at least 1 hour in advance.",
+            errorMessage: "The pickup time must be at least 1 hour in advance.",
           });
           canNext = false;
         } else {
@@ -162,12 +163,41 @@ class NewOrder extends Component {
         console.log("address: " + this.state.address);
         console.log("driver instructions: " + this.state.addressPreferences);
         console.log("====================================");
+        let addressCords = { lat: -1, lng: -1 };
+
+        //coordinates of entered address
+        await Geocode.fromAddress(this.state.address).then(
+          (response) => {
+            const { lat, lng } = response.results[0].geometry.location;
+            addressCords.lat = lat;
+            addressCords.lng = lng;
+          },
+          (error) => {}
+        );
+
+        //determine distance in m from center of range based on city, hardcode gnv for now
+        let distance = geolib.getPreciseDistance(
+          { latitude: addressCords.lat, longitude: addressCords.lng },
+          { latitude: 29.6499, longitude: -82.3486 }
+        );
+
+        console.log("lat: " + addressCords.lat);
+        console.log("lng: " + addressCords.lng);
 
         if (this.state.address === "") {
           this.setState({
             error: true,
             errorMessage: "Please enter an address.",
           });
+          canNext = false;
+        } else if (distance > 16094) {
+          this.setState({
+            error: true,
+            errorMessage:
+              "The address entered is not valid or it is not within our service range. Please try again.",
+          });
+          console.log("distance: " + distance);
+          console.log("====================================");
           canNext = false;
         } else {
           this.setState({ addressStep: false, pricingStep: true });

@@ -69,7 +69,7 @@ const steps = ["Shipping address", "Payment details", "Review your order"];
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return <AddressForm />;
+      return <Review />;
     case 1:
       return <PaymentForm />;
     case 2:

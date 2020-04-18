@@ -6,6 +6,8 @@ import UserDashboard from "./components/UserDashboard";
 import NewOrder from "./components/NewOrder/NewOrder";
 import OldOrder from "./components/NewOrder/OldOrder";
 
+import Review from "./components/NewOrder/Review";
+
 //todo: make page not found
 
 export default class App extends Component {
@@ -18,7 +20,7 @@ export default class App extends Component {
           <Route exact path="/userDashboard" component={UserDashboard} />
           <Route exact path="/newOrderTest" component={NewOrder} />
           <Route exact path="/oldOrder" component={OldOrder} />
-          <Route exact path="/">
+          <Route path="/">
             <Redirect to="/login" />
           </Route>
         </Switch>
