@@ -54,6 +54,7 @@ class NewOrder extends Component {
     this.today = this.now.format("MM/DD/YYYY");
     this.tomorrow = this.now.add(1, "days").format("MM/DD/YYYY");
     this.nowFormattedTime = moment(this.now, "HH:mm:ss").format("LT");
+    //console.log(moment().format("HH:mm:ss"));
 
     this.state = {
       activeStep: 0, //navigation
@@ -99,10 +100,47 @@ class NewOrder extends Component {
         console.log("raw time: " + this.state.rawTime);
         console.log("====================================");
 
+        //time checks, military time format: check if logged in user is gainesville or etc, hardcode gnv for now
+        let scheduledTime = moment(this.state.rawTime, "HH:mm:ss"); //note: converting Date() to moment obj
+        let lowerBound = moment("10:00:00", "HH:mm:ss");
+        let upperBound = moment("19:00:00", "HH:mm:ss");
+
+        //universal 1 hour from now check
+        let hourFromNow = moment(moment(), "HH:mm:ss").add(1, "hours");
+
         if (!this.state.todaySelected && !this.state.tomorrowSelected) {
+          //if no date selected
           this.setState({
             error: true,
             errorMessage: "Please select a pickup date.",
+          });
+          canNext = false;
+        } else if (
+          this.state.todaySelected &&
+          moment(moment(), "HH:mm:ss").isAfter(moment("17:00:00", "HH:mm:ss"))
+        ) {
+          //if selected today and its after 7 PM
+          this.setState({
+            error: true,
+            errorMessage:
+              "Sorry! We are closed after 7 PM. Please select a different day.",
+          });
+          canNext = false;
+        } else if (!scheduledTime.isBetween(lowerBound, upperBound)) {
+          //if pickup time isnt between 10 am and 7 pm
+          this.setState({
+            error: true,
+            errorMessage: "Pickup time must be between 10 AM and 7 PM.",
+          });
+          canNext = false;
+        } else if (
+          hourFromNow.isBetween(lowerBound, upperBound) &&
+          scheduledTime.isBefore(hourFromNow)
+        ) {
+          //if 1 hr in advance is between 10 and 7 AND pickup time is before that
+          this.setState({
+            error: true,
+            errorMessage: "Pickup time must be at least 1 hour in advance.",
           });
           canNext = false;
         } else {
@@ -191,7 +229,7 @@ class NewOrder extends Component {
   };
 
   handleErrorClose = () => {
-    this.setState({ error: false, errorMessage: "" });
+    this.setState({ error: false });
   };
 
   //preferences

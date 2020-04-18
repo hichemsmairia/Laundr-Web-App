@@ -65,6 +65,7 @@ class Scheduling extends Component {
                 onChange={(value) => {
                   this.props.handleTime(value);
                 }}
+                helperText="*Must be at least 1 hour in advance"
                 value={this.props.rawTime}
               />
             </MuiPickersUtilsProvider>
