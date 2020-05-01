@@ -32,6 +32,8 @@ const geolib = require("geolib");
 const apiKEY =
   process.env.GOOGLE_MAPS_API_KEY || require("../../config").google.mapsKEY;
 
+//todo: fix styling, set max limit for prefs, make viewing additional instructions a modal
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
