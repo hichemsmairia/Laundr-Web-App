@@ -60,121 +60,164 @@ class Review extends React.Component {
         </Typography>
         <Grid container spacing={1}>
           <Grid item xs={12} sm={6}>
-            <Card className={classes.root} variant="outlined">
-              <CardContent>
-                <Typography className={classes.titleCard} gutterBottom>
-                  <HomeIcon style={{ marginBottom: -4 }} /> Address
-                </Typography>
-                <Typography className={classes.pos} color="textSecondary">
-                  3000 SW 35 Pl, Gainesville FL 32608
-                </Typography>
-                <Typography className={classes.titleCard} gutterBottom>
-                  <CreateIcon style={{ marginBottom: -4 }} /> Additional
-                  Instructions
-                </Typography>
-                <Typography color="textSecondary">
-                  Bag will be left outside door. Probably make this part
-                  expandable in case someone types a ton of stuff.
-                </Typography>
-              </CardContent>
-            </Card>
+            <Grid item xs={12} sm={6} style={{ marginBottom: 5 }}>
+              <Card className={classes.root} variant="outlined">
+                <CardContent>
+                  <Typography className={classes.titleCard} gutterBottom>
+                    <HomeIcon style={{ marginBottom: -4 }} /> Address
+                  </Typography>
+                  <Typography className={classes.pos} color="textSecondary">
+                    {this.props.address}
+                  </Typography>
+                  <Typography className={classes.titleCard} gutterBottom>
+                    <CreateIcon style={{ marginBottom: -4 }} /> Additional
+                    Instructions
+                  </Typography>
+                  <Typography
+                    style={{ maxHeight: 150, overflow: "auto" }}
+                    color="textSecondary"
+                  >
+                    {this.props.addressPreferences}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Card className={classes.root} variant="outlined">
+                <CardContent style={{ marginBottom: -15 }}>
+                  <Typography className={classes.titleCard} gutterBottom>
+                    <CalendarTodayIcon style={{ marginBottom: -4 }} /> Pickup
+                    Date
+                  </Typography>
+                  <Typography color="textSecondary">
+                    {this.props.pickupDate}
+                  </Typography>
+                  <Typography className={classes.titleCard} gutterBottom>
+                    <QueryBuilderIcon style={{ marginBottom: -4 }} /> Pickup
+                    Time
+                  </Typography>
+                  <Typography className={classes.pos} color="textSecondary">
+                    {this.props.pickupTime}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Card className={classes.root} variant="outlined">
-              <CardContent style={{ marginBottom: -15 }}>
-                <Typography className={classes.titleCard} gutterBottom>
-                  <SettingsIcon style={{ marginBottom: -4 }} /> Preferences
-                </Typography>
-                <List dense className={classes.listRoot}>
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar />
-                    </ListItemAvatar>
-                    <ListItemText primary="Scented" />
-                    <ListItemSecondaryAction>
-                      <NotInterestedIcon color="error" edge="end" />
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                  <Divider variant="inset" component="li" />
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar />
-                    </ListItemAvatar>
-                    <ListItemText primary="Delicates" />
-                    <ListItemSecondaryAction>
-                      <CheckCircleOutlineIcon
-                        style={{ fill: "green" }}
-                        edge="end"
-                      />
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                  <Divider variant="inset" component="li" />
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar />
-                    </ListItemAvatar>
-                    <ListItemText primary="Separate" />
-                    <ListItemSecondaryAction>
-                      <CheckCircleOutlineIcon
-                        style={{ fill: "green" }}
-                        edge="end"
-                      />
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                  <Divider variant="inset" component="li" />
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar />
-                    </ListItemAvatar>
-                    <ListItemText primary="Towels and Sheets" />
-                    <ListItemSecondaryAction>
-                      <NotInterestedIcon color="error" edge="end" />
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                </List>
-                <Typography className={classes.titleCard} gutterBottom>
-                  <CreateIcon style={{ marginBottom: -4 }} /> Additional
-                  Instructions
-                </Typography>
-                <Typography color="textSecondary">
-                  Wash carefully please. Probably make this part expandable in
-                  case someone types a ton of stuff.
-                </Typography>
-              </CardContent>
-            </Card>
+            <Grid item xs={12} sm={6} style={{ marginBottom: 8 }}>
+              <Card className={classes.root} variant="outlined">
+                <CardContent style={{ marginBottom: -22 }}>
+                  <Typography className={classes.titleCard} gutterBottom>
+                    <SettingsIcon style={{ marginBottom: -4 }} /> Preferences
+                  </Typography>
+                  <List dense className={classes.listRoot}>
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar />
+                      </ListItemAvatar>
+                      <ListItemText primary="Scented" />
+                      <ListItemSecondaryAction>
+                        {this.props.scented ? (
+                          <CheckCircleOutlineIcon
+                            style={{ fill: "green" }}
+                            edge="end"
+                          />
+                        ) : (
+                          <NotInterestedIcon color="error" edge="end" />
+                        )}
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                    <Divider variant="inset" component="li" />
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar />
+                      </ListItemAvatar>
+                      <ListItemText primary="Delicates" />
+                      <ListItemSecondaryAction>
+                        {this.props.delicates ? (
+                          <CheckCircleOutlineIcon
+                            style={{ fill: "green" }}
+                            edge="end"
+                          />
+                        ) : (
+                          <NotInterestedIcon color="error" edge="end" />
+                        )}
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                    <Divider variant="inset" component="li" />
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar />
+                      </ListItemAvatar>
+                      <ListItemText primary="Separate" />
+                      <ListItemSecondaryAction>
+                        {this.props.separate ? (
+                          <CheckCircleOutlineIcon
+                            style={{ fill: "green" }}
+                            edge="end"
+                          />
+                        ) : (
+                          <NotInterestedIcon color="error" edge="end" />
+                        )}
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                    <Divider variant="inset" component="li" />
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar />
+                      </ListItemAvatar>
+                      <ListItemText primary="Towels and Sheets" />
+                      <ListItemSecondaryAction>
+                        {this.props.towelsSheets ? (
+                          <CheckCircleOutlineIcon
+                            style={{ fill: "green" }}
+                            edge="end"
+                          />
+                        ) : (
+                          <NotInterestedIcon color="error" edge="end" />
+                        )}
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                  </List>
+                  <Typography className={classes.titleCard} gutterBottom>
+                    <CreateIcon style={{ marginBottom: -4 }} /> Additional
+                    Instructions
+                  </Typography>
+                  <Typography
+                    color="textSecondary"
+                    style={{ maxHeight: 150, overflow: "auto" }}
+                  >
+                    {this.props.washerPreferences}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <Card className={classes.root} variant="outlined">
-              <CardContent style={{ marginBottom: -15 }}>
-                <Typography className={classes.titleCard} gutterBottom>
-                  <CalendarTodayIcon style={{ marginBottom: -4 }} /> Pickup Date
-                </Typography>
-                <Typography color="textSecondary">12/12/20</Typography>
-                <Typography className={classes.titleCard} gutterBottom>
-                  <QueryBuilderIcon style={{ marginBottom: -4 }} /> Pickup Time
-                </Typography>
-                <Typography className={classes.pos} color="textSecondary">
-                  3:45 PM
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Card className={classes.root} variant="outlined">
-              <CardContent style={{ marginBottom: -15 }}>
-                <TextField
-                  label="Coupon Code"
-                  fullWidth
-                  style={{ marginBottom: 5 }}
-                  variant="outlined"
-                />
-                <Typography gutterBottom>
-                  <AttachMoneyIcon style={{ marginBottom: -4 }} />
-                  Estimated cost:
-                </Typography>
-                <Typography color="textSecondary">$50.00 </Typography>
-              </CardContent>
-            </Card>
+          <Grid container alignItems="center" direction="column">
+            <Grid item xs={12} sm={6} style={{ marginTop: -8 }}>
+              <Card className={classes.root} variant="outlined">
+                <CardContent style={{ marginBottom: -15 }}>
+                  <TextField
+                    label="Coupon Code"
+                    fullWidth
+                    style={{ marginBottom: 5 }}
+                    variant="outlined"
+                  />
+                  <Typography gutterBottom>
+                    <AttachMoneyIcon style={{ marginBottom: -4 }} />
+                    Estimated cost:{" "}
+                    {
+                      <Typography
+                        color="textSecondary"
+                        style={{ display: "inline-block" }}
+                      >
+                        $4.20
+                      </Typography>
+                    }
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
           </Grid>
         </Grid>
       </React.Fragment>

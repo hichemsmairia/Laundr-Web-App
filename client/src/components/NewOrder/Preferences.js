@@ -13,10 +13,6 @@ import TowelsUnselected from "../../images/NewOrder/TowelsUnselected.png";
 import TowelsSelected from "../../images/NewOrder/TowelsSelected.png";
 
 class Preferences extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const classes = this.props.classes;
 
@@ -32,7 +28,7 @@ class Preferences extends Component {
               info="Unscented detergent is hypoallergenic."
               unselectedImage={ScentedUnselected}
               selectedImage={ScentedSelected}
-              updateSelected={this.props.handleScented}
+              updateSelected={this.props.handleScentedChange}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -41,7 +37,7 @@ class Preferences extends Component {
               info="Delicate clothing is washed in a mesh bag and dried on low heat."
               unselectedImage={DelicatesUnselected}
               selectedImage={DelicatesSelected}
-              updateSelected={this.props.handleDelicates}
+              updateSelected={this.props.handleDelicatesChange}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -50,7 +46,7 @@ class Preferences extends Component {
               info="Separated clothing is divided into whites and colors."
               unselectedImage={SeparateUnselected}
               selectedImage={SeparateSelected}
-              updateSelected={this.props.handleSeparate}
+              updateSelected={this.props.handleSeparateChange}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -59,7 +55,7 @@ class Preferences extends Component {
               info="Towels and sheets are washed separately and dried on high heat."
               unselectedImage={TowelsUnselected}
               selectedImage={TowelsSelected}
-              updateSelected={this.props.handleTowelsSheets}
+              updateSelected={this.props.handleTowelsSheetsChange}
             />
           </Grid>
         </Grid>

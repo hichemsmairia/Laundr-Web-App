@@ -95,59 +95,7 @@ class NewOrder extends Component {
     let canNext = true;
     switch (this.state.activeStep) {
       case 0:
-        console.log("today: " + this.state.todaySelected);
-        console.log("tomorrow:" + this.state.tomorrowSelected);
-        console.log("formatted time: " + this.state.formattedTime);
-        console.log("raw time: " + this.state.rawTime);
-        console.log("====================================");
-
-        //time checks, military time format: check if logged in user is gainesville or etc, hardcode gnv for now
-        let scheduledTime = moment(this.state.rawTime, "HH:mm:ss"); //note: converting Date() to moment obj
-        let lowerBound = moment("10:00:00", "HH:mm:ss");
-        let upperBound = moment("19:00:00", "HH:mm:ss");
-
-        //universal 1 hour from now check
-        let hourFromNow = moment(moment(), "HH:mm:ss").add(1, "hours");
-
-        if (!this.state.todaySelected && !this.state.tomorrowSelected) {
-          //if no date selected
-          this.setState({
-            error: true,
-            errorMessage: "Please select a pickup date.",
-          });
-          canNext = false;
-        } else if (
-          this.state.todaySelected &&
-          moment(moment(), "HH:mm:ss").isAfter(moment("17:00:00", "HH:mm:ss"))
-        ) {
-          //if selected today and its after 7 PM
-          this.setState({
-            error: true,
-            errorMessage:
-              "Sorry! We are closed after 7 PM. Please select a different day.",
-          });
-          canNext = false;
-        } else if (!scheduledTime.isBetween(lowerBound, upperBound)) {
-          //if pickup time isnt between 10 am and 7 pm
-          this.setState({
-            error: true,
-            errorMessage: "The pickup time must be between 10 AM and 7 PM.",
-          });
-          canNext = false;
-        } else if (
-          hourFromNow.isBetween(lowerBound, upperBound) &&
-          scheduledTime.isBefore(hourFromNow)
-        ) {
-          //if 1 hr in advance is between 10 and 7 AND pickup time is before that
-          this.setState({
-            error: true,
-            errorMessage: "The pickup time must be at least 1 hour in advance.",
-          });
-          canNext = false;
-        } else {
-          this.setState({ schedulingStep: false, preferencesStep: true });
-        }
-
+        canNext = this.handleTimeCheck();
         break;
       case 1:
         console.log("scented: " + this.state.scented);
@@ -207,6 +155,15 @@ class NewOrder extends Component {
       case 3:
         this.setState({ pricingStep: false, reviewStep: true });
         break;
+      case 4:
+        //check time again in case they waited and then came back to continue their order
+        canNext = this.handleTimeCheck();
+
+        if (canNext) {
+          alert("order placed");
+        }
+
+        break;
       default:
         break;
     }
@@ -236,8 +193,61 @@ class NewOrder extends Component {
     this.setState({ activeStep: this.state.activeStep - 1 });
   };
 
+  handleTimeCheck = () => {
+    console.log("scheduled time:" + this.state.formattedTime);
+    let canNext = true;
+    //time checks, military time format: check if logged in user is gainesville or etc, hardcode gnv for now
+    let scheduledTime = moment(this.state.rawTime, "HH:mm:ss"); //note: converting Date() to moment obj
+    let lowerBound = moment("10:00:00", "HH:mm:ss");
+    let upperBound = moment("19:00:00", "HH:mm:ss");
+
+    //universal 1 hour from now check
+    let hourFromNow = moment(moment(), "HH:mm:ss").add(1, "hours");
+
+    if (!this.state.todaySelected && !this.state.tomorrowSelected) {
+      //if no date selected
+      this.setState({
+        error: true,
+        errorMessage: "Please select a pickup date.",
+      });
+      canNext = false;
+    } else if (
+      this.state.todaySelected &&
+      hourFromNow.isAfter(moment("17:00:00", "HH:mm:ss"))
+    ) {
+      //if selected today and its after 7 PM
+      this.setState({
+        error: true,
+        errorMessage:
+          "Sorry! We are closed after 7 PM. Please select a different day.",
+      });
+      canNext = false;
+    } else if (!scheduledTime.isBetween(lowerBound, upperBound)) {
+      //if pickup time isnt between 10 am and 7 pm
+      this.setState({
+        error: true,
+        errorMessage: "The pickup time must be between 10 AM and 7 PM.",
+      });
+      canNext = false;
+    } else if (
+      hourFromNow.isBetween(lowerBound, upperBound) &&
+      scheduledTime.isBefore(hourFromNow)
+    ) {
+      //if 1 hr in advance is between 10 and 7 AND pickup time is before that
+      this.setState({
+        error: true,
+        errorMessage: "The pickup time must be at least 1 hour in advance.",
+      });
+      canNext = false;
+    } else {
+      this.setState({ schedulingStep: false, preferencesStep: true });
+    }
+
+    return canNext;
+  };
+
   //scheduling
-  handleToday = () => {
+  handleTodayChange = () => {
     this.setState({
       todaySelected: true,
       tomorrowSelected: false,
@@ -245,7 +255,7 @@ class NewOrder extends Component {
     });
   };
 
-  handleTomorrow = () => {
+  handleTomorrowChange = () => {
     this.setState({
       todaySelected: false,
       tomorrowSelected: true,
@@ -253,7 +263,7 @@ class NewOrder extends Component {
     });
   };
 
-  handleTime = (time) => {
+  handleTimeChange = (time) => {
     let formatted = moment(time, "HH:mm:ss").format("LT");
     this.setState({ rawTime: time, formattedTime: formatted });
   };
@@ -263,19 +273,19 @@ class NewOrder extends Component {
   };
 
   //preferences
-  handleScented = (scented) => {
+  handleScentedChange = (scented) => {
     this.setState({ scented: scented });
   };
 
-  handleDelicates = (delicates) => {
+  handleDelicatesChange = (delicates) => {
     this.setState({ delicates: delicates });
   };
 
-  handleSeparate = (separate) => {
+  handleSeparateChange = (separate) => {
     this.setState({ separate: separate });
   };
 
-  handleTowelsSheets = (towelsSheets) => {
+  handleTowelsSheetsChange = (towelsSheets) => {
     this.setState({ towelsSheets: towelsSheets });
   };
 
@@ -321,6 +331,10 @@ class NewOrder extends Component {
 
   handleAddressPrefsChange = (preferences) => {
     this.setState({ addressPreferences: preferences });
+  };
+
+  handleDone = () => {
+    alert("moved past confirmation screen");
   };
 
   render() {
@@ -372,13 +386,23 @@ class NewOrder extends Component {
               {this.state.activeStep === steps.length ? (
                 <React.Fragment>
                   <Typography variant="h5" gutterBottom>
-                    Thank you for your order.
+                    Thank you for your order!
                   </Typography>
                   <Typography variant="subtitle1">
-                    Your order number is #2001539. We have emailed your order
-                    confirmation, and will send you an update when your order
-                    has shipped.
+                    Your order number is #420. You can track your order through
+                    your dashboard. Thanks for choosing Laundr!
                   </Typography>
+                  <div className={classes.buttons}>
+                    {this.state.activeStep === steps.length && (
+                      <Button
+                        color="primary"
+                        onClick={this.handleDone}
+                        className={classes.button}
+                      >
+                        Okay
+                      </Button>
+                    )}
+                  </div>
                 </React.Fragment>
               ) : (
                 <React.Fragment>
@@ -400,10 +424,27 @@ class NewOrder extends Component {
                         tomorrowSelected={this.state.tomorrowSelected}
                         formattedTime={this.state.formattedTime}
                         rawTime={this.state.rawTime}
-                        handleToday={this.handleToday}
-                        handleTomorrow={this.handleTomorrow}
-                        handleTime={this.handleTime}
+                        handleTodayChange={this.handleTodayChange}
+                        handleTomorrowChange={this.handleTomorrowChange}
+                        handleTimeChange={this.handleTimeChange}
                       />
+                      <div /*here for testing only*/>
+                        <Review
+                          address={"3000 SW 35 Pl"}
+                          addressPreferences={
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                          }
+                          scented={this.state.scented}
+                          delicates={this.state.delicates}
+                          separate={this.state.separate}
+                          towelsSheets={this.state.towelsSheets}
+                          washerPreferences={
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                          }
+                          pickupDate={"4/20/20"}
+                          pickupTime={"4:20 PM"}
+                        />
+                      </div>
                     </div>
                   </Fade>
                   <Fade
@@ -422,10 +463,10 @@ class NewOrder extends Component {
                         separate={this.state.separate}
                         towelsSheets={this.state.towelsSheets}
                         washerPreferences={this.state.washerPreferences}
-                        handleScented={this.handleScented}
-                        handleDelicates={this.handleDelicates}
-                        handleSeparate={this.handleSeparate}
-                        handleTowelsSheets={this.handleTowelsSheets}
+                        handleScentedChange={this.handleScentedChange}
+                        handleDelicatesChange={this.handleDelicatesChange}
+                        handleSeparateChange={this.handleSeparateChange}
+                        handleTowelsSheetsChange={this.handleTowelsSheetsChange}
                         handleWasherPrefsChange={this.handleWasherPrefsChange}
                       />
                     </div>
@@ -472,7 +513,17 @@ class NewOrder extends Component {
                     }}
                   >
                     <div>
-                      <Review />
+                      <Review
+                        address={this.state.address}
+                        addressPreferences={this.state.addressPreferences}
+                        scented={this.state.scented}
+                        delicates={this.state.delicates}
+                        separate={this.state.separate}
+                        towelsSheets={this.state.towelsSheets}
+                        washerPreferences={this.state.washerPreferences}
+                        pickupDate={this.state.date}
+                        pickupTime={this.state.formattedTime}
+                      />
                     </div>
                   </Fade>
                   <div className={classes.buttons}>

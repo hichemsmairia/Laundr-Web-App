@@ -7,10 +7,6 @@ import DateFnsUtils from "@date-io/date-fns";
 import schedulingStyles from "../../styles/NewOrder/schedulingStyles";
 
 class Scheduling extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const classes = this.props.classes;
 
@@ -23,7 +19,7 @@ class Scheduling extends Component {
           <Grid item xs={12} sm={6}>
             <Button
               disabled={this.props.todaySelected}
-              onClick={this.props.handleToday}
+              onClick={this.props.handleTodayChange}
               variant="contained"
               color="primary"
               fullWidth
@@ -36,7 +32,7 @@ class Scheduling extends Component {
           <Grid item xs={12} sm={6}>
             <Button
               disabled={this.props.tomorrowSelected}
-              onClick={this.props.handleTomorrow}
+              onClick={this.props.handleTomorrowChange}
               variant="contained"
               color="primary"
               fullWidth
@@ -63,7 +59,7 @@ class Scheduling extends Component {
                 id="time-picker"
                 label="Select a time"
                 onChange={(value) => {
-                  this.props.handleTime(value);
+                  this.props.handleTimeChange(value);
                 }}
                 helperText="*Must be at least 1 hour in advance"
                 value={this.props.rawTime}

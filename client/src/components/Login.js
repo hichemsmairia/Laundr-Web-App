@@ -26,6 +26,7 @@ import baseURL from "../baseURL";
 //todo: change button colors to match logo/stuff
 //todo: change textbox + moving word to laundr colors, buttons to colors as well (WIP)
 //todo: big thing is to verify token on each page and redirect if necessary
+//todo: login with phone # since thats what they verify?
 
 function Copyright() {
   return (

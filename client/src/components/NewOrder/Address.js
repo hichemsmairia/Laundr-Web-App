@@ -33,10 +33,6 @@ const Marker = () => (
 );
 
 class Address extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   renderMarker = () => {
     if (this.props.renderMarker) {
       return <Marker lat={this.props.markerLat} lng={this.props.markerLong} />;
