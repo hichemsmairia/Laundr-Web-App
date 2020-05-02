@@ -66,6 +66,21 @@ const OrderSchema = new mongoose.Schema({
     required: true,
     unique: false,
   },
+  weight: {
+    type: Number,
+    required: true,
+    unique: false,
+  },
+  cost: {
+    type: Number,
+    required: true,
+    unique: false,
+  },
+  created: {
+    type: Date,
+    required: true,
+    unique: false,
+  },
 });
 
 const User = mongoose.model("Order", OrderSchema);

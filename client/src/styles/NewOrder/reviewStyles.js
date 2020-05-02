@@ -23,5 +23,13 @@ export default (theme) => ({
   listRoot: {
     width: "100%",
     maxWidth: 360,
+    marginTop: -10,
+    marginBottom: -11,
+  },
+  lightTooltip: {
+    backgroundColor: theme.palette.common.white,
+    color: "rgba(0, 0, 0, 0.87)",
+    boxShadow: theme.shadows[1],
+    fontSize: 11,
   },
 });

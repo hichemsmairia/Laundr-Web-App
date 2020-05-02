@@ -33,10 +33,31 @@ const Marker = () => (
 );
 
 class Address extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      charCount: 0,
+    };
+  }
+
   renderMarker = () => {
     if (this.props.renderMarker) {
       return <Marker lat={this.props.markerLat} lng={this.props.markerLong} />;
     }
+  };
+
+  handleCharCount = (text) => {
+    let limit = 200;
+    let count;
+
+    if (text.length > limit) {
+      count = 200;
+    } else {
+      count = text.length;
+    }
+
+    this.setState({ charCount: count });
   };
 
   render() {
@@ -91,11 +112,13 @@ class Address extends Component {
                           fullWidth
                           multiline
                           variant="outlined"
-                          value={this.props.preferences}
+                          helperText={`${this.state.charCount}/200`}
+                          value={this.props.addressPreferences}
                           onChange={(event) => {
                             this.props.handleAddressPrefsChange(
                               event.target.value
                             );
+                            this.handleCharCount(event.target.value);
                           }}
                         />
                       </Grid>

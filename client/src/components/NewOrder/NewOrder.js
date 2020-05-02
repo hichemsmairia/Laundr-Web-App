@@ -292,6 +292,12 @@ class NewOrder extends Component {
   };
 
   handleWasherPrefsChange = (preferences) => {
+    let limit = 200;
+
+    if (preferences.length > limit) {
+      preferences = preferences.slice(0, limit);
+    }
+
     this.setState({ washerPreferences: preferences });
   };
 
@@ -332,6 +338,12 @@ class NewOrder extends Component {
   };
 
   handleAddressPrefsChange = (preferences) => {
+    let limit = 200;
+
+    if (preferences.length > limit) {
+      preferences = preferences.slice(0, limit);
+    }
+
     this.setState({ addressPreferences: preferences });
   };
 
@@ -434,7 +446,7 @@ class NewOrder extends Component {
                         <Review
                           address={"3000 SW 35 Pl"}
                           addressPreferences={
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                            "LmDbStWzD4GmXcoiERMQTPOFIK7HsVAPY09d8pvn32ktVvbzXFdmgbEgbne46XS0v8QO65MkUz3sNXy4OEIu7ERAf03xJ7bBv7rCcMRxrCiVVfmgnNoD1esd0J0LDnxxQlwfKq6Zm5NgdqO00M8LRW9F2v3bJ5EiAWOVAKGh9etCSUMgdS0idhDILFMRenhpNxfBSHurEYpVGfTmbUvbNk0VMJ6b77I54AcFkkhsYtmO4YI41dVTAw8a2FjVwRE6x54WkjgIO16hlo6e4TgPuDnZTnkqjGBykiMCna089gIEFDY8ZOCEEUMSocLiA6gPm9OfGge1jPkWjRp0SuthSbrigBQWJqolhzgNMXgdUwfx1tzXGKgetNPlQbjWiG4m9SCRPkwgB8Pa8b2Q9lShjq2zPgRmrkGmNexl9La36T22doK4F6fiu5PpC1BIPzlbwOJfMfqLH1ri40vnH8tkHREE9OO96yZPenUAwzSiA4JYwaYHqX1Y"
                           }
                           scented={this.state.scented}
                           delicates={this.state.delicates}

@@ -1,20 +1,30 @@
 import React, { Component } from "react";
 import {
-  Collapse,
   CardActions,
-  IconButton,
   Card,
   CardHeader,
   CardMedia,
-  CardContent,
   Checkbox,
   Typography,
   withStyles,
+  Tooltip,
+  Button,
 } from "@material-ui/core";
-import clsx from "clsx";
 import PropTypes from "prop-types";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import InfoIcon from "@material-ui/icons/Info";
 import preferenceCardStyles from "../../../styles/NewOrder/components/preferenceCardStyles";
+
+const LightTooltip = withStyles((theme) => ({
+  tooltip: {
+    backgroundColor: theme.palette.common.white,
+    color: "rgba(0, 0, 0, 0.87)",
+    boxShadow: theme.shadows[1],
+    fontSize: 12,
+  },
+  arrow: {
+    color: theme.palette.common.grey,
+  },
+}))(Tooltip);
 
 class PreferenceCard extends Component {
   constructor(props) {
@@ -26,10 +36,6 @@ class PreferenceCard extends Component {
       currentImage: this.props.unselectedImage,
     };
   }
-
-  handleExpandClick = () => {
-    this.setState({ openExpand: !this.state.openExpand });
-  };
 
   handleSelect = () => {
     if (this.state.selected) {
@@ -72,23 +78,18 @@ class PreferenceCard extends Component {
           }
         />
         <CardMedia className={classes.media} image={this.state.currentImage} />
-        <CardActions disableSpacing>
-          <IconButton
-            className={clsx(classes.expand, {
-              [classes.expandOpen]: this.state.openExpand,
-            })}
-            onClick={this.handleExpandClick}
-            aria-expanded={this.state.openExpand}
-            aria-label="show more"
-          >
-            <ExpandMoreIcon />
-          </IconButton>
+        <CardActions
+          disableSpacing
+          style={{ justifyContent: "center", marginBottom: -10 }}
+        >
+          <LightTooltip title={this.props.info} arrow>
+            <Button style={{ textTransform: "none" }}>
+              <Typography gutterBottom>
+                <InfoIcon color="primary" />
+              </Typography>
+            </Button>
+          </LightTooltip>
         </CardActions>
-        <Collapse in={this.state.openExpand} timeout="auto" unmountOnExit>
-          <CardContent>
-            <Typography paragraph>{this.props.info}</Typography>
-          </CardContent>
-        </Collapse>
       </Card>
     );
   }

@@ -11,6 +11,7 @@ import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
+import { Tooltip } from "@material-ui/core";
 import reviewStyles from "../../styles/NewOrder/reviewStyles";
 import HomeIcon from "@material-ui/icons/Home";
 import CreateIcon from "@material-ui/icons/Create";
@@ -25,29 +26,31 @@ import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import QueryBuilderIcon from "@material-ui/icons/QueryBuilder";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
-import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
+import ScentedSelectedCircle from "../../images/NewOrder/ScentedSelectedCircle.png";
+import ScentedUnselectedCircle from "../../images/NewOrder/ScentedUnselectedCircle.png";
+import DelicatesSelectedCircle from "../../images/NewOrder/DelicatesSelectedCircle.png";
+import DelicatesUnselectedCircle from "../../images/NewOrder/DelicatesUnselectedCircle.png";
+import SeparateSelectedCircle from "../../images/NewOrder/SeparateSelectedCircle.png";
+import SeparateUnselectedCircle from "../../images/NewOrder/SeparateUnselectedCircle.png";
+import TowelsSelectedCircle from "../../images/NewOrder/TowelsSelectedCircle.png";
+import TowelsUnselectedCircle from "../../images/NewOrder/TowelsUnselectedCircle.png";
+
+const LightTooltip = withStyles((theme) => ({
+  tooltip: {
+    backgroundColor: theme.palette.common.white,
+    color: "rgba(0, 0, 0, 0.87)",
+    boxShadow: theme.shadows[1],
+    fontSize: 12,
+  },
+  arrow: {
+    color: theme.palette.common.grey,
+  },
+}))(Tooltip);
 
 class Review extends React.Component {
   constructor(props) {
     super(props);
   }
-
-  /*
-  <List disablePadding>
-          {products.map((product) => (
-            <ListItem className={classes.listItem} key={product.name}>
-              <ListItemText primary={product.name} secondary={product.desc} />
-              <Typography variant="body2">{product.price}</Typography>
-            </ListItem>
-          ))}
-          <ListItem className={classes.listItem}>
-            <ListItemText primary="Total" />
-            <Typography variant="subtitle1" className={classes.total}>
-              $34.06
-            </Typography>
-          </ListItem>
-        </List>
-   */
 
   render() {
     const classes = this.props.classes;
@@ -62,22 +65,22 @@ class Review extends React.Component {
           <Grid item xs={12} sm={6}>
             <Grid item xs={12} sm={6} style={{ marginBottom: 5 }}>
               <Card className={classes.root} variant="outlined">
-                <CardContent>
+                <CardContent style={{ marginBottom: -20 }}>
                   <Typography className={classes.titleCard} gutterBottom>
                     <HomeIcon style={{ marginBottom: -4 }} /> Address
                   </Typography>
                   <Typography className={classes.pos} color="textSecondary">
                     {this.props.address}
                   </Typography>
-                  <Typography className={classes.titleCard} gutterBottom>
-                    <CreateIcon style={{ marginBottom: -4 }} /> Additional
-                    Instructions
-                  </Typography>
-                  <Typography
-                    style={{ maxHeight: 150, overflow: "auto" }}
-                    color="textSecondary"
-                  >
-                    {this.props.addressPreferences}
+                  <Typography className={classes.titleCard}>
+                    <CreateIcon style={{ marginBottom: -4 }} />
+                    <LightTooltip title={this.props.addressPreferences} arrow>
+                      <Button style={{ textTransform: "none" }}>
+                        <Typography className={classes.titleCard} gutterBottom>
+                          See Additional Instructions
+                        </Typography>
+                      </Button>
+                    </LightTooltip>
                   </Typography>
                 </CardContent>
               </Card>
@@ -113,7 +116,14 @@ class Review extends React.Component {
                   <List dense className={classes.listRoot}>
                     <ListItem>
                       <ListItemAvatar>
-                        <Avatar />
+                        <Avatar
+                          src={
+                            this.props.scented
+                              ? ScentedSelectedCircle
+                              : ScentedUnselectedCircle
+                          }
+                          imgProps={{}}
+                        />
                       </ListItemAvatar>
                       <ListItemText primary="Scented" />
                       <ListItemSecondaryAction>
@@ -130,7 +140,13 @@ class Review extends React.Component {
                     <Divider variant="inset" component="li" />
                     <ListItem>
                       <ListItemAvatar>
-                        <Avatar />
+                        <Avatar
+                          src={
+                            this.props.delicates
+                              ? DelicatesSelectedCircle
+                              : DelicatesUnselectedCircle
+                          }
+                        />
                       </ListItemAvatar>
                       <ListItemText primary="Delicates" />
                       <ListItemSecondaryAction>
@@ -147,7 +163,13 @@ class Review extends React.Component {
                     <Divider variant="inset" component="li" />
                     <ListItem>
                       <ListItemAvatar>
-                        <Avatar />
+                        <Avatar
+                          src={
+                            this.props.separate
+                              ? SeparateSelectedCircle
+                              : SeparateUnselectedCircle
+                          }
+                        />
                       </ListItemAvatar>
                       <ListItemText primary="Separate" />
                       <ListItemSecondaryAction>
@@ -164,7 +186,13 @@ class Review extends React.Component {
                     <Divider variant="inset" component="li" />
                     <ListItem>
                       <ListItemAvatar>
-                        <Avatar />
+                        <Avatar
+                          src={
+                            this.props.towelsSheets
+                              ? TowelsSelectedCircle
+                              : TowelsUnselectedCircle
+                          }
+                        />
                       </ListItemAvatar>
                       <ListItemText primary="Towels and Sheets" />
                       <ListItemSecondaryAction>
@@ -179,22 +207,20 @@ class Review extends React.Component {
                       </ListItemSecondaryAction>
                     </ListItem>
                   </List>
-                  <Typography className={classes.titleCard} gutterBottom>
-                    <CreateIcon style={{ marginBottom: -4 }} /> Additional
-                    Instructions
-                  </Typography>
-                  <Typography
-                    color="textSecondary"
-                    style={{ maxHeight: 150, overflow: "auto" }}
-                  >
-                    {this.props.washerPreferences}
-                  </Typography>
+                  <CreateIcon style={{ marginBottom: -4 }} />
+                  <LightTooltip title={this.props.washerPreferences} arrow>
+                    <Button style={{ textTransform: "none" }}>
+                      <Typography className={classes.titleCard} gutterBottom>
+                        See Additional Instructions
+                      </Typography>
+                    </Button>
+                  </LightTooltip>
                 </CardContent>
               </Card>
             </Grid>
           </Grid>
           <Grid container alignItems="center" direction="column">
-            <Grid item xs={12} sm={6} style={{ marginTop: -8 }}>
+            <Grid item xs={12} sm={6} style={{ marginTop: -6 }}>
               <Card className={classes.root} variant="outlined">
                 <CardContent style={{ marginBottom: -15 }}>
                   <TextField
@@ -205,15 +231,7 @@ class Review extends React.Component {
                   />
                   <Typography gutterBottom>
                     <AttachMoneyIcon style={{ marginBottom: -4 }} />
-                    Estimated cost:{" "}
-                    {
-                      <Typography
-                        color="textSecondary"
-                        style={{ display: "inline-block" }}
-                      >
-                        $4.20
-                      </Typography>
-                    }
+                    Estimated cost: $Placeholder
                   </Typography>
                 </CardContent>
               </Card>

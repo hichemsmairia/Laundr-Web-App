@@ -13,6 +13,27 @@ import TowelsUnselected from "../../images/NewOrder/TowelsUnselected.png";
 import TowelsSelected from "../../images/NewOrder/TowelsSelected.png";
 
 class Preferences extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      charCount: 0,
+    };
+  }
+
+  handleCharCount = (text) => {
+    let limit = 200;
+    let count;
+
+    if (text.length > limit) {
+      count = 200;
+    } else {
+      count = text.length;
+    }
+
+    this.setState({ charCount: count });
+  };
+
   render() {
     const classes = this.props.classes;
 
@@ -73,10 +94,12 @@ class Preferences extends Component {
               label="Special Instructions"
               fullWidth
               multiline
+              helperText={`${this.state.charCount}/200`}
               variant="outlined"
               value={this.props.washerPreferences}
               onChange={(event) => {
                 this.props.handleWasherPrefsChange(event.target.value);
+                this.handleCharCount(event.target.value);
               }}
             />
           </Grid>
