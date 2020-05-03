@@ -10,13 +10,13 @@ export default (theme) => ({
   },
   root: {
     minWidth: 275,
+    paddingBottom: "0px",
   },
   bullet: {
     display: "inline-block",
     margin: "0 2px",
     transform: "scale(0.8)",
   },
-  titleCard: {},
   pos: {
     marginBottom: 10,
   },
@@ -24,12 +24,11 @@ export default (theme) => ({
     width: "100%",
     maxWidth: 360,
     marginTop: -10,
-    marginBottom: -11,
   },
-  lightTooltip: {
-    backgroundColor: theme.palette.common.white,
-    color: "rgba(0, 0, 0, 0.87)",
-    boxShadow: theme.shadows[1],
-    fontSize: 11,
+  removePadding: {
+    padding: 16,
+    "&:last-child": {
+      paddingBottom: 10,
+    },
   },
 });

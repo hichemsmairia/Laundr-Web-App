@@ -41,6 +41,8 @@ const LightTooltip = withStyles((theme) => ({
     color: "rgba(0, 0, 0, 0.87)",
     boxShadow: theme.shadows[1],
     fontSize: 12,
+    maxWidth: 275,
+    justifyContent: "center",
   },
   arrow: {
     color: theme.palette.common.grey,
@@ -50,189 +52,309 @@ const LightTooltip = withStyles((theme) => ({
 class Review extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = { openAddressPrefs: false, openWasherPrefs: false };
   }
+
+  handleAddressPrefsClose = () => {
+    this.setState({
+      openAddressPrefs: false,
+    });
+  };
+
+  handleAddressPrefsOpen = () => {
+    this.setState({
+      openAddressPrefs: true,
+    });
+  };
+
+  handleWasherPrefsClose = () => {
+    this.setState({
+      openWasherPrefs: false,
+    });
+  };
+
+  handleWasherPrefsOpen = () => {
+    this.setState({
+      openWasherPrefs: true,
+    });
+  };
+
+  evaluateWhitespace = (text) => {
+    if (!text.replace(/\s/g, "").length) {
+      return true;
+    }
+
+    return false;
+  };
 
   render() {
     const classes = this.props.classes;
-    const bull = <span className={classes.bullet}>•</span>;
 
     return (
       <React.Fragment>
         <Typography variant="h6" gutterBottom>
           Summary (rough markup)
         </Typography>
-        <Grid container spacing={1}>
+        <Grid
+          container
+          spacing={1}
+          direction="row"
+          alignItems="center"
+          justify="space-evenly"
+        >
           <Grid item xs={12} sm={6}>
-            <Grid item xs={12} sm={6} style={{ marginBottom: 5 }}>
-              <Card className={classes.root} variant="outlined">
-                <CardContent style={{ marginBottom: -20 }}>
-                  <Typography className={classes.titleCard} gutterBottom>
-                    <HomeIcon style={{ marginBottom: -4 }} /> Address
-                  </Typography>
-                  <Typography className={classes.pos} color="textSecondary">
-                    {this.props.address}
-                  </Typography>
-                  <Typography className={classes.titleCard}>
-                    <CreateIcon style={{ marginBottom: -4 }} />
-                    <LightTooltip title={this.props.addressPreferences} arrow>
-                      <Button style={{ textTransform: "none" }}>
-                        <Typography className={classes.titleCard} gutterBottom>
-                          See Additional Instructions
-                        </Typography>
-                      </Button>
-                    </LightTooltip>
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Card className={classes.root} variant="outlined">
-                <CardContent style={{ marginBottom: -15 }}>
-                  <Typography className={classes.titleCard} gutterBottom>
-                    <CalendarTodayIcon style={{ marginBottom: -4 }} /> Pickup
-                    Date
-                  </Typography>
-                  <Typography color="textSecondary">
-                    {this.props.pickupDate}
-                  </Typography>
-                  <Typography className={classes.titleCard} gutterBottom>
-                    <QueryBuilderIcon style={{ marginBottom: -4 }} /> Pickup
-                    Time
-                  </Typography>
-                  <Typography className={classes.pos} color="textSecondary">
-                    {this.props.pickupTime}
-                  </Typography>
-                </CardContent>
-              </Card>
+            <Grid
+              container
+              spacing={1}
+              direction="column"
+              justify="space-evenly"
+              alignItems="stretch"
+            >
+              <Grid item xs={12} sm={6}>
+                <Card className={classes.root} variant="outlined">
+                  <CardContent className={classes.removePadding}>
+                    <Typography gutterBottom>
+                      <HomeIcon fontSize="small" style={{ marginBottom: -4 }} />{" "}
+                      Address
+                    </Typography>
+                    <Typography color="textSecondary">
+                      {this.props.address}
+                    </Typography>
+                    <Grid
+                      container
+                      direction="row"
+                      justify="center"
+                      alignItems="center"
+                    >
+                      <LightTooltip
+                        title={
+                          this.evaluateWhitespace(this.props.addressPreferences)
+                            ? "N/A"
+                            : this.props.addressPreferences
+                        }
+                        open={this.state.openAddressPrefs}
+                        placement="bottom"
+                        onClose={this.handleAddressPrefsClose}
+                        onOpen={this.handleAddressPrefsOpen}
+                        arrow
+                      >
+                        <Button
+                          style={{ textTransform: "none" }}
+                          variant="outlined"
+                          disableTouchRipple
+                        >
+                          <CreateIcon fontSize="small" />
+                          <Typography>&nbsp;View Instructions</Typography>
+                        </Button>
+                      </LightTooltip>
+                    </Grid>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Card className={classes.root} variant="outlined">
+                  <CardContent className={classes.removePadding}>
+                    <Typography gutterBottom>
+                      <CalendarTodayIcon
+                        fontSize="small"
+                        style={{ marginBottom: -4 }}
+                      />{" "}
+                      Pickup Date
+                    </Typography>
+                    <Typography color="textSecondary">
+                      {this.props.pickupDate}
+                    </Typography>
+                    <Typography gutterBottom>
+                      <QueryBuilderIcon
+                        fontSize="small"
+                        style={{ marginBottom: -4 }}
+                      />{" "}
+                      Pickup Time
+                    </Typography>
+                    <Typography color="textSecondary">
+                      {this.props.pickupTime}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
             </Grid>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Grid item xs={12} sm={6} style={{ marginBottom: 8 }}>
+            <Grid
+              container
+              spacing={1}
+              direction="column"
+              justify="space-evenly"
+              alignItems="stretch"
+            >
+              <Grid item xs={12} sm={6}>
+                <Card className={classes.root} variant="outlined">
+                  <CardContent className={classes.removePadding}>
+                    <Typography gutterBottom>
+                      <SettingsIcon
+                        fontSize="small"
+                        style={{ marginBottom: -4 }}
+                      />{" "}
+                      Preferences
+                    </Typography>
+                    <List dense className={classes.listRoot}>
+                      <ListItem>
+                        <ListItemAvatar>
+                          <Avatar
+                            src={
+                              this.props.scented
+                                ? ScentedSelectedCircle
+                                : ScentedUnselectedCircle
+                            }
+                            imgProps={{}}
+                          />
+                        </ListItemAvatar>
+                        <ListItemText primary="Scented" />
+                        <ListItemSecondaryAction>
+                          {this.props.scented ? (
+                            <CheckCircleOutlineIcon
+                              style={{ fill: "green" }}
+                              edge="end"
+                            />
+                          ) : (
+                            <NotInterestedIcon color="error" edge="end" />
+                          )}
+                        </ListItemSecondaryAction>
+                      </ListItem>
+                      <Divider variant="inset" component="li" />
+                      <ListItem>
+                        <ListItemAvatar>
+                          <Avatar
+                            src={
+                              this.props.delicates
+                                ? DelicatesSelectedCircle
+                                : DelicatesUnselectedCircle
+                            }
+                          />
+                        </ListItemAvatar>
+                        <ListItemText primary="Delicates" />
+                        <ListItemSecondaryAction>
+                          {this.props.delicates ? (
+                            <CheckCircleOutlineIcon
+                              style={{ fill: "green" }}
+                              edge="end"
+                            />
+                          ) : (
+                            <NotInterestedIcon color="error" edge="end" />
+                          )}
+                        </ListItemSecondaryAction>
+                      </ListItem>
+                      <Divider variant="inset" component="li" />
+                      <ListItem>
+                        <ListItemAvatar>
+                          <Avatar
+                            src={
+                              this.props.separate
+                                ? SeparateSelectedCircle
+                                : SeparateUnselectedCircle
+                            }
+                          />
+                        </ListItemAvatar>
+                        <ListItemText primary="Separate" />
+                        <ListItemSecondaryAction>
+                          {this.props.separate ? (
+                            <CheckCircleOutlineIcon
+                              style={{ fill: "green" }}
+                              edge="end"
+                            />
+                          ) : (
+                            <NotInterestedIcon color="error" edge="end" />
+                          )}
+                        </ListItemSecondaryAction>
+                      </ListItem>
+                      <Divider variant="inset" component="li" />
+                      <ListItem>
+                        <ListItemAvatar>
+                          <Avatar
+                            src={
+                              this.props.towelsSheets
+                                ? TowelsSelectedCircle
+                                : TowelsUnselectedCircle
+                            }
+                          />
+                        </ListItemAvatar>
+                        <ListItemText primary="Towels and Sheets" />
+                        <ListItemSecondaryAction>
+                          {this.props.towelsSheets ? (
+                            <CheckCircleOutlineIcon
+                              style={{ fill: "green" }}
+                              edge="end"
+                            />
+                          ) : (
+                            <NotInterestedIcon color="error" edge="end" />
+                          )}
+                        </ListItemSecondaryAction>
+                      </ListItem>
+                    </List>
+                    <Grid
+                      container
+                      direction="row"
+                      justify="center"
+                      alignItems="center"
+                    >
+                      <LightTooltip
+                        title={
+                          this.evaluateWhitespace(this.props.washerPreferences)
+                            ? "N/A"
+                            : this.props.washerPreferences
+                        }
+                        open={this.state.openWasherPrefs}
+                        placement="bottom"
+                        onClose={this.handleWasherPrefsClose}
+                        onOpen={this.handleWasherPrefsOpen}
+                        arrow
+                      >
+                        <Button
+                          style={{ textTransform: "none" }}
+                          variant="outlined"
+                          disableTouchRipple
+                        >
+                          <CreateIcon fontSize="small" />
+                          <Typography>&nbsp;View Instructions</Typography>
+                        </Button>
+                      </LightTooltip>
+                    </Grid>
+                  </CardContent>
+                </Card>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Grid
+              container
+              direction="row"
+              justify="center"
+              alignItems="center"
+            >
               <Card className={classes.root} variant="outlined">
-                <CardContent style={{ marginBottom: -22 }}>
-                  <Typography className={classes.titleCard} gutterBottom>
-                    <SettingsIcon style={{ marginBottom: -4 }} /> Preferences
-                  </Typography>
-                  <List dense className={classes.listRoot}>
-                    <ListItem>
-                      <ListItemAvatar>
-                        <Avatar
-                          src={
-                            this.props.scented
-                              ? ScentedSelectedCircle
-                              : ScentedUnselectedCircle
-                          }
-                          imgProps={{}}
-                        />
-                      </ListItemAvatar>
-                      <ListItemText primary="Scented" />
-                      <ListItemSecondaryAction>
-                        {this.props.scented ? (
-                          <CheckCircleOutlineIcon
-                            style={{ fill: "green" }}
-                            edge="end"
-                          />
-                        ) : (
-                          <NotInterestedIcon color="error" edge="end" />
-                        )}
-                      </ListItemSecondaryAction>
-                    </ListItem>
-                    <Divider variant="inset" component="li" />
-                    <ListItem>
-                      <ListItemAvatar>
-                        <Avatar
-                          src={
-                            this.props.delicates
-                              ? DelicatesSelectedCircle
-                              : DelicatesUnselectedCircle
-                          }
-                        />
-                      </ListItemAvatar>
-                      <ListItemText primary="Delicates" />
-                      <ListItemSecondaryAction>
-                        {this.props.delicates ? (
-                          <CheckCircleOutlineIcon
-                            style={{ fill: "green" }}
-                            edge="end"
-                          />
-                        ) : (
-                          <NotInterestedIcon color="error" edge="end" />
-                        )}
-                      </ListItemSecondaryAction>
-                    </ListItem>
-                    <Divider variant="inset" component="li" />
-                    <ListItem>
-                      <ListItemAvatar>
-                        <Avatar
-                          src={
-                            this.props.separate
-                              ? SeparateSelectedCircle
-                              : SeparateUnselectedCircle
-                          }
-                        />
-                      </ListItemAvatar>
-                      <ListItemText primary="Separate" />
-                      <ListItemSecondaryAction>
-                        {this.props.separate ? (
-                          <CheckCircleOutlineIcon
-                            style={{ fill: "green" }}
-                            edge="end"
-                          />
-                        ) : (
-                          <NotInterestedIcon color="error" edge="end" />
-                        )}
-                      </ListItemSecondaryAction>
-                    </ListItem>
-                    <Divider variant="inset" component="li" />
-                    <ListItem>
-                      <ListItemAvatar>
-                        <Avatar
-                          src={
-                            this.props.towelsSheets
-                              ? TowelsSelectedCircle
-                              : TowelsUnselectedCircle
-                          }
-                        />
-                      </ListItemAvatar>
-                      <ListItemText primary="Towels and Sheets" />
-                      <ListItemSecondaryAction>
-                        {this.props.towelsSheets ? (
-                          <CheckCircleOutlineIcon
-                            style={{ fill: "green" }}
-                            edge="end"
-                          />
-                        ) : (
-                          <NotInterestedIcon color="error" edge="end" />
-                        )}
-                      </ListItemSecondaryAction>
-                    </ListItem>
-                  </List>
-                  <CreateIcon style={{ marginBottom: -4 }} />
-                  <LightTooltip title={this.props.washerPreferences} arrow>
-                    <Button style={{ textTransform: "none" }}>
-                      <Typography className={classes.titleCard} gutterBottom>
-                        See Additional Instructions
-                      </Typography>
+                <CardContent className={classes.removePadding}>
+                  <div style={{ display: "flex" }}>
+                    <TextField
+                      label="Coupon Code"
+                      variant="outlined"
+                      size="small"
+                    />
+                    <Button
+                      style={{ textTransform: "none" }}
+                      variant="outlined"
+                      onClick={() => {
+                        alert("Coupon applied (test)");
+                      }}
+                    >
+                      Apply
                     </Button>
-                  </LightTooltip>
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
-          <Grid container alignItems="center" direction="column">
-            <Grid item xs={12} sm={6} style={{ marginTop: -6 }}>
-              <Card className={classes.root} variant="outlined">
-                <CardContent style={{ marginBottom: -15 }}>
-                  <TextField
-                    label="Coupon Code"
-                    fullWidth
-                    style={{ marginBottom: 5 }}
-                    variant="outlined"
-                  />
-                  <Typography gutterBottom>
-                    <AttachMoneyIcon style={{ marginBottom: -4 }} />
-                    Estimated cost: $Placeholder
-                  </Typography>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <Typography>Estimated cost:&nbsp;</Typography>
+                    <Typography> </Typography>
+                    <Typography variant="h5"> $3000.00</Typography>
+                  </div>
                 </CardContent>
               </Card>
             </Grid>

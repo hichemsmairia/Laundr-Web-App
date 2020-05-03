@@ -162,7 +162,7 @@ class NewOrder extends Component {
         canNext = this.handleTimeCheck();
 
         if (canNext) {
-          alert("order placed");
+          alert("order placed (test)");
         }
 
         break;
@@ -403,8 +403,8 @@ class NewOrder extends Component {
                     Thank you for your order!
                   </Typography>
                   <Typography variant="subtitle1">
-                    Your order number is #420. You can track your order through
-                    your dashboard. Thanks for choosing Laundr!
+                    Your order number is #Placeholder. You can track your order
+                    through your dashboard. Thanks for choosing Laundr!
                   </Typography>
                   <div className={classes.buttons}>
                     {this.state.activeStep === steps.length && (
@@ -442,23 +442,25 @@ class NewOrder extends Component {
                         handleTomorrowChange={this.handleTomorrowChange}
                         handleTimeChange={this.handleTimeChange}
                       />
-                      <div /*here for testing only*/>
-                        <Review
-                          address={"3000 SW 35 Pl"}
-                          addressPreferences={
-                            "LmDbStWzD4GmXcoiERMQTPOFIK7HsVAPY09d8pvn32ktVvbzXFdmgbEgbne46XS0v8QO65MkUz3sNXy4OEIu7ERAf03xJ7bBv7rCcMRxrCiVVfmgnNoD1esd0J0LDnxxQlwfKq6Zm5NgdqO00M8LRW9F2v3bJ5EiAWOVAKGh9etCSUMgdS0idhDILFMRenhpNxfBSHurEYpVGfTmbUvbNk0VMJ6b77I54AcFkkhsYtmO4YI41dVTAw8a2FjVwRE6x54WkjgIO16hlo6e4TgPuDnZTnkqjGBykiMCna089gIEFDY8ZOCEEUMSocLiA6gPm9OfGge1jPkWjRp0SuthSbrigBQWJqolhzgNMXgdUwfx1tzXGKgetNPlQbjWiG4m9SCRPkwgB8Pa8b2Q9lShjq2zPgRmrkGmNexl9La36T22doK4F6fiu5PpC1BIPzlbwOJfMfqLH1ri40vnH8tkHREE9OO96yZPenUAwzSiA4JYwaYHqX1Y"
-                          }
-                          scented={this.state.scented}
-                          delicates={this.state.delicates}
-                          separate={this.state.separate}
-                          towelsSheets={this.state.towelsSheets}
-                          washerPreferences={
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                          }
-                          pickupDate={"4/20/20"}
-                          pickupTime={"4:20 PM"}
-                        />
-                      </div>
+                      {/* {
+                        <div>
+                          <Review
+                            address={"3000 SW 35 Pl"}
+                            addressPreferences={
+                              "Building is next to the leasing office. Follow the yellow line to get to the leasing office."
+                            }
+                            scented={this.state.scented}
+                            delicates={this.state.delicates}
+                            separate={this.state.separate}
+                            towelsSheets={this.state.towelsSheets}
+                            washerPreferences={
+                              "Please take care of my clothes as they are very delicate."
+                            }
+                            pickupDate={"4/20/20"}
+                            pickupTime={"4:20 PM"}
+                          />
+                        </div>
+                      } */}
                     </div>
                   </Fade>
                   <Fade
