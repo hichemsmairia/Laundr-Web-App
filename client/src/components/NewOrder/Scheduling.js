@@ -57,7 +57,7 @@ class Scheduling extends Component {
               <TimePicker
                 margin="normal"
                 id="time-picker"
-                label="Select a time"
+                label="Click to select a time"
                 onChange={(value) => {
                   this.props.handleTimeChange(value);
                 }}

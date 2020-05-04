@@ -20,19 +20,22 @@ import {
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import Geocode from "react-geocode";
+import jwtDecode from "jwt-decode";
+import axios from "axios";
 import Scheduling from "./Scheduling";
 import Preferences from "./Preferences";
 import Address from "./Address";
 import Pricing from "./Pricing";
 import Review from "./Review";
 import newOrderStyles from "../../styles/NewOrder/newOrderStyles";
+import baseURL from "../../baseURL";
 
 const moment = require("moment");
 const geolib = require("geolib");
 const apiKEY =
   process.env.GOOGLE_MAPS_API_KEY || require("../../config").google.mapsKEY;
 
-//todo: fix styling, set max limit for prefs, make viewing additional instructions a modal
+//todo: add functionality for orlando users, check which city user is from
 
 function Copyright() {
   return (
@@ -89,6 +92,7 @@ class NewOrder extends Component {
       markerLong: 0,
       renderMarker: false,
       addressPreferences: "",
+      orderID: -1, //done screen
     };
   }
 
@@ -98,6 +102,11 @@ class NewOrder extends Component {
     switch (this.state.activeStep) {
       case 0:
         canNext = this.handleTimeCheck();
+
+        if (canNext) {
+          this.setState({ schedulingStep: false, preferencesStep: true });
+        }
+
         break;
       case 1:
         console.log("scented: " + this.state.scented);
@@ -161,8 +170,21 @@ class NewOrder extends Component {
         //check time again in case they waited and then came back to continue their order
         canNext = this.handleTimeCheck();
 
+        let orderPlaced;
+
         if (canNext) {
-          alert("order placed (test)");
+          orderPlaced = await this.handlePlaceOrder();
+        } else {
+          return;
+        }
+
+        if (!orderPlaced) {
+          this.setState({
+            error: true,
+            errorMessage:
+              "There was an error with placing your order. Please try again later.",
+          });
+          canNext = false;
         }
 
         break;
@@ -171,6 +193,7 @@ class NewOrder extends Component {
     }
 
     if (canNext) {
+      console.log("moved on to next");
       this.setState({ activeStep: this.state.activeStep + 1 });
     }
   };
@@ -241,8 +264,6 @@ class NewOrder extends Component {
         errorMessage: "The pickup time must be at least 1 hour in advance.",
       });
       canNext = false;
-    } else {
-      this.setState({ schedulingStep: false, preferencesStep: true });
     }
 
     return canNext;
@@ -347,6 +368,71 @@ class NewOrder extends Component {
     this.setState({ addressPreferences: preferences });
   };
 
+  evaluateWhitespace = (text) => {
+    if (!text.replace(/\s/g, "").length) {
+      return "N/A";
+    }
+
+    return text;
+  };
+
+  handlePlaceOrder = async () => {
+    let token = localStorage.getItem("token");
+    axios.defaults.headers.common["token"] = token;
+    const data = jwtDecode(token);
+    let email = data.email;
+    let phone = data.phone;
+    let coupon = "placeholder"; //todo: changed when functionality added
+    let scented = this.state.scented;
+    let delicates = this.state.delicates;
+    let separate = this.state.separate;
+    let towelsSheets = this.state.towelsSheets;
+    let washerPrefs = this.evaluateWhitespace(this.state.washerPreferences);
+    let address = this.state.address;
+    let addressPrefs = this.evaluateWhitespace(this.state.addressPreferences);
+    let pickupDate = this.state.date;
+    let pickupTime = this.state.formattedTime;
+    let weight = 99.99; //todo: be changed when functionality added
+    let cost = 99.99; //todo: be changed when functionality added
+    let created = new Date();
+
+    let orderPlaced;
+
+    await axios
+      .post(baseURL + "/order/placeOrder", {
+        email,
+        phone,
+        coupon,
+        scented,
+        delicates,
+        separate,
+        towelsSheets,
+        washerPrefs,
+        address,
+        addressPrefs,
+        pickupDate,
+        pickupTime,
+        weight,
+        cost,
+        created,
+      })
+      .then((res) => {
+        if (res.data.success) {
+          orderPlaced = true;
+          this.setState({ orderID: res.data.orderID });
+        } else {
+          orderPlaced = false;
+        }
+      })
+      .catch((error) => {
+        alert("Error: " + error);
+      });
+
+    return orderPlaced;
+
+    //return order ID
+  };
+
   handleDone = () => {
     alert("moved past confirmation screen");
   };
@@ -403,8 +489,9 @@ class NewOrder extends Component {
                     Thank you for your order!
                   </Typography>
                   <Typography variant="subtitle1">
-                    Your order number is #Placeholder. You can track your order
-                    through your dashboard. Thanks for choosing Laundr!
+                    Your order number is #{this.state.orderID}. You can track
+                    your order through your dashboard. Thanks for choosing
+                    Laundr!
                   </Typography>
                   <div className={classes.buttons}>
                     {this.state.activeStep === steps.length && (

@@ -8,7 +8,7 @@ import {
   Typography,
   withStyles,
   Tooltip,
-  Button,
+  Fade,
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import InfoIcon from "@material-ui/icons/Info";
@@ -78,16 +78,13 @@ class PreferenceCard extends Component {
           }
         />
         <CardMedia className={classes.media} image={this.state.currentImage} />
-        <CardActions
-          disableSpacing
-          style={{ justifyContent: "center", marginBottom: -10 }}
-        >
-          <LightTooltip title={this.props.info} arrow>
-            <Button style={{ textTransform: "none" }}>
-              <Typography gutterBottom>
-                <InfoIcon color="primary" />
-              </Typography>
-            </Button>
+        <CardActions disableSpacing style={{ justifyContent: "center" }}>
+          <LightTooltip
+            title={this.props.info}
+            TransitionComponent={Fade}
+            arrow
+          >
+            <InfoIcon color="primary" style={{ cursor: "pointer" }} />
           </LightTooltip>
         </CardActions>
       </Card>

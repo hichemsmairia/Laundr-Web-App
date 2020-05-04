@@ -1,31 +1,31 @@
 import React from "react";
-import { makeStyles, withStyles, TextField } from "@material-ui/core";
-import Typography from "@material-ui/core/Typography";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import Grid from "@material-ui/core/Grid";
-import Divider from "@material-ui/core/Divider";
-import PropTypes from "prop-types";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
-import { Tooltip } from "@material-ui/core";
-import reviewStyles from "../../styles/NewOrder/reviewStyles";
-import HomeIcon from "@material-ui/icons/Home";
+import {
+  withStyles,
+  TextField,
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+  Grid,
+  Divider,
+  Card,
+  CardContent,
+  Button,
+  Tooltip,
+  ListItemSecondaryAction,
+  ListItemAvatar,
+  Avatar,
+  Fade,
+} from "@material-ui/core";
+import HomeRoundedIcon from "@material-ui/icons/HomeRounded";
 import CreateIcon from "@material-ui/icons/Create";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Checkbox from "@material-ui/core/Checkbox";
-import Avatar from "@material-ui/core/Avatar";
 import SettingsIcon from "@material-ui/icons/Settings";
-import CloseIcon from "@material-ui/icons/Close";
 import NotInterestedIcon from "@material-ui/icons/NotInterested";
-import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import QueryBuilderIcon from "@material-ui/icons/QueryBuilder";
+import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+import PropTypes from "prop-types";
+import reviewStyles from "../../styles/NewOrder/reviewStyles";
 import ScentedSelectedCircle from "../../images/NewOrder/ScentedSelectedCircle.png";
 import ScentedUnselectedCircle from "../../images/NewOrder/ScentedUnselectedCircle.png";
 import DelicatesSelectedCircle from "../../images/NewOrder/DelicatesSelectedCircle.png";
@@ -115,7 +115,10 @@ class Review extends React.Component {
                 <Card className={classes.root} variant="outlined">
                   <CardContent className={classes.removePadding}>
                     <Typography gutterBottom>
-                      <HomeIcon fontSize="small" style={{ marginBottom: -4 }} />{" "}
+                      <HomeRoundedIcon
+                        fontSize="small"
+                        style={{ marginBottom: -4 }}
+                      />{" "}
                       Address
                     </Typography>
                     <Typography color="textSecondary">
@@ -134,7 +137,8 @@ class Review extends React.Component {
                             : this.props.addressPreferences
                         }
                         open={this.state.openAddressPrefs}
-                        placement="bottom"
+                        placement="left"
+                        TransitionComponent={Fade}
                         onClose={this.handleAddressPrefsClose}
                         onOpen={this.handleAddressPrefsOpen}
                         arrow
@@ -305,7 +309,8 @@ class Review extends React.Component {
                             : this.props.washerPreferences
                         }
                         open={this.state.openWasherPrefs}
-                        placement="bottom"
+                        placement="right"
+                        TransitionComponent={Fade}
                         onClose={this.handleWasherPrefsClose}
                         onOpen={this.handleWasherPrefsOpen}
                         arrow
@@ -340,6 +345,7 @@ class Review extends React.Component {
                       variant="outlined"
                       size="small"
                     />
+                    {/*todo: to be changed when functionality added*/}
                     <Button
                       style={{ textTransform: "none" }}
                       variant="outlined"
@@ -353,7 +359,10 @@ class Review extends React.Component {
                   <div style={{ display: "flex", alignItems: "center" }}>
                     <Typography>Estimated cost:&nbsp;</Typography>
                     <Typography> </Typography>
-                    <Typography variant="h5"> $3000.00</Typography>
+                    <Typography variant="h5">
+                      $placeholder{" "}
+                      {/*todo: to be changed when functionality added*/}
+                    </Typography>
                   </div>
                 </CardContent>
               </Card>

@@ -5,6 +5,7 @@ const path = require("path"),
   bodyParser = require("body-parser"),
   twilioRoutes = require("../routes/twilioRoutes"),
   userRoutes = require("../routes/userRoutes"),
+  orderRoutes = require("../routes/orderRoutes"),
   cors = require("cors");
 
 module.exports.init = () => {
@@ -13,7 +14,7 @@ module.exports.init = () => {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
-    useFindAndModify: false
+    useFindAndModify: false,
   });
 
   //initialize app
@@ -32,11 +33,12 @@ module.exports.init = () => {
   connection.once("open", () => {
     console.log("MongoDB database connected");
   });
-  connection.on("error", error => console.log("Error: " + error));
+  connection.on("error", (error) => console.log("Error: " + error));
 
   //add routers
   app.use("/api/twilio", twilioRoutes);
   app.use("/api/user", userRoutes);
+  app.use("/api/order", orderRoutes);
 
   //for production build
   if (process.env.NODE_ENV === "production") {
@@ -44,7 +46,7 @@ module.exports.init = () => {
     app.use(express.static(path.join(__dirname, "../../client/build")));
 
     //Handle React routing, return all requests to React app
-    app.get("*", function(req, res) {
+    app.get("*", function (req, res) {
       res.sendFile(path.join(__dirname, "../../client/build", "index.html"));
     });
   }
