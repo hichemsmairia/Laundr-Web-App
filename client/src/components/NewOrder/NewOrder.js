@@ -256,9 +256,10 @@ class NewOrder extends Component {
       canNext = false;
     } else if (
       hourFromNow.isBetween(lowerBound, upperBound) &&
-      scheduledTime.isBefore(hourFromNow)
+      scheduledTime.isBefore(hourFromNow) &&
+      this.state.todaySelected
     ) {
-      //if 1 hr in advance is between 10 and 7 AND pickup time is before that
+      //if 1 hr in advance is between 10 and 7 AND pickup time is before that AND the date selected is today
       this.setState({
         error: true,
         errorMessage: "The pickup time must be at least 1 hour in advance.",
