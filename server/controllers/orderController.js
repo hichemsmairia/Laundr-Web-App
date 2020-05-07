@@ -13,7 +13,7 @@ const placeOrder = async (req, res) => {
     if (err) {
       return res.json({
         success: false,
-        message: "Error with getting number of total orders",
+        message: "Error with getting number of total orders: " + err,
       });
     } else {
       orderCount = count;
@@ -25,6 +25,8 @@ const placeOrder = async (req, res) => {
     userInfo: {
       email: req.body.email,
       phone: req.body.phone,
+      fname: req.body.fname,
+      lname: req.body.lname,
     },
     washerInfo: {
       scented: req.body.scented,
@@ -38,6 +40,7 @@ const placeOrder = async (req, res) => {
       addressPrefs: req.body.addressPrefs,
       pickupDate: req.body.pickupDate,
       pickupTime: req.body.pickupTime,
+      pickupDriverEmail: "N/A",
     },
     orderInfo: {
       coupon: req.body.coupon,
@@ -65,12 +68,27 @@ const placeOrder = async (req, res) => {
       }
     })
     .catch((error) => {
-      console.log("4");
-      console.log(error);
       return res.json({ success: false, message: error.code });
     });
 
   //todo: in future, handle payment stuff here as well? return false if payment fails, modify error msg on frontend to notify user
 };
 
-module.exports = { placeOrder };
+const getOrders = (req, res) => {
+  Order.find({})
+    .then((orders) => {
+      if (orders) {
+        return res.json({ success: true, message: orders });
+      } else {
+        return res.json({
+          success: false,
+          message: "Error with fetching orders",
+        });
+      }
+    })
+    .catch((error) => {
+      return res.json({ success: false, message: error.code });
+    });
+};
+
+module.exports = { placeOrder, getOrders };

@@ -38,6 +38,7 @@ import baseURL from "../baseURL";
 //todo: check over views on mobile, maybe resize logo to fit just a bit more
 //todo: change token time to infinite(?) when implementing
 //todo: split states into different objects
+//todo: change loader to a backdrop
 
 //in backend, caught errors = return error.code and success false. in frontend, if success is false, print error: message from the response which should be said code
 //in frontend, caught errors = use error itself and alert error: error

@@ -2,14 +2,11 @@ import React, { Component } from "react";
 import {
   withStyles,
   CssBaseline,
-  AppBar,
-  Toolbar,
   Paper,
   Stepper,
   Step,
   StepLabel,
   Button,
-  Link,
   Typography,
   Fade,
   Dialog,
@@ -36,19 +33,6 @@ const apiKEY =
   process.env.GOOGLE_MAPS_API_KEY || require("../../config").google.mapsKEY;
 
 //todo: add functionality for orlando users, check which city user is from
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
 
 const steps = ["Scheduling", "Preferences", "Address", "Pricing", "Review"];
 
@@ -382,6 +366,10 @@ class NewOrder extends Component {
     axios.defaults.headers.common["token"] = token;
     const data = jwtDecode(token);
     let email = data.email;
+    let fname = data.fname;
+    let lname = data.lname;
+    console.log("fname: " + fname);
+    console.log("lname: " + lname);
     let phone = data.phone;
     let coupon = "placeholder"; //todo: changed when functionality added
     let scented = this.state.scented;
@@ -402,6 +390,8 @@ class NewOrder extends Component {
     await axios
       .post(baseURL + "/order/placeOrder", {
         email,
+        fname,
+        lname,
         phone,
         coupon,
         scented,
@@ -444,13 +434,6 @@ class NewOrder extends Component {
     return (
       <React.Fragment>
         <CssBaseline />
-        <AppBar position="absolute" color="default" className={classes.appBar}>
-          <Toolbar>
-            <Typography variant="h6" color="inherit" noWrap>
-              Company name
-            </Typography>
-          </Toolbar>
-        </AppBar>
         <main className={classes.layout}>
           <Paper className={classes.paper}>
             <Typography component="h1" variant="h4" align="center">
@@ -654,7 +637,6 @@ class NewOrder extends Component {
               )}
             </React.Fragment>
           </Paper>
-          <Copyright />
         </main>
       </React.Fragment>
     );

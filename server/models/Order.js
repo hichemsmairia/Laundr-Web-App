@@ -12,6 +12,16 @@ const OrderSchema = new mongoose.Schema({
       unique: false,
       required: true,
     },
+    fname: {
+      type: String,
+      unique: false,
+      required: true,
+    },
+    lname: {
+      type: String,
+      unique: false,
+      required: true,
+    },
   },
   washerInfo: {
     scented: {
@@ -57,6 +67,11 @@ const OrderSchema = new mongoose.Schema({
       unique: false,
     },
     pickupTime: {
+      type: String,
+      required: true,
+      unique: false,
+    },
+    pickupDriverEmail: {
       type: String,
       required: true,
       unique: false,

@@ -4,7 +4,12 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import UserDashboard from "./components/UserDashboard";
 import NewOrder from "./components/NewOrder/NewOrder";
-import Review from "./components/NewOrder/Review";
+import DriverDashboard from "./components/DriverDashboard/DriverDashboard";
+
+import theme from "./theme";
+import { ThemeProvider } from "@material-ui/styles";
+import { Main as MainLayout } from "./layouts";
+import RouteWithLayout from "./layouts/RouteWithLayout";
 
 //todo: make page not found
 
@@ -17,7 +22,19 @@ export default class App extends Component {
           <Route exact path="/login" component={Login} />
           <Route exact path="/userDashboard" component={UserDashboard} />
           <Route exact path="/newOrderTest" component={NewOrder} />
-          <Route exact path="/reviewTest" component={Review} />
+          <Route
+            exact
+            path="/driverDashboardTest"
+            component={DriverDashboard}
+          />
+          <ThemeProvider theme={theme}>
+            <RouteWithLayout
+              component={DriverDashboard}
+              exact
+              layout={MainLayout}
+              path="/driverDashboardTestTheme"
+            />
+          </ThemeProvider>
           <Route path="/">
             <Redirect to="/login" />
           </Route>

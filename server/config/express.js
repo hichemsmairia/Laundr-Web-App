@@ -6,6 +6,7 @@ const path = require("path"),
   twilioRoutes = require("../routes/twilioRoutes"),
   userRoutes = require("../routes/userRoutes"),
   orderRoutes = require("../routes/orderRoutes"),
+  driverRoutes = require("../routes/driverRoutes"),
   cors = require("cors");
 
 module.exports.init = () => {
@@ -39,6 +40,7 @@ module.exports.init = () => {
   app.use("/api/twilio", twilioRoutes);
   app.use("/api/user", userRoutes);
   app.use("/api/order", orderRoutes);
+  app.use("/api/driver", driverRoutes);
 
   //for production build
   if (process.env.NODE_ENV === "production") {
