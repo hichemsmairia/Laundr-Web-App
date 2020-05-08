@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { withStyles } from "@material-ui/core";
+import { withStyles, Typography } from "@material-ui/core";
 import PropTypes from "prop-types";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
@@ -7,8 +7,7 @@ import OrderTable from "./components/OrderTable";
 import baseURL from "../../baseURL";
 import acceptedDashboardStyles from "../../styles/DriverDashboards/acceptedDashboardStyles";
 
-//todo: add isDriver to user, also iswasher, etc.
-//todo: conditional redirects
+//todo: refresh list after completing an action
 
 //0: order just placed
 //1: order accepted by driver to be picked up from user
@@ -85,7 +84,9 @@ class AcceptedDashboard extends Component {
   render() {
     return (
       <React.Fragment>
-        <h1>Accepted Orders</h1>
+        <Typography variant="h1" gutterBottom>
+          Accepted Orders
+        </Typography>
         <OrderTable
           orders={this.state.orders}
           weight={this.state.weight}

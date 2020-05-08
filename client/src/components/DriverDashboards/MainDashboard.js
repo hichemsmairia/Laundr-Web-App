@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { withStyles } from "@material-ui/core";
+import { withStyles, Typography } from "@material-ui/core";
 import PropTypes from "prop-types";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
@@ -77,7 +77,9 @@ class MainDashboard extends Component {
   render() {
     return (
       <React.Fragment>
-        <h1>Available Orders</h1>
+        <Typography variant="h1" gutterBottom>
+          Available Orders
+        </Typography>
         <OrderTable
           orders={this.state.orders}
           handlePickupAccept={this.handlePickupAccept}
