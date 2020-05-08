@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import moment from "moment";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import { makeStyles } from "@material-ui/styles";
 import {
@@ -15,6 +14,7 @@ import {
   Typography,
   TablePagination,
   withStyles,
+  TextField,
   Button,
   Dialog,
   DialogActions,
@@ -25,7 +25,7 @@ import {
   IconButton,
 } from "@material-ui/core";
 import Close from "@material-ui/icons/Close";
-import orderTableStyles from "../../../styles/DriverDashboard/components/orderTableStyles";
+import orderTableStyles from "../../../styles/DriverDashboards/components/orderTableStyles";
 
 class OrderTable extends Component {
   constructor(props) {
@@ -45,18 +45,36 @@ class OrderTable extends Component {
   renderStage = (stage) => {
     if (stage === 0) {
       return "Pickup";
+    } else if (stage === 1) {
+      return "Weighing";
+    } else if (stage === 2) {
+      return "Washer Dropoff";
     }
   };
 
   renderActions = (stage) => {
     if (stage === 0) {
       return "Accept";
+    } else if (stage === 1) {
+      return "Enter Weight";
+    } else if (stage === 2) {
+      return "Delivered to Washer";
     }
   };
 
   handleActionClicked = (stage, order) => {
     this.setState({ currentOrder: order }, () => {
       if (stage === 0) {
+        this.setState({
+          dialog: true,
+          dialogTitle: "Confirmation",
+        });
+      } else if (stage === 1) {
+        this.setState({
+          dialog: true,
+          dialogTitle: "Enter Weight",
+        });
+      } else if (stage === 2) {
         this.setState({
           dialog: true,
           dialogTitle: "Confirmation",
@@ -69,7 +87,8 @@ class OrderTable extends Component {
     let order = this.state.currentOrder;
 
     if (order) {
-      if (order.orderInfo.status === 0) {
+      let status = order.orderInfo.status;
+      if (status === 0) {
         return (
           <React.Fragment>
             <Typography variant="body1">
@@ -83,6 +102,40 @@ class OrderTable extends Component {
             </Typography>
           </React.Fragment>
         );
+      } else if (status === 1) {
+        return (
+          <React.Fragment>
+            <Typography variant="body1">
+              Plese enter the weight, in pounds, of the order from:&nbsp;
+            </Typography>
+            <Typography
+              variant="body1"
+              style={{ fontWeight: 600, textAlign: "center" }}
+            >
+              {`${order.userInfo.fname} ${order.userInfo.lname}`}
+            </Typography>
+            <div style={{ textAlign: "center" }}>
+              <TextField
+                autoFocus
+                margin="dense"
+                label="Weight"
+                value={this.props.weight}
+                onChange={(event) => {
+                  this.props.handleWeightChange(event.target.value);
+                }}
+                style={{ width: 100 }}
+              />
+            </div>
+          </React.Fragment>
+        );
+      } else if (status === 2) {
+        return (
+          <React.Fragment>
+            <Typography variant="body1">
+              Plese confirm that you have delivered the order to the washer.
+            </Typography>
+          </React.Fragment>
+        );
       }
     }
   };
@@ -91,7 +144,8 @@ class OrderTable extends Component {
     let order = this.state.currentOrder;
 
     if (order) {
-      if (order.orderInfo.status === 0) {
+      let status = order.orderInfo.status;
+      if (status === 0) {
         return (
           <React.Fragment>
             <Button onClick={this.handleDialogClose} color="primary">
@@ -99,7 +153,7 @@ class OrderTable extends Component {
             </Button>
             <Button
               onClick={async () => {
-                let success = await this.props.acceptOrder(
+                let success = await this.props.handlePickupAccept(
                   this.state.currentOrder
                 );
                 if (success) {
@@ -114,12 +168,51 @@ class OrderTable extends Component {
             </Button>
           </React.Fragment>
         );
+      } else if (status === 1) {
+        return (
+          <React.Fragment>
+            <Button onClick={this.handleDialogClose} color="primary">
+              Cancel
+            </Button>
+            <Button
+              onClick={async () => {
+                let success = await this.props.handleWeightEntered(
+                  this.state.currentOrder
+                );
+                if (success) {
+                  this.renderWeightSuccessMsg();
+                } else {
+                  this.renderWeightErrorMsg();
+                }
+              }}
+              color="primary"
+            >
+              Confirm
+            </Button>
+          </React.Fragment>
+        );
+      } else if (status === 2) {
+        return (
+          <React.Fragment>
+            <Button onClick={this.handleDialogClose} color="primary">
+              Cancel
+            </Button>
+            <Button color="primary">Confirm</Button>
+          </React.Fragment>
+        );
       }
     }
   };
 
   handleDialogClose = () => {
     this.setState({ dialog: false });
+
+    let order = this.state.currentOrder;
+
+    if (order.orderInfo.status === 1) {
+      //clear weight text field
+      this.props.handleWeightChange("");
+    }
   };
 
   renderAcceptedMsg = () => {
@@ -138,6 +231,26 @@ class OrderTable extends Component {
         openSnackbar: true,
         snackbarMessage:
           "Error with accepting this order - you could be too late! Please refresh and try again.",
+        snackbarSuccess: false,
+      });
+    });
+  };
+
+  renderWeightSuccessMsg = () => {
+    this.setState({ dialog: false }, () => {
+      this.setState({
+        openSnackbar: true,
+        snackbarMessage: "Weight successfully entered!",
+        snackbarSuccess: true,
+      });
+    });
+  };
+
+  renderWeightErrorMsg = () => {
+    this.setState({ dialog: false }, () => {
+      this.setState({
+        openSnackbar: true,
+        snackbarMessage: "Error with entering weight - please contact us.",
         snackbarSuccess: false,
       });
     });
@@ -189,7 +302,7 @@ class OrderTable extends Component {
                           >
                             Pickup:&nbsp;
                           </Typography>
-                          <Typography variant="body1">{` ${order.driverInfo.pickupDate} @ ${order.driverInfo.pickupTime}`}</Typography>
+                          <Typography variant="body1">{` ${order.pickupInfo.date} @ ${order.pickupInfo.time}`}</Typography>
                         </div>
                         <div style={{ display: "flex", alignItems: "center" }}>
                           <Typography
@@ -199,7 +312,7 @@ class OrderTable extends Component {
                             Dropoff:&nbsp;
                           </Typography>
                           <Typography variant="body1">
-                            {"placeholder"}
+                            {` ${order.dropoffInfo.date} @ ${order.dropoffInfo.time}`}
                           </Typography>
                         </div>
                       </TableCell>
@@ -211,7 +324,7 @@ class OrderTable extends Component {
                           >
                             User:&nbsp;
                           </Typography>
-                          <Typography variant="body1">{` ${order.driverInfo.address}`}</Typography>
+                          <Typography variant="body1">{` ${order.orderInfo.address}`}</Typography>
                         </div>
                         <div style={{ display: "flex", alignItems: "center" }}>
                           <Typography
@@ -221,12 +334,12 @@ class OrderTable extends Component {
                             Washer:&nbsp;
                           </Typography>
                           <Typography variant="body1">
-                            {"placeholder"}
+                            {` ${order.washerInfo.address}`}
                           </Typography>
                         </div>
                       </TableCell>
                       <TableCell>{order.userInfo.phone}</TableCell>
-                      <TableCell>{order.driverInfo.addressPrefs}</TableCell>
+                      <TableCell>{order.pickupInfo.prefs}</TableCell>
                       <TableCell>{420}</TableCell>
                       <TableCell>
                         {this.renderStage(order.orderInfo.status)}

@@ -4,8 +4,8 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import UserDashboard from "./components/UserDashboard";
 import NewOrder from "./components/NewOrder/NewOrder";
-import DriverDashboard from "./components/DriverDashboard/DriverDashboard";
-
+import MainDriverDashboard from "./components/DriverDashboards/MainDashboard";
+import AcceptedDriverDashboard from "./components/DriverDashboards/AcceptedDashboard";
 import theme from "./theme";
 import { ThemeProvider } from "@material-ui/styles";
 import { Main as MainLayout } from "./layouts";
@@ -22,22 +22,31 @@ export default class App extends Component {
           <Route exact path="/login" component={Login} />
           <Route exact path="/userDashboard" component={UserDashboard} />
           <Route exact path="/newOrderTest" component={NewOrder} />
+          <Route exact path="/driverMainDash" component={MainDriverDashboard} />
           <Route
             exact
-            path="/driverDashboardTest"
-            component={DriverDashboard}
+            path="/driverAcceptDash"
+            component={MainDriverDashboard}
           />
           <ThemeProvider theme={theme}>
-            <RouteWithLayout
-              component={DriverDashboard}
-              exact
-              layout={MainLayout}
-              path="/driverDashboardTestTheme"
-            />
+            <Switch>
+              <RouteWithLayout
+                component={MainDriverDashboard}
+                exact
+                layout={MainLayout}
+                path="/driverMainDashTheme"
+              />
+              <RouteWithLayout
+                component={AcceptedDriverDashboard}
+                exact
+                layout={MainLayout}
+                path="/driverAcceptDashTheme"
+              />
+              <Route path="/">
+                <Redirect to="/login" />
+              </Route>
+            </Switch>
           </ThemeProvider>
-          <Route path="/">
-            <Redirect to="/login" />
-          </Route>
         </Switch>
         <br />
       </React.Fragment>

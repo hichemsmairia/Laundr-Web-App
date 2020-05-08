@@ -5,14 +5,23 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 import OrderTable from "./components/OrderTable";
 import baseURL from "../../baseURL";
-import driverDashboardStyles from "../../styles/DriverDashboard/driverDashboardStyles";
+import mainDashboardStyles from "../../styles/DriverDashboards/mainDashboardStyles";
 
-//todo: change order structure to pickupInfo and dropoffInfo, move address to orderInfo
 //todo: add isDriver to user, also iswasher, etc.
 //todo: conditional redirects
-//todo: fix header error in server
 
-class DriverDashboard extends Component {
+//0: order just placed
+//1: order accepted by driver to be picked up from user
+//2: weight entered
+//3: order dropped off to washer
+//4: order done by washer
+//6: order accept by driver to be delivered back to user
+//7: order delivered to user
+//8: canceled
+
+//only display status 0 and 4, ones able to be "accepted"
+
+class MainDashboard extends Component {
   constructor(props) {
     super(props);
 
@@ -26,9 +35,15 @@ class DriverDashboard extends Component {
         if (res.data.success) {
           console.log("list of orders:");
           console.log(res.data.message);
-          this.setState({ orders: res.data.message });
+
+          //filter only status 0 and 4
+          let filteredOrders = res.data.message.filter((order) => {
+            return order.orderInfo.status === 0 || order.orderInfo.status === 4;
+          });
+
+          this.setState({ orders: filteredOrders });
         } else {
-          console.log("error with fetching orders");
+          alert("Error with fetching orders, please contact us.");
         }
       })
       .catch((error) => {
@@ -36,7 +51,7 @@ class DriverDashboard extends Component {
       });
   };
 
-  acceptOrder = async (order) => {
+  handlePickupAccept = async (order) => {
     let token = localStorage.getItem("token");
     const data = jwtDecode(token);
     let driverEmail = data.email;
@@ -61,13 +76,19 @@ class DriverDashboard extends Component {
 
   render() {
     return (
-      <OrderTable orders={this.state.orders} acceptOrder={this.acceptOrder} />
+      <React.Fragment>
+        <h1>Available Orders</h1>
+        <OrderTable
+          orders={this.state.orders}
+          handlePickupAccept={this.handlePickupAccept}
+        />
+      </React.Fragment>
     );
   }
 }
 
-DriverDashboard.propTypes = {
+MainDashboard.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(driverDashboardStyles)(DriverDashboard);
+export default withStyles(mainDashboardStyles)(MainDashboard);

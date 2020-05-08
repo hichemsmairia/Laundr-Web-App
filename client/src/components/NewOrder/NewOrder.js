@@ -381,7 +381,7 @@ class NewOrder extends Component {
     let addressPrefs = this.evaluateWhitespace(this.state.addressPreferences);
     let pickupDate = this.state.date;
     let pickupTime = this.state.formattedTime;
-    let weight = 99.99; //todo: be changed when functionality added
+    //let weight = 99.99; //todo: be changed when functionality added
     let cost = 99.99; //todo: be changed when functionality added
     let created = new Date();
 
@@ -403,7 +403,6 @@ class NewOrder extends Component {
         addressPrefs,
         pickupDate,
         pickupTime,
-        weight,
         cost,
         created,
       })

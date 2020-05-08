@@ -44,34 +44,51 @@ const OrderSchema = new mongoose.Schema({
       required: true,
       unique: false,
     },
-    washerPrefs: {
+    prefs: {
       type: String,
       required: true,
       unique: false,
     },
-  },
-  driverInfo: {
     address: {
       type: String,
       required: true,
       unique: false,
     },
-    addressPrefs: {
+  },
+  pickupInfo: {
+    prefs: {
       type: String,
       required: true,
       unique: false,
     },
-    pickupDate: {
+    date: {
       type: String,
       required: true,
       unique: false,
     },
-    pickupTime: {
+    time: {
       type: String,
       required: true,
       unique: false,
     },
-    pickupDriverEmail: {
+    driverEmail: {
+      type: String,
+      required: true,
+      unique: false,
+    },
+  },
+  dropoffInfo: {
+    date: {
+      type: String,
+      required: true,
+      unique: false,
+    },
+    time: {
+      type: String,
+      required: true,
+      unique: false,
+    },
+    driverEmail: {
       type: String,
       required: true,
       unique: false,
@@ -89,7 +106,7 @@ const OrderSchema = new mongoose.Schema({
       unique: false,
     },
     weight: {
-      type: Number,
+      type: String,
       required: true,
       unique: false,
     },
@@ -100,6 +117,11 @@ const OrderSchema = new mongoose.Schema({
     },
     created: {
       type: Date,
+      required: true,
+      unique: false,
+    },
+    address: {
+      type: String,
       required: true,
       unique: false,
     },
