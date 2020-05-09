@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import Login from "./views/login";
 import Register from "./views/register";
 import UserDashboard from "./views/userDashboard";
+import Account from "./views/account";
 
 import { Main as MainLayout } from "./components/layouts";
 import RouteWithLayout from "./components/RouteWithLayout";
@@ -19,6 +20,7 @@ export default class App extends Component {
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/userDashboard" component={UserDashboard} />
+          <Route exact path="/account" component={Account} />
           <ThemeProvider theme={theme}>
             <RouteWithLayout
               component={UserDashboard}
