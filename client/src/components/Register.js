@@ -37,8 +37,8 @@ import baseURL from "../baseURL";
 //todo: get loading from resending code to hover rather than appear?
 //todo: check over views on mobile, maybe resize logo to fit just a bit more
 //todo: change token time to infinite(?) when implementing
-//todo: split states into different objects
 //todo: change loader to a backdrop
+//todo: give error msg when wrong phone number entered (you get an error code from twilio controller)
 
 //in backend, caught errors = return error.code and success false. in frontend, if success is false, print error: message from the response which should be said code
 //in frontend, caught errors = use error itself and alert error: error

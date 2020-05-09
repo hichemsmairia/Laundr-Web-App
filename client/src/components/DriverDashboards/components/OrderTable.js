@@ -27,6 +27,8 @@ import {
 import Close from "@material-ui/icons/Close";
 import orderTableStyles from "../../../styles/DriverDashboards/components/orderTableStyles";
 
+//todo: change snackbars to https://github.com/iamhosseindhv/notistack to make it prettier
+
 class OrderTable extends Component {
   constructor(props) {
     super(props);
@@ -44,11 +46,15 @@ class OrderTable extends Component {
 
   renderStage = (stage) => {
     if (stage === 0) {
-      return "Pickup";
+      return "User Pickup";
     } else if (stage === 1) {
       return "Weighing";
     } else if (stage === 2) {
       return "Washer Dropoff";
+    } else if (stage === 4) {
+      return "Washer Pickup";
+    } else if (stage === 5) {
+      return "Dropoff";
     }
   };
 
@@ -59,6 +65,10 @@ class OrderTable extends Component {
       return "Enter Weight";
     } else if (stage === 2) {
       return "Delivered to Washer";
+    } else if (stage === 4) {
+      return "Accept";
+    } else if (stage === 5) {
+      return "Delivered to User";
     }
   };
 
@@ -75,6 +85,16 @@ class OrderTable extends Component {
           dialogTitle: "Enter Weight",
         });
       } else if (stage === 2) {
+        this.setState({
+          dialog: true,
+          dialogTitle: "Confirmation",
+        });
+      } else if (stage === 4) {
+        this.setState({
+          dialog: true,
+          dialogTitle: "Confirmation",
+        });
+      } else if (stage === 5) {
         this.setState({
           dialog: true,
           dialogTitle: "Confirmation",
@@ -133,6 +153,35 @@ class OrderTable extends Component {
           <React.Fragment>
             <Typography variant="body1">
               Plese confirm that you have delivered the order to the washer.
+            </Typography>
+          </React.Fragment>
+        );
+      } else if (status === 4) {
+        return (
+          <React.Fragment>
+            <Typography variant="body1">
+              Plese confirm that you are accepting an order from the following
+              user for final delivery:&nbsp;
+            </Typography>
+            <Typography
+              variant="body1"
+              style={{ fontWeight: 600, textAlign: "center" }}
+            >
+              {`${order.userInfo.fname} ${order.userInfo.lname}`}
+            </Typography>
+          </React.Fragment>
+        );
+      } else if (status === 5) {
+        return (
+          <React.Fragment>
+            <Typography variant="body1">
+              Plese confirm that you have delivered the order to:
+            </Typography>
+            <Typography
+              variant="body1"
+              style={{ fontWeight: 600, textAlign: "center" }}
+            >
+              {`${order.userInfo.fname} ${order.userInfo.lname}`}
             </Typography>
           </React.Fragment>
         );
@@ -197,7 +246,67 @@ class OrderTable extends Component {
             <Button onClick={this.handleDialogClose} color="primary">
               Cancel
             </Button>
-            <Button color="primary">Confirm</Button>
+            <Button
+              onClick={async () => {
+                let success = await this.props.handleWasherReceived(
+                  this.state.currentOrder
+                );
+                if (success) {
+                  this.renderWasherReceivedMsg();
+                } else {
+                  this.renderWasherReceivedErrorMsg();
+                }
+              }}
+              color="primary"
+            >
+              Confirm
+            </Button>
+          </React.Fragment>
+        );
+      } else if (status === 4) {
+        return (
+          <React.Fragment>
+            <Button onClick={this.handleDialogClose} color="primary">
+              Cancel
+            </Button>
+            <Button
+              onClick={async () => {
+                let success = await this.props.handleDropoffAccept(
+                  this.state.currentOrder
+                );
+                if (success) {
+                  this.renderAcceptedMsg();
+                } else {
+                  this.renderErrorAcceptMsg();
+                }
+              }}
+              color="primary"
+            >
+              Confirm
+            </Button>
+          </React.Fragment>
+        );
+      } else if (status === 5) {
+        return (
+          <React.Fragment>
+            <Button onClick={this.handleDialogClose} color="primary">
+              Cancel
+            </Button>
+            <Button
+              onClick={async () => {
+                let success = await this.props.handleUserReceived(
+                  this.state.currentOrder
+                );
+                if (success) {
+                  this.renderUserReceivedMsg();
+                } else {
+                  this.renderUserReceivedErrorMsg();
+                }
+              }}
+              color="primary"
+            >
+              Confirm
+            </Button>
           </React.Fragment>
         );
       }
@@ -252,6 +361,48 @@ class OrderTable extends Component {
         openSnackbar: true,
         snackbarMessage: "Error with entering weight - please contact us.",
         snackbarSuccess: false,
+      });
+    });
+  };
+
+  renderWasherReceivedMsg = () => {
+    this.setState({ dialog: false }, () => {
+      this.setState({
+        openSnackbar: true,
+        snackbarMessage: "Successfully confirmed delivery to washer!",
+        snackbarSuccess: true,
+      });
+    });
+  };
+
+  renderWasherReceivedErrorMsg = () => {
+    this.setState({ dialog: false }, () => {
+      this.setState({
+        openSnackbar: true,
+        snackbarMessage:
+          "Error with washer delivery confirmation - please contact us.",
+        snackbarSuccess: false,
+      });
+    });
+  };
+
+  renderUserReceivedMsg = () => {
+    this.setState({ dialog: false }, () => {
+      this.setState({
+        openSnackbar: true,
+        snackbarMessage: "Successfully confirmed delivery to user!",
+        snackbarSuccess: true,
+      });
+    });
+  };
+
+  renderUserReceivedErrorMsg = () => {
+    this.setState({ dialog: false }, () => {
+      this.setState({
+        openSnackbar: true,
+        snackbarMessage:
+          "Error with user delivery confirmation - please contact us.",
+        snackbarSuccess: true,
       });
     });
   };
@@ -373,9 +524,11 @@ class OrderTable extends Component {
               horizontal: "center",
             }}
             open={this.state.openSnackbar}
-            autoHideDuration={10000}
-            onClose={() => {
-              this.setState({ openSnackbar: false });
+            autoHideDuration={6000}
+            onClose={(event, reason) => {
+              if (reason !== "clickaway") {
+                this.setState({ openSnackbar: false });
+              }
             }}
             message={this.state.snackbarMessage}
             action={

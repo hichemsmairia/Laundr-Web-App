@@ -54,6 +54,9 @@ const register = (req, res) => {
     phone: req.body.phone,
     password: req.body.password,
     usedReferral: req.body.referral,
+    isWasher: false,
+    isDriver: false,
+    isAdmin: false,
   })
     .then((user) => {
       if (user) {

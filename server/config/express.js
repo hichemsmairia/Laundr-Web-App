@@ -7,6 +7,7 @@ const path = require("path"),
   userRoutes = require("../routes/userRoutes"),
   orderRoutes = require("../routes/orderRoutes"),
   driverRoutes = require("../routes/driverRoutes"),
+  washerRoutes = require("../routes/washerRoutes"),
   cors = require("cors");
 
 module.exports.init = () => {
@@ -41,6 +42,7 @@ module.exports.init = () => {
   app.use("/api/user", userRoutes);
   app.use("/api/order", orderRoutes);
   app.use("/api/driver", driverRoutes);
+  app.use("/api/washer", washerRoutes);
 
   //for production build
   if (process.env.NODE_ENV === "production") {

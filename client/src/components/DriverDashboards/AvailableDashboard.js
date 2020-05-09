@@ -5,7 +5,7 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 import OrderTable from "./components/OrderTable";
 import baseURL from "../../baseURL";
-import mainDashboardStyles from "../../styles/DriverDashboards/mainDashboardStyles";
+import availableDashboardStyles from "../../styles/DriverDashboards/availableDashboardStyles";
 
 //todo: add isDriver to user, also iswasher, etc.
 //todo: conditional redirects
@@ -21,7 +21,7 @@ import mainDashboardStyles from "../../styles/DriverDashboards/mainDashboardStyl
 
 //only display status 0 and 4, ones able to be "accepted"
 
-class MainDashboard extends Component {
+class AvailableDashboard extends Component {
   constructor(props) {
     super(props);
 
@@ -59,7 +59,30 @@ class MainDashboard extends Component {
 
     let success;
     await axios
-      .post(baseURL + "/driver/assignOrder", { driverEmail, orderID })
+      .post(baseURL + "/driver/assignOrderPickup", { driverEmail, orderID })
+      .then((res) => {
+        if (res.data.success) {
+          success = true;
+        } else {
+          success = false;
+        }
+      })
+      .catch((error) => {
+        alert("Error: " + error);
+      });
+
+    return success;
+  };
+
+  handleDropoffAccept = async (order) => {
+    let token = localStorage.getItem("token");
+    const data = jwtDecode(token);
+    let driverEmail = data.email;
+    let orderID = order.orderInfo.orderID;
+
+    let success;
+    await axios
+      .post(baseURL + "/driver/assignOrderDropoff", { driverEmail, orderID })
       .then((res) => {
         if (res.data.success) {
           success = true;
@@ -83,14 +106,15 @@ class MainDashboard extends Component {
         <OrderTable
           orders={this.state.orders}
           handlePickupAccept={this.handlePickupAccept}
+          handleDropoffAccept={this.handleDropoffAccept}
         />
       </React.Fragment>
     );
   }
 }
 
-MainDashboard.propTypes = {
+AvailableDashboard.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(mainDashboardStyles)(MainDashboard);
+export default withStyles(availableDashboardStyles)(AvailableDashboard);

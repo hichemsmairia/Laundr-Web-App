@@ -61,6 +61,11 @@ class Login extends Component {
     };
   }
 
+  componentDidMount = () => {
+    //for simulating a logout, must relog every time during development
+    localStorage.clear();
+  };
+
   handleSubmit = (event) => {
     event.preventDefault();
 

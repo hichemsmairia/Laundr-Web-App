@@ -34,7 +34,8 @@ const placeOrder = async (req, res) => {
       separate: req.body.separate,
       towelsSheets: req.body.towelsSheets,
       prefs: req.body.washerPrefs,
-      address: "978 SW 2nd Ave, Gainesville, FL 32601",
+      address: "978 SW 2nd Ave, Gainesville, FL 32601", //default
+      email: "w1@gmail.com", //default
     },
     pickupInfo: {
       prefs: req.body.addressPrefs,

@@ -5,54 +5,69 @@ const UserSchema = new mongoose.Schema({
   email: {
     type: String,
     unique: true,
-    required: true
+    required: true,
   },
   fname: {
     type: String,
     unique: false,
-    required: true
+    required: true,
   },
   lname: {
     type: String,
     unique: false,
-    required: true
+    required: true,
   },
   city: {
     type: String,
     unique: false,
-    required: true
+    required: true,
   },
   phone: {
     type: String,
     unique: false,
-    required: true
+    required: true,
   },
   password: {
     type: String,
     required: true,
-    unique: false
+    unique: false,
   },
   usedReferral: {
     type: String,
     required: false,
-    unique: false
-  }
+    unique: false,
+  },
+  isWasher: {
+    type: Boolean,
+    required: true,
+    unique: false,
+  },
+  isDriver: {
+    type: Boolean,
+    required: true,
+    unique: false,
+  },
+  isAdmin: {
+    type: Boolean,
+    required: true,
+    unique: false,
+  },
 });
 
 //the following password methods need to be before "const User..."
 //adds method to user to create hashed password
-UserSchema.methods.generateHash = function(password) {
+UserSchema.methods.generateHash = function (password) {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(8));
 };
 
 //adds method to user to check if password is correct
-UserSchema.methods.validPassword = function(password) {
+UserSchema.methods.validPassword = function (password) {
   return bcrypt.compareSync(password, this.password);
 };
 
 //had to add this, checks if password was changed before saving
 //before user saved in db
-UserSchema.pre("save", function(next) {
+UserSchema.pre("save", function (next) {
   if (this.isModified("password")) {
     this.password = this.generateHash(this.password);
   }

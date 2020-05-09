@@ -4,8 +4,9 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import UserDashboard from "./components/UserDashboard";
 import NewOrder from "./components/NewOrder/NewOrder";
-import MainDriverDashboard from "./components/DriverDashboards/MainDashboard";
+import AvailableDriverDashboard from "./components/DriverDashboards/AvailableDashboard";
 import AcceptedDriverDashboard from "./components/DriverDashboards/AcceptedDashboard";
+import AssignedWasherDashboard from "./components/WasherDashboards/AssignedDashboard";
 import theme from "./theme";
 import { ThemeProvider } from "@material-ui/styles";
 import { Main as MainLayout } from "./layouts";
@@ -22,25 +23,25 @@ export default class App extends Component {
           <Route exact path="/login" component={Login} />
           <Route exact path="/userDashboard" component={UserDashboard} />
           <Route exact path="/newOrderTest" component={NewOrder} />
-          <Route exact path="/driverMainDash" component={MainDriverDashboard} />
-          <Route
-            exact
-            path="/driverAcceptDash"
-            component={MainDriverDashboard}
-          />
           <ThemeProvider theme={theme}>
             <Switch>
               <RouteWithLayout
-                component={MainDriverDashboard}
+                component={AvailableDriverDashboard}
                 exact
                 layout={MainLayout}
-                path="/driverMainDashTheme"
+                path="/driverAvailableDashTheme"
               />
               <RouteWithLayout
                 component={AcceptedDriverDashboard}
                 exact
                 layout={MainLayout}
                 path="/driverAcceptDashTheme"
+              />
+              <RouteWithLayout
+                component={AssignedWasherDashboard}
+                exact
+                layout={MainLayout}
+                path="/washerAssignedDashTheme"
               />
               <Route path="/">
                 <Redirect to="/login" />
