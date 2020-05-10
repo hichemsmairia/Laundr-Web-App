@@ -354,7 +354,8 @@ class Register extends Component {
   handleVerifySubmit = () => {
     console.log("typed: " + this.state.checkCode);
     console.log("real: " + this.state.verifyCode);
-    if (this.state.verifyCode == this.state.checkCode) {
+
+    if (this.state.verifyCode === this.state.checkCode) {
       this.handleRegister(
         this.state.email.toLowerCase(), //users saved with lowercase email
         this.state.fname,
