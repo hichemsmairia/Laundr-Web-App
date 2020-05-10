@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { withStyles, Typography } from "@material-ui/core";
+import {
+  withStyles,
+  Typography,
+  Backdrop,
+  CircularProgress,
+} from "@material-ui/core";
 import PropTypes from "prop-types";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
@@ -28,35 +33,43 @@ class AcceptedDashboard extends Component {
   }
 
   componentDidMount = async () => {
-    let token = localStorage.getItem("token");
-    const data = jwtDecode(token);
-    let driverEmail = data.email;
+    this.getOrders();
+  };
 
-    await axios
-      .get(baseURL + "/order/getOrders", {})
-      .then((res) => {
-        if (res.data.success) {
-          console.log("list of orders:");
-          console.log(res.data.message);
+  getOrders = () => {
+    this.setState({ showLoading: true }, async () => {
+      let token = localStorage.getItem("token");
+      const data = jwtDecode(token);
+      let driverEmail = data.email;
 
-          //filter only status 1 and 2 of orders assigned to the logged in driver
-          let filteredOrders = res.data.message.filter((order) => {
-            return (
-              (order.orderInfo.status === 1 ||
-                order.orderInfo.status === 2 ||
-                order.orderInfo.status === 5) &&
-              order.pickupInfo.driverEmail === driverEmail
-            );
-          });
+      await axios
+        .get(baseURL + "/order/getOrders", {})
+        .then((res) => {
+          if (res.data.success) {
+            console.log("list of orders:");
+            console.log(res.data.message);
 
-          this.setState({ orders: filteredOrders });
-        } else {
-          alert("Error with fetching orders, please contact us.");
-        }
-      })
-      .catch((error) => {
-        alert("Error: " + error);
-      });
+            //filter only status 1, 2, 5 of orders assigned to the logged in driver
+            let filteredOrders = res.data.message.filter((order) => {
+              return (
+                (order.orderInfo.status === 1 ||
+                  order.orderInfo.status === 2 ||
+                  order.orderInfo.status === 5) &&
+                order.pickupInfo.driverEmail === driverEmail
+              );
+            });
+
+            this.setState({ orders: filteredOrders }, () => {
+              this.setState({ showLoading: false });
+            });
+          } else {
+            alert("Error with fetching orders, please contact us.");
+          }
+        })
+        .catch((error) => {
+          alert("Error: " + error);
+        });
+    });
   };
 
   handleWeightChange = (weight) => {
@@ -131,6 +144,8 @@ class AcceptedDashboard extends Component {
   };
 
   render() {
+    const classes = this.props.classes;
+
     return (
       <React.Fragment>
         <Typography variant="h1" gutterBottom>
@@ -138,12 +153,16 @@ class AcceptedDashboard extends Component {
         </Typography>
         <OrderTable
           orders={this.state.orders}
+          getOrders={this.getOrders}
           weight={this.state.weight}
           handleWeightChange={this.handleWeightChange}
           handleWeightEntered={this.handleWeightEntered}
           handleWasherReceived={this.handleWasherReceived}
           handleUserReceived={this.handleUserReceived}
         />
+        <Backdrop className={classes.backdrop} open={this.state.showLoading}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
       </React.Fragment>
     );
   }

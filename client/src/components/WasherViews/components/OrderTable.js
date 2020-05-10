@@ -132,7 +132,8 @@ class OrderTable extends Component {
   };
 
   renderDoneMsg = () => {
-    this.setState({ dialog: false }, () => {
+    this.setState({ dialog: false }, async () => {
+      await this.props.getOrders();
       this.setState({
         openSnackbar: true,
         snackbarMessage: "Successfully confirmed completion!",

@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { withStyles, Typography } from "@material-ui/core";
+import {
+  withStyles,
+  Typography,
+  Backdrop,
+  CircularProgress,
+} from "@material-ui/core";
 import PropTypes from "prop-types";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
@@ -25,30 +30,40 @@ class AvailableDashboard extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { orders: [] };
+    this.state = { orders: [], showLoading: false };
   }
 
   componentDidMount = async () => {
-    await axios
-      .get(baseURL + "/order/getOrders", {})
-      .then((res) => {
-        if (res.data.success) {
-          console.log("list of orders:");
-          console.log(res.data.message);
+    this.getOrders();
+  };
 
-          //filter only status 0 and 4
-          let filteredOrders = res.data.message.filter((order) => {
-            return order.orderInfo.status === 0 || order.orderInfo.status === 4;
-          });
+  getOrders = () => {
+    this.setState({ showLoading: true }, async () => {
+      await axios
+        .get(baseURL + "/order/getOrders", {})
+        .then((res) => {
+          if (res.data.success) {
+            console.log("list of orders:");
+            console.log(res.data.message);
 
-          this.setState({ orders: filteredOrders });
-        } else {
-          alert("Error with fetching orders, please contact us.");
-        }
-      })
-      .catch((error) => {
-        alert("Error: " + error);
-      });
+            //filter only status 0 and 4
+            let filteredOrders = res.data.message.filter((order) => {
+              return (
+                order.orderInfo.status === 0 || order.orderInfo.status === 4
+              );
+            });
+
+            this.setState({ orders: filteredOrders }, () => {
+              this.setState({ showLoading: false });
+            });
+          } else {
+            alert("Error with fetching orders, please contact us.");
+          }
+        })
+        .catch((error) => {
+          alert("Error: " + error);
+        });
+    });
   };
 
   handlePickupAccept = async (order) => {
@@ -98,6 +113,8 @@ class AvailableDashboard extends Component {
   };
 
   render() {
+    const classes = this.props.classes;
+
     return (
       <React.Fragment>
         <Typography variant="h1" gutterBottom>
@@ -105,9 +122,13 @@ class AvailableDashboard extends Component {
         </Typography>
         <OrderTable
           orders={this.state.orders}
+          getOrders={this.getOrders}
           handlePickupAccept={this.handlePickupAccept}
           handleDropoffAccept={this.handleDropoffAccept}
         />
+        <Backdrop className={classes.backdrop} open={this.state.showLoading}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
       </React.Fragment>
     );
   }

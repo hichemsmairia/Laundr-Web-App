@@ -325,7 +325,8 @@ class OrderTable extends Component {
   };
 
   renderAcceptedMsg = () => {
-    this.setState({ dialog: false }, () => {
+    this.setState({ dialog: false }, async () => {
+      await this.props.getOrders();
       this.setState({
         openSnackbar: true,
         snackbarMessage: "Order successfully accepted!",
@@ -346,7 +347,8 @@ class OrderTable extends Component {
   };
 
   renderWeightSuccessMsg = () => {
-    this.setState({ dialog: false }, () => {
+    this.setState({ dialog: false }, async () => {
+      await this.props.getOrders();
       this.setState({
         openSnackbar: true,
         snackbarMessage: "Weight successfully entered!",
@@ -366,7 +368,8 @@ class OrderTable extends Component {
   };
 
   renderWasherReceivedMsg = () => {
-    this.setState({ dialog: false }, () => {
+    this.setState({ dialog: false }, async () => {
+      await this.props.getOrders();
       this.setState({
         openSnackbar: true,
         snackbarMessage: "Successfully confirmed delivery to washer!",
@@ -387,7 +390,8 @@ class OrderTable extends Component {
   };
 
   renderUserReceivedMsg = () => {
-    this.setState({ dialog: false }, () => {
+    this.setState({ dialog: false }, async () => {
+      await this.props.getOrders();
       this.setState({
         openSnackbar: true,
         snackbarMessage: "Successfully confirmed delivery to user!",
