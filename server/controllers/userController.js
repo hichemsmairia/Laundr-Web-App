@@ -16,7 +16,7 @@ const checkDuplicate = async (req, res) => {
     .catch((error) => {
       return res.json({
         success: false,
-        message: error.code,
+        message: error,
       });
     });
 
@@ -29,7 +29,7 @@ const checkDuplicate = async (req, res) => {
     .catch((error) => {
       return res.json({
         success: false,
-        message: error.code,
+        message: error,
       });
     });
 
@@ -69,7 +69,7 @@ const register = (req, res) => {
       }
     })
     .catch((error) => {
-      return res.json({ success: false, message: error.code });
+      return res.json({ success: false, message: error });
     });
 };
 
@@ -94,7 +94,7 @@ const login = (req, res) => {
     .catch((error) => {
       return res.json({
         success: false,
-        message: error.code,
+        message: error,
       });
     });
 };

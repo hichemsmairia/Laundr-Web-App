@@ -3,7 +3,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import UserDashboard from "./components/UserDashboard";
-import NewOrder from "./components/NewOrder/NewOrder";
+import NewOrder from "./components/UserViews/NewOrder/NewOrder";
 import AvailableDriverDashboard from "./components/DriverViews/AvailableDashboard";
 import AcceptedDriverDashboard from "./components/DriverViews/AcceptedDashboard";
 import AssignedWasherDashboard from "./components/WasherViews/AssignedDashboard";
@@ -36,7 +36,7 @@ export default class App extends Component {
                 component={AcceptedDriverDashboard}
                 exact
                 layout={MainLayout}
-                path="/driverAccept"
+                path="/driverAccepted"
               />
               <RouteWithLayout
                 component={AssignedWasherDashboard}

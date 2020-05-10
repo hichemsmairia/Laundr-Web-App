@@ -40,7 +40,7 @@ const assignOrderPickup = async (req, res) => {
             .catch((error) => {
               return res.json({
                 success: false,
-                message: error.code,
+                message: error,
               });
             });
         } else {
@@ -57,7 +57,7 @@ const assignOrderPickup = async (req, res) => {
       }
     })
     .catch((error) => {
-      return res.json({ success: false, message: error.code });
+      return res.json({ success: false, message: error });
     });
   /*
   console.log(
@@ -98,7 +98,7 @@ const updateOrderWeight = async (req, res) => {
             .catch((error) => {
               return res.json({
                 success: false,
-                message: error.code,
+                message: error,
               });
             });
         } else {
@@ -115,7 +115,7 @@ const updateOrderWeight = async (req, res) => {
       }
     })
     .catch((error) => {
-      return res.json({ success: false, message: error.code });
+      return res.json({ success: false, message: error });
     });
 };
 
@@ -151,7 +151,7 @@ const setWasherDelivered = async (req, res) => {
             .catch((error) => {
               return res.json({
                 success: false,
-                message: error.code,
+                message: error,
               });
             });
         } else {
@@ -168,7 +168,7 @@ const setWasherDelivered = async (req, res) => {
       }
     })
     .catch((error) => {
-      return res.json({ success: false, message: error.code });
+      return res.json({ success: false, message: error });
     });
 };
 
@@ -205,7 +205,7 @@ const assignOrderDropoff = async (req, res) => {
             .catch((error) => {
               return res.json({
                 success: false,
-                message: error.code,
+                message: error,
               });
             });
         } else {
@@ -222,7 +222,7 @@ const assignOrderDropoff = async (req, res) => {
       }
     })
     .catch((error) => {
-      return res.json({ success: false, message: error.code });
+      return res.json({ success: false, message: error });
     });
 };
 
@@ -258,7 +258,7 @@ const setUserDelivered = async (req, res) => {
             .catch((error) => {
               return res.json({
                 success: false,
-                message: error.code,
+                message: error,
               });
             });
         } else {
@@ -275,7 +275,7 @@ const setUserDelivered = async (req, res) => {
       }
     })
     .catch((error) => {
-      return res.json({ success: false, message: error.code });
+      return res.json({ success: false, message: error });
     });
 };
 

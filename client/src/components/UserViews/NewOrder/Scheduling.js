@@ -4,7 +4,7 @@ import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import { MuiPickersUtilsProvider, TimePicker } from "@material-ui/pickers";
 import PropTypes from "prop-types";
 import DateFnsUtils from "@date-io/date-fns";
-import schedulingStyles from "../../styles/NewOrder/schedulingStyles";
+import schedulingStyles from "../../../styles/NewOrder/schedulingStyles";
 
 class Scheduling extends Component {
   render() {

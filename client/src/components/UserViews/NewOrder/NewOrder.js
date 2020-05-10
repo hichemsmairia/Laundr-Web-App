@@ -24,13 +24,13 @@ import Preferences from "./Preferences";
 import Address from "./Address";
 import Pricing from "./Pricing";
 import Review from "./Review";
-import newOrderStyles from "../../styles/NewOrder/newOrderStyles";
-import baseURL from "../../baseURL";
+import newOrderStyles from "../../../styles/NewOrder/newOrderStyles";
+import baseURL from "../../../baseURL";
 
 const moment = require("moment");
 const geolib = require("geolib");
 const apiKEY =
-  process.env.GOOGLE_MAPS_API_KEY || require("../../config").google.mapsKEY;
+  process.env.GOOGLE_MAPS_API_KEY || require("../../../config").google.mapsKEY;
 
 //todo: add functionality for orlando users, check which city user is from
 

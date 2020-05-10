@@ -10,13 +10,13 @@ import {
 import MUIPlacesAutocomplete from "mui-places-autocomplete";
 import GoogleMapReact from "google-map-react";
 import PropTypes from "prop-types";
-import addressStyles from "../../styles/NewOrder/addressStyles";
-import MarkerIcon from "../../images/NewOrder/Marker.png";
+import addressStyles from "../../../styles/NewOrder/addressStyles";
+import MarkerIcon from "../../../images/NewOrder/Marker.png";
 
 //todo: when on mobile, review goes outside of box
 
 const apiKEY =
-  process.env.GOOGLE_MAPS_API_KEY || require("../../config").google.mapsKEY;
+  process.env.GOOGLE_MAPS_API_KEY || require("../../../config").google.mapsKEY;
 
 const Marker = () => (
   <div>

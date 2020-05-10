@@ -32,7 +32,7 @@ const setWasherDone = async (req, res) => {
             .catch((error) => {
               return res.json({
                 success: false,
-                message: error.code,
+                message: error,
               });
             });
         } else {
@@ -49,7 +49,7 @@ const setWasherDone = async (req, res) => {
       }
     })
     .catch((error) => {
-      return res.json({ success: false, message: error.code });
+      return res.json({ success: false, message: error });
     });
 };
 

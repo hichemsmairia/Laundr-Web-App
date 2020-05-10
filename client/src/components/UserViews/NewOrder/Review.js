@@ -25,15 +25,15 @@ import QueryBuilderIcon from "@material-ui/icons/QueryBuilder";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import PropTypes from "prop-types";
-import reviewStyles from "../../styles/NewOrder/reviewStyles";
-import ScentedSelectedCircle from "../../images/NewOrder/ScentedSelectedCircle.png";
-import ScentedUnselectedCircle from "../../images/NewOrder/ScentedUnselectedCircle.png";
-import DelicatesSelectedCircle from "../../images/NewOrder/DelicatesSelectedCircle.png";
-import DelicatesUnselectedCircle from "../../images/NewOrder/DelicatesUnselectedCircle.png";
-import SeparateSelectedCircle from "../../images/NewOrder/SeparateSelectedCircle.png";
-import SeparateUnselectedCircle from "../../images/NewOrder/SeparateUnselectedCircle.png";
-import TowelsSelectedCircle from "../../images/NewOrder/TowelsSelectedCircle.png";
-import TowelsUnselectedCircle from "../../images/NewOrder/TowelsUnselectedCircle.png";
+import reviewStyles from "../../../styles/NewOrder/reviewStyles";
+import ScentedSelectedCircle from "../../../images/NewOrder/ScentedSelectedCircle.png";
+import ScentedUnselectedCircle from "../../../images/NewOrder/ScentedUnselectedCircle.png";
+import DelicatesSelectedCircle from "../../../images/NewOrder/DelicatesSelectedCircle.png";
+import DelicatesUnselectedCircle from "../../../images/NewOrder/DelicatesUnselectedCircle.png";
+import SeparateSelectedCircle from "../../../images/NewOrder/SeparateSelectedCircle.png";
+import SeparateUnselectedCircle from "../../../images/NewOrder/SeparateUnselectedCircle.png";
+import TowelsSelectedCircle from "../../../images/NewOrder/TowelsSelectedCircle.png";
+import TowelsUnselectedCircle from "../../../images/NewOrder/TowelsUnselectedCircle.png";
 
 const LightTooltip = withStyles((theme) => ({
   tooltip: {

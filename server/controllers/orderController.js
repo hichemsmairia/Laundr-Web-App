@@ -76,7 +76,7 @@ const placeOrder = async (req, res) => {
       }
     })
     .catch((error) => {
-      return res.json({ success: false, message: error.code });
+      return res.json({ success: false, message: error });
     });
 
   //todo: in future, handle payment stuff here as well? return false if payment fails, modify error msg on frontend to notify user
@@ -95,7 +95,7 @@ const getOrders = (req, res) => {
       }
     })
     .catch((error) => {
-      return res.json({ success: false, message: error.code });
+      return res.json({ success: false, message: error });
     });
 };
 

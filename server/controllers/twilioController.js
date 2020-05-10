@@ -28,7 +28,7 @@ const twilioVerify = (req, res) => {
       });
     })
     .catch((error) => {
-      return res.json({ success: false, message: error.code });
+      return res.json({ success: false, message: error });
     });
 };
 
