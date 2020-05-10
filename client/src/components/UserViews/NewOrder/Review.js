@@ -345,7 +345,7 @@ class Review extends React.Component {
                       variant="outlined"
                       size="small"
                     />
-                    {/*todo: to be changed when functionality added*/}
+                    {/*todo: to be changed when functionality added, typing in something atm breaks it*/}
                     <Button
                       style={{ textTransform: "none" }}
                       variant="outlined"

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import PerfectScrollbar from "react-perfect-scrollbar";
-import { makeStyles } from "@material-ui/styles";
 import {
   Card,
   CardActions,
@@ -12,14 +11,12 @@ import {
   TableHead,
   TableRow,
   Typography,
-  TablePagination,
   withStyles,
   TextField,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   Snackbar,
   IconButton,
