@@ -59,6 +59,11 @@ const OrderSchema = new mongoose.Schema({
       required: true,
       unique: false,
     },
+    phone: {
+      type: String,
+      required: true,
+      unique: false,
+    },
   },
   pickupInfo: {
     prefs: {

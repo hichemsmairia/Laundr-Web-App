@@ -152,6 +152,39 @@ class OrderTable extends Component {
     });
   };
 
+  renderWasherPrefs = (order) => {
+    let scented = order.washerInfo.scented;
+    let delicates = order.washerInfo.delicates;
+    let separate = order.washerInfo.separate;
+    let towelsSheets = order.washerInfo.towelsSheets;
+
+    let prefs = "";
+
+    if (scented) {
+      prefs += "Scented, ";
+    }
+
+    if (delicates) {
+      prefs += "Delicates, ";
+    }
+
+    if (separate) {
+      prefs += "Separate, ";
+    }
+
+    if (towelsSheets) {
+      prefs += "Towels and Sheets,";
+    }
+
+    if (towelsSheets) {
+      prefs = prefs.slice(0, prefs.length - 1);
+    } else {
+      prefs = prefs.slice(0, prefs.length - 2);
+    }
+
+    return prefs;
+  };
+
   render() {
     const classes = this.props.classes;
 
@@ -174,6 +207,7 @@ class OrderTable extends Component {
                     <TableCell align="left">Date/Time</TableCell>
                     <TableCell align="left">User Phone</TableCell>
                     <TableCell align="left">Instructions</TableCell>
+                    <TableCell align="left">Preferences</TableCell>
                     <TableCell align="left">Load Size</TableCell>
                     <TableCell align="left">Stage</TableCell>
                     <TableCell align="left">Actions</TableCell>
@@ -213,6 +247,7 @@ class OrderTable extends Component {
                       </TableCell>
                       <TableCell>{order.userInfo.phone}</TableCell>
                       <TableCell>{order.washerInfo.prefs}</TableCell>
+                      <TableCell>{this.renderWasherPrefs(order)}</TableCell>
                       <TableCell>{420}</TableCell>
                       <TableCell>
                         {this.renderStage(order.orderInfo.status)}

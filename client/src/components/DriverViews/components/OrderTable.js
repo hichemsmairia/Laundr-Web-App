@@ -428,7 +428,7 @@ class OrderTable extends Component {
                     <TableCell>Name</TableCell>
                     <TableCell align="left">Date/Time</TableCell>
                     <TableCell align="left">Address</TableCell>
-                    <TableCell align="left">User Phone</TableCell>
+                    <TableCell align="left">Phone</TableCell>
                     <TableCell align="left">Instructions</TableCell>
                     <TableCell align="left">Load Size</TableCell>
                     <TableCell align="left">Stage</TableCell>
@@ -489,7 +489,30 @@ class OrderTable extends Component {
                           </Typography>
                         </div>
                       </TableCell>
-                      <TableCell>{order.userInfo.phone}</TableCell>
+                      <TableCell>
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                          <Typography
+                            variant="body1"
+                            style={{ fontWeight: 600 }}
+                          >
+                            User:&nbsp;
+                          </Typography>
+                          <Typography variant="body1">
+                            {order.userInfo.phone}
+                          </Typography>
+                        </div>
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                          <Typography
+                            variant="body1"
+                            style={{ fontWeight: 600 }}
+                          >
+                            Washer:&nbsp;
+                          </Typography>
+                          <Typography variant="body1">
+                            {order.washerInfo.phone}
+                          </Typography>
+                        </div>
+                      </TableCell>
                       <TableCell>{order.pickupInfo.prefs}</TableCell>
                       <TableCell>{420}</TableCell>
                       <TableCell>

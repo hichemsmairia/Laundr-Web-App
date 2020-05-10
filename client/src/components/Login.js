@@ -124,7 +124,7 @@ class Login extends Component {
     this.setState({ password: password });
   };
 
-  evaluateEmailError = () => {
+  renderEmailError = () => {
     if (this.state.loginError) {
       return (
         <React.Fragment>
@@ -180,7 +180,7 @@ class Login extends Component {
     }
   };
 
-  evaluatePasswordError = () => {
+  renderPasswordError = () => {
     if (this.state.loginError) {
       return (
         <React.Fragment>
@@ -284,8 +284,8 @@ class Login extends Component {
             </DialogActions>
           </Dialog>
           <form className={classes.form} onSubmit={this.handleSubmit}>
-            {this.evaluateEmailError()}
-            {this.evaluatePasswordError()}
+            {this.renderEmailError()}
+            {this.renderPasswordError()}
             <Button
               type="submit"
               fullWidth

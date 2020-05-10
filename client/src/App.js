@@ -30,25 +30,25 @@ export default class App extends Component {
                 component={AvailableDriverDashboard}
                 exact
                 layout={MainLayout}
-                path="/driverAvailableDashTheme"
+                path="/driverAvailable"
               />
               <RouteWithLayout
                 component={AcceptedDriverDashboard}
                 exact
                 layout={MainLayout}
-                path="/driverAcceptDashTheme"
+                path="/driverAccept"
               />
               <RouteWithLayout
                 component={AssignedWasherDashboard}
                 exact
                 layout={MainLayout}
-                path="/washerAssignedDashTheme"
+                path="/washerAssigned"
               />
               <RouteWithLayout
                 component={UserOrderStatus}
                 exact
                 layout={MainLayout}
-                path="/userOrderStatusTheme"
+                path="/userOrderStatus"
               />
               <Route path="/">
                 <Redirect to="/login" />
