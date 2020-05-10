@@ -222,7 +222,7 @@ class NewOrder extends Component {
       canNext = false;
     } else if (
       this.state.todaySelected &&
-      hourFromNow.isAfter(moment("17:00:00", "HH:mm:ss"))
+      hourFromNow.isAfter(moment("19:00:00", "HH:mm:ss"))
     ) {
       //if selected today and its after 7 PM
       this.setState({

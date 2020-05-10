@@ -4,9 +4,10 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import UserDashboard from "./components/UserDashboard";
 import NewOrder from "./components/NewOrder/NewOrder";
-import AvailableDriverDashboard from "./components/DriverDashboards/AvailableDashboard";
-import AcceptedDriverDashboard from "./components/DriverDashboards/AcceptedDashboard";
-import AssignedWasherDashboard from "./components/WasherDashboards/AssignedDashboard";
+import AvailableDriverDashboard from "./components/DriverViews/AvailableDashboard";
+import AcceptedDriverDashboard from "./components/DriverViews/AcceptedDashboard";
+import AssignedWasherDashboard from "./components/WasherViews/AssignedDashboard";
+import UserOrderStatus from "./components/UserViews/OrderStatus";
 import theme from "./theme";
 import { ThemeProvider } from "@material-ui/styles";
 import { Main as MainLayout } from "./layouts";
@@ -42,6 +43,12 @@ export default class App extends Component {
                 exact
                 layout={MainLayout}
                 path="/washerAssignedDashTheme"
+              />
+              <RouteWithLayout
+                component={UserOrderStatus}
+                exact
+                layout={MainLayout}
+                path="/userOrderStatusTheme"
               />
               <Route path="/">
                 <Redirect to="/login" />

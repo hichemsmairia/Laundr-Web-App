@@ -402,7 +402,7 @@ class OrderTable extends Component {
         openSnackbar: true,
         snackbarMessage:
           "Error with user delivery confirmation - please contact us.",
-        snackbarSuccess: true,
+        snackbarSuccess: false,
       });
     });
   };
