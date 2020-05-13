@@ -25,7 +25,7 @@ import QueryBuilderIcon from "@material-ui/icons/QueryBuilder";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import PropTypes from "prop-types";
-import reviewStyles from "../../../styles/NewOrder/reviewStyles";
+import reviewStyles from "../../../styles/User/NewOrder/reviewStyles";
 import ScentedSelectedCircle from "../../../images/NewOrder/ScentedSelectedCircle.png";
 import ScentedUnselectedCircle from "../../../images/NewOrder/ScentedUnselectedCircle.png";
 import DelicatesSelectedCircle from "../../../images/NewOrder/DelicatesSelectedCircle.png";

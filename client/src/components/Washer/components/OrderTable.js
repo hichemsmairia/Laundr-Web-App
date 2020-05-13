@@ -21,7 +21,7 @@ import {
   IconButton,
 } from "@material-ui/core";
 import Close from "@material-ui/icons/Close";
-import orderTableStyles from "../../../styles/WasherDashboards/components/orderTableStyles";
+import orderTableStyles from "../../../styles/Washer/components/orderTableStyles";
 
 class OrderTable extends Component {
   constructor(props) {

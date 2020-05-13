@@ -10,7 +10,10 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 import OrderTable from "./components/OrderTable";
 import baseURL from "../../baseURL";
-import assignedDashboardStyles from "../../styles/WasherDashboards/assignedDashboardStyles";
+import availableDashboardStyles from "../../styles/Driver/availableDashboardStyles";
+
+//todo: add isDriver to user, also iswasher, etc.
+//todo: conditional redirects
 
 //0: order just placed
 //1: order accepted by driver to be picked up from user
@@ -23,7 +26,7 @@ import assignedDashboardStyles from "../../styles/WasherDashboards/assignedDashb
 
 //only display status 0 and 4, ones able to be "accepted"
 
-class AssignedDashboard extends Component {
+class AvailableDashboard extends Component {
   constructor(props) {
     super(props);
 
@@ -36,10 +39,6 @@ class AssignedDashboard extends Component {
 
   getOrders = () => {
     this.setState({ showLoading: true }, async () => {
-      let token = localStorage.getItem("token");
-      const data = jwtDecode(token);
-      let washerEmail = data.email;
-
       await axios
         .get(baseURL + "/order/getOrders", {})
         .then((res) => {
@@ -47,11 +46,10 @@ class AssignedDashboard extends Component {
             console.log("list of orders:");
             console.log(res.data.message);
 
-            //filter only status 3 and assigned to logged in washer
+            //filter only status 0 and 4
             let filteredOrders = res.data.message.filter((order) => {
               return (
-                order.orderInfo.status === 3 &&
-                order.washerInfo.email === washerEmail
+                order.orderInfo.status === 0 || order.orderInfo.status === 4
               );
             });
 
@@ -68,12 +66,38 @@ class AssignedDashboard extends Component {
     });
   };
 
-  handleWasherDone = async (order) => {
+  handlePickupAccept = async (order) => {
+    let token = localStorage.getItem("token");
+    const data = jwtDecode(token);
+    let driverEmail = data.email;
     let orderID = order.orderInfo.orderID;
-    let success;
 
+    let success;
     await axios
-      .post(baseURL + "/washer/setWasherDone", { orderID })
+      .post(baseURL + "/driver/assignOrderPickup", { driverEmail, orderID })
+      .then((res) => {
+        if (res.data.success) {
+          success = true;
+        } else {
+          success = false;
+        }
+      })
+      .catch((error) => {
+        alert("Error: " + error);
+      });
+
+    return success;
+  };
+
+  handleDropoffAccept = async (order) => {
+    let token = localStorage.getItem("token");
+    const data = jwtDecode(token);
+    let driverEmail = data.email;
+    let orderID = order.orderInfo.orderID;
+
+    let success;
+    await axios
+      .post(baseURL + "/driver/assignOrderDropoff", { driverEmail, orderID })
       .then((res) => {
         if (res.data.success) {
           success = true;
@@ -94,12 +118,13 @@ class AssignedDashboard extends Component {
     return (
       <React.Fragment>
         <Typography variant="h1" gutterBottom>
-          Assigned Orders
+          Available Orders
         </Typography>
         <OrderTable
           orders={this.state.orders}
           getOrders={this.getOrders}
-          handleWasherDone={this.handleWasherDone}
+          handlePickupAccept={this.handlePickupAccept}
+          handleDropoffAccept={this.handleDropoffAccept}
         />
         <Backdrop className={classes.backdrop} open={this.state.showLoading}>
           <CircularProgress color="inherit" />
@@ -109,8 +134,8 @@ class AssignedDashboard extends Component {
   }
 }
 
-AssignedDashboard.propTypes = {
+AvailableDashboard.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(assignedDashboardStyles)(AssignedDashboard);
+export default withStyles(availableDashboardStyles)(AvailableDashboard);

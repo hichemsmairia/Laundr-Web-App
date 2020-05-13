@@ -24,7 +24,7 @@ import Preferences from "./Preferences";
 import Address from "./Address";
 import Pricing from "./Pricing";
 import Review from "./Review";
-import newOrderStyles from "../../../styles/NewOrder/newOrderStyles";
+import newOrderStyles from "../../../styles/User/NewOrder/newOrderStyles";
 import baseURL from "../../../baseURL";
 
 const moment = require("moment");
