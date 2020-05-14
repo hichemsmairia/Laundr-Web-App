@@ -8,6 +8,7 @@ import AvailableDriverDashboard from "./components/Driver/AvailableDashboard";
 import AcceptedDriverDashboard from "./components/Driver/AcceptedDashboard";
 import AssignedWasherDashboard from "./components/Washer/AssignedDashboard";
 import UserOrderStatus from "./components/User/OrderStatus/OrderStatus";
+import UserDashboardTest from "./components/User/DashboardTest";
 import theme from "./theme";
 import { ThemeProvider } from "@material-ui/styles";
 import { Main as MainLayout } from "./layouts";
@@ -49,6 +50,12 @@ export default class App extends Component {
                 exact
                 layout={MainLayout}
                 path="/userOrderStatus"
+              />
+              <RouteWithLayout
+                component={UserDashboardTest}
+                exact
+                layout={MainLayout}
+                path="/userDashTest"
               />
               <Route path="/">
                 <Redirect to="/login" />

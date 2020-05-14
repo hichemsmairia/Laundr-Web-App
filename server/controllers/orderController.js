@@ -99,4 +99,28 @@ const getOrders = (req, res) => {
     });
 };
 
-module.exports = { placeOrder, getOrders };
+const getCurrentOrder = async (req, res) => {
+  //find the order that isn't cancelled or done, should only ever be one. if more than one, undefined behavior since findOne returns only one
+  await Order.findOne({
+    "userInfo.email": req.body.userEmail,
+    "orderInfo.status": { $ne: 7, $ne: 6 },
+  })
+    .then(async (order) => {
+      if (order) {
+        return res.json({
+          success: true,
+          message: order,
+        });
+      } else {
+        return res.json({
+          success: true,
+          message: "N/A",
+        });
+      }
+    })
+    .catch((error) => {
+      return res.json({ success: false, message: error });
+    });
+};
+
+module.exports = { placeOrder, getOrders, getCurrentOrder };
