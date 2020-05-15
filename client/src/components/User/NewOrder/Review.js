@@ -23,7 +23,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import NotInterestedIcon from "@material-ui/icons/NotInterested";
 import QueryBuilderIcon from "@material-ui/icons/QueryBuilder";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
-import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
+import DateRangeIcon from "@material-ui/icons/DateRange";
 import PropTypes from "prop-types";
 import reviewStyles from "../../../styles/User/NewOrder/reviewStyles";
 import ScentedSelectedCircle from "../../../images/NewOrder/ScentedSelectedCircle.png";
@@ -160,7 +160,7 @@ class Review extends React.Component {
                 <Card className={classes.root} variant="outlined">
                   <CardContent className={classes.removePadding}>
                     <Typography gutterBottom>
-                      <CalendarTodayIcon
+                      <DateRangeIcon
                         fontSize="small"
                         style={{ marginBottom: -4 }}
                       />{" "}

@@ -9,11 +9,11 @@ import {
   StepConnector,
 } from "@material-ui/core";
 import clsx from "clsx";
-import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn";
-import DirectionsCarIcon from "@material-ui/icons/DirectionsCar";
-import CheckIcon from "@material-ui/icons/Check";
-import RoomIcon from "@material-ui/icons/Room";
-import LocalLaundryServiceIcon from "@material-ui/icons/LocalLaundryService";
+import DateRangeIcon from "@material-ui/icons/DateRange";
+import SettingsIcon from "@material-ui/icons/Settings";
+import HomeRoundedIcon from "@material-ui/icons/HomeRounded";
+import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+import RateReviewIcon from "@material-ui/icons/RateReview";
 import progressBarStyles from "../../../../styles/User/OrderStatus/components/progressBarStyles";
 
 //todo: use this card format as a basis for all other pages
@@ -70,11 +70,11 @@ const ColorlibStepIcon = (props) => {
   const { active, completed } = props;
 
   const icons = {
-    1: <AssignmentTurnedInIcon />,
-    2: <DirectionsCarIcon />,
-    3: <RoomIcon />,
-    4: <LocalLaundryServiceIcon />,
-    5: <DirectionsCarIcon />,
+    1: <DateRangeIcon />,
+    2: <SettingsIcon />,
+    3: <HomeRoundedIcon />,
+    4: <AttachMoneyIcon />,
+    5: <RateReviewIcon />,
   };
 
   return (
