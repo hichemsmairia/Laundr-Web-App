@@ -9,6 +9,26 @@ const placeOrder = async (req, res) => {
     message: "Testing order fail",
   });*/
 
+  await Order.countDocuments({})
+    .then((count) => {
+      if (count) {
+        console.log("1");
+        orderCount = count;
+      } else {
+        return res.json({
+          success: false,
+          message: "Error with getting number of total orders",
+        });
+      }
+    })
+    .catch((error) => {
+      return res.json({
+        success: false,
+        message: error,
+      });
+    });
+
+  /*
   await Order.countDocuments({}, (err, count) => {
     if (err) {
       return res.json({
@@ -16,11 +36,12 @@ const placeOrder = async (req, res) => {
         message: "Error with getting number of total orders: " + err,
       });
     } else {
+      console.log("2");
       orderCount = count;
     }
-  });
+  });*/
 
-  console.log("1");
+  console.log("2");
   Order.create({
     userInfo: {
       email: req.body.email,
@@ -61,7 +82,7 @@ const placeOrder = async (req, res) => {
   })
     .then((order) => {
       if (order) {
-        console.log("2");
+        console.log("3");
         return res.json({
           success: true,
           message: "Order successfully created",

@@ -28,6 +28,7 @@ import Preferences from "./Preferences";
 import Address from "./Address";
 import Pricing from "./Pricing";
 import Review from "./Review";
+import ProgressBar from "./components/ProgressBar";
 import newOrderStyles from "../../../styles/User/NewOrder/newOrderStyles";
 import baseURL from "../../../baseURL";
 
@@ -444,16 +445,7 @@ class NewOrder extends Component {
             />
             <Divider />
             <CardContent id="newOrderContainer">
-              <Stepper
-                activeStep={this.state.activeStep}
-                className={classes.stepper}
-              >
-                {steps.map((label) => (
-                  <Step key={label}>
-                    <StepLabel>{label}</StepLabel>
-                  </Step>
-                ))}
-              </Stepper>
+              <ProgressBar step={this.state.activeStep} />
               <React.Fragment>
                 <Dialog
                   open={this.state.error}
