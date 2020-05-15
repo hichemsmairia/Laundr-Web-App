@@ -15,11 +15,20 @@ class Scheduling extends Component {
         <Typography component="h1" variant="h6" gutterBottom>
           What day would you like your order to be picked up?
         </Typography>
-        <Grid container spacing={3}>
+        <Grid
+          container
+          spacing={3}
+          id="schedulingContainer"
+          className={classes.container}
+        >
           <Grid item xs={12} sm={6}>
             <Button
               disabled={this.props.todaySelected}
               onClick={this.props.handleTodayChange}
+              style={{
+                backgroundImage:
+                  "linear-gradient( 136deg, rgb(102, 255, 255) 0%, rgb(0, 153, 255) 50%, rgb(0, 51, 204) 100%)",
+              }}
               variant="contained"
               color="primary"
               fullWidth
@@ -33,6 +42,10 @@ class Scheduling extends Component {
             <Button
               disabled={this.props.tomorrowSelected}
               onClick={this.props.handleTomorrowChange}
+              style={{
+                backgroundImage:
+                  "linear-gradient( 136deg, rgb(102, 255, 255) 0%, rgb(0, 153, 255) 50%, rgb(0, 51, 204) 100%)",
+              }}
               variant="contained"
               color="primary"
               fullWidth

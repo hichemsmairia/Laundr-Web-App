@@ -518,25 +518,6 @@ class NewOrder extends Component {
                           handleTomorrowChange={this.handleTomorrowChange}
                           handleTimeChange={this.handleTimeChange}
                         />
-                        {/* {
-                        <div>
-                          <Review
-                            address={"3000 SW 35 Pl"}
-                            addressPreferences={
-                              "Building is next to the leasing office. Follow the yellow line to get to the leasing office."
-                            }
-                            scented={this.state.scented}
-                            delicates={this.state.delicates}
-                            separate={this.state.separate}
-                            towelsSheets={this.state.towelsSheets}
-                            washerPreferences={
-                              "Please take care of my clothes as they are very delicate."
-                            }
-                            pickupDate={"4/20/20"}
-                            pickupTime={"4:20 PM"}
-                          />
-                        </div>
-                      } */}
                       </div>
                     </Fade>
                     <Fade
@@ -638,6 +619,10 @@ class NewOrder extends Component {
                         </Button>
                       )}
                       <Button
+                        style={{
+                          backgroundImage:
+                            "linear-gradient( 136deg, rgb(102, 255, 255) 0%, rgb(0, 153, 255) 50%, rgb(0, 51, 204) 100%)",
+                        }}
                         variant="contained"
                         color="primary"
                         onClick={this.handleNext}
