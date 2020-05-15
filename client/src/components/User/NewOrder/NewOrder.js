@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 import {
   withStyles,
-  CssBaseline,
-  Paper,
-  Stepper,
-  Step,
-  StepLabel,
   Button,
   Typography,
   Fade,
