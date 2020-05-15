@@ -119,7 +119,7 @@ class OrderStatus extends Component {
             <Dialog
               open={this.state.dialog}
               onClose={this.handleDialogClose}
-              container={() => document.getElementById("dialogContainer")}
+              container={() => document.getElementById("orderStatusContainer")}
               style={{ position: "absolute" }}
               BackdropProps={{
                 style: {
@@ -148,7 +148,7 @@ class OrderStatus extends Component {
               titleTypographyProps={{ variant: "h1", align: "center" }}
             />
             <Divider />
-            <CardContent id="dialogContainer">
+            <CardContent id="orderStatusContainer">
               <ProgressBar step={2} />
               <Grid
                 container

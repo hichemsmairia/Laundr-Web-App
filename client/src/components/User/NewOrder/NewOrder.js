@@ -14,6 +14,10 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Card,
+  CardHeader,
+  Divider,
+  CardContent,
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import Geocode from "react-geocode";
@@ -433,85 +437,96 @@ class NewOrder extends Component {
     return (
       <React.Fragment>
         <main className={classes.layout}>
-          <Paper className={classes.paper}>
-            <Typography component="h1" variant="h4" align="center">
-              New Order
-            </Typography>
-            <Stepper
-              activeStep={this.state.activeStep}
-              className={classes.stepper}
-            >
-              {steps.map((label) => (
-                <Step key={label}>
-                  <StepLabel>{label}</StepLabel>
-                </Step>
-              ))}
-            </Stepper>
-            <React.Fragment>
-              <Dialog
-                open={this.state.error}
-                onClose={this.handleErrorClose}
-                aria-labelledby="form-dialog-title"
+          <Card className={classes.paper}>
+            <CardHeader
+              title="New Order"
+              titleTypographyProps={{ variant: "h1", align: "center" }}
+            />
+            <Divider />
+            <CardContent id="newOrderContainer">
+              <Stepper
+                activeStep={this.state.activeStep}
+                className={classes.stepper}
               >
-                <DialogTitle id="form-dialog-title">Alert</DialogTitle>
-                <DialogContent>
-                  <DialogContentText>
-                    {this.state.errorMessage}
-                  </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={this.handleErrorClose} color="primary">
-                    Okay
-                  </Button>
-                </DialogActions>
-              </Dialog>
-              {this.state.activeStep === steps.length ? (
-                <React.Fragment>
-                  <Typography variant="h5" gutterBottom>
-                    Thank you for your order!
-                  </Typography>
-                  <Typography variant="subtitle1">
-                    Your order number is #{this.state.orderID}. You can track
-                    your order through your dashboard. Thanks for choosing
-                    Laundr!
-                  </Typography>
-                  <div className={classes.buttons}>
-                    {this.state.activeStep === steps.length && (
-                      <Button
-                        color="primary"
-                        onClick={this.handleDone}
-                        className={classes.button}
-                      >
-                        Okay
-                      </Button>
-                    )}
-                  </div>
-                </React.Fragment>
-              ) : (
-                <React.Fragment>
-                  <Fade
-                    in={this.state.schedulingStep}
-                    style={{
-                      display: !this.state.schedulingStep ? "none" : "block",
-                      transitionDelay: this.state.schedulingStep
-                        ? "500ms"
-                        : "0ms",
-                    }}
-                  >
-                    <div>
-                      <Scheduling
-                        today={this.today}
-                        tomorrow={this.tomorrow}
-                        update={this.handleScheduling}
-                        todaySelected={this.state.todaySelected}
-                        tomorrowSelected={this.state.tomorrowSelected}
-                        formattedTime={this.state.formattedTime}
-                        rawTime={this.state.rawTime}
-                        handleTodayChange={this.handleTodayChange}
-                        handleTomorrowChange={this.handleTomorrowChange}
-                        handleTimeChange={this.handleTimeChange}
-                      />
-                      {/* {
+                {steps.map((label) => (
+                  <Step key={label}>
+                    <StepLabel>{label}</StepLabel>
+                  </Step>
+                ))}
+              </Stepper>
+              <React.Fragment>
+                <Dialog
+                  open={this.state.error}
+                  onClose={this.handleErrorClose}
+                  container={() => document.getElementById("newOrderContainer")}
+                  aria-labelledby="form-dialog-title"
+                  style={{ position: "absolute" }}
+                  BackdropProps={{
+                    style: {
+                      position: "absolute",
+                      backgroundColor: "transparent",
+                    },
+                  }}
+                >
+                  <DialogTitle id="form-dialog-title">Alert</DialogTitle>
+                  <DialogContent>
+                    <DialogContentText>
+                      {this.state.errorMessage}
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={this.handleErrorClose} color="primary">
+                      Okay
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+                {this.state.activeStep === steps.length ? (
+                  <React.Fragment>
+                    <Typography variant="h5" gutterBottom>
+                      Thank you for your order!
+                    </Typography>
+                    <Typography variant="subtitle1">
+                      Your order number is #{this.state.orderID}. You can track
+                      your order through your dashboard. Thanks for choosing
+                      Laundr!
+                    </Typography>
+                    <div className={classes.buttons}>
+                      {this.state.activeStep === steps.length && (
+                        <Button
+                          color="primary"
+                          onClick={this.handleDone}
+                          className={classes.button}
+                        >
+                          Okay
+                        </Button>
+                      )}
+                    </div>
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    <Fade
+                      in={this.state.schedulingStep}
+                      style={{
+                        display: !this.state.schedulingStep ? "none" : "block",
+                        transitionDelay: this.state.schedulingStep
+                          ? "500ms"
+                          : "0ms",
+                      }}
+                    >
+                      <div>
+                        <Scheduling
+                          today={this.today}
+                          tomorrow={this.tomorrow}
+                          update={this.handleScheduling}
+                          todaySelected={this.state.todaySelected}
+                          tomorrowSelected={this.state.tomorrowSelected}
+                          formattedTime={this.state.formattedTime}
+                          rawTime={this.state.rawTime}
+                          handleTodayChange={this.handleTodayChange}
+                          handleTomorrowChange={this.handleTomorrowChange}
+                          handleTimeChange={this.handleTimeChange}
+                        />
+                        {/* {
                         <div>
                           <Review
                             address={"3000 SW 35 Pl"}
@@ -530,111 +545,122 @@ class NewOrder extends Component {
                           />
                         </div>
                       } */}
-                    </div>
-                  </Fade>
-                  <Fade
-                    in={this.state.preferencesStep}
-                    style={{
-                      display: !this.state.preferencesStep ? "none" : "block",
-                      transitionDelay: this.state.preferencesStep
-                        ? "500ms"
-                        : "0ms",
-                    }}
-                  >
-                    <div>
-                      <Preferences
-                        scented={this.state.scented}
-                        delicates={this.state.delicates}
-                        separate={this.state.separate}
-                        towelsSheets={this.state.towelsSheets}
-                        washerPreferences={this.state.washerPreferences}
-                        handleScentedChange={this.handleScentedChange}
-                        handleDelicatesChange={this.handleDelicatesChange}
-                        handleSeparateChange={this.handleSeparateChange}
-                        handleTowelsSheetsChange={this.handleTowelsSheetsChange}
-                        handleWasherPrefsChange={this.handleWasherPrefsChange}
-                      />
-                    </div>
-                  </Fade>
-                  <Fade
-                    in={this.state.addressStep}
-                    style={{
-                      display: !this.state.addressStep ? "none" : "block",
-                      transitionDelay: this.state.addressStep ? "500ms" : "0ms",
-                    }}
-                  >
-                    <div>
-                      <Address
-                        center={this.state.center}
-                        zoom={this.state.zoom}
-                        address={this.state.address}
-                        markerLat={this.state.markerLat}
-                        markerLong={this.state.markerLong}
-                        renderMarker={this.state.renderMarker}
-                        addressPreferences={this.state.addressPreferences}
-                        handleAddressSelect={this.handleAddressSelect}
-                        handleAddressChange={this.handleAddressChange}
-                        handleAddressPrefsChange={this.handleAddressPrefsChange}
-                        handleMapChange={this.handleMapChange}
-                      />
-                    </div>
-                  </Fade>
-                  <Fade
-                    in={this.state.pricingStep}
-                    style={{
-                      display: !this.state.pricingStep ? "none" : "block",
-                      transitionDelay: this.state.pricingStep ? "500ms" : "0ms",
-                    }}
-                  >
-                    <div>
-                      <Pricing />
-                    </div>
-                  </Fade>
-                  <Fade
-                    in={this.state.reviewStep}
-                    style={{
-                      display: !this.state.reviewStep ? "none" : "block",
-                      transitionDelay: this.state.reviewStep ? "500ms" : "0ms",
-                    }}
-                  >
-                    <div>
-                      <Review
-                        address={this.state.address}
-                        addressPreferences={this.state.addressPreferences}
-                        scented={this.state.scented}
-                        delicates={this.state.delicates}
-                        separate={this.state.separate}
-                        towelsSheets={this.state.towelsSheets}
-                        washerPreferences={this.state.washerPreferences}
-                        pickupDate={this.state.date}
-                        pickupTime={this.state.formattedTime}
-                      />
-                    </div>
-                  </Fade>
-                  <div className={classes.buttons}>
-                    {this.state.activeStep !== 0 && (
+                      </div>
+                    </Fade>
+                    <Fade
+                      in={this.state.preferencesStep}
+                      style={{
+                        display: !this.state.preferencesStep ? "none" : "block",
+                        transitionDelay: this.state.preferencesStep
+                          ? "500ms"
+                          : "0ms",
+                      }}
+                    >
+                      <div>
+                        <Preferences
+                          scented={this.state.scented}
+                          delicates={this.state.delicates}
+                          separate={this.state.separate}
+                          towelsSheets={this.state.towelsSheets}
+                          washerPreferences={this.state.washerPreferences}
+                          handleScentedChange={this.handleScentedChange}
+                          handleDelicatesChange={this.handleDelicatesChange}
+                          handleSeparateChange={this.handleSeparateChange}
+                          handleTowelsSheetsChange={
+                            this.handleTowelsSheetsChange
+                          }
+                          handleWasherPrefsChange={this.handleWasherPrefsChange}
+                        />
+                      </div>
+                    </Fade>
+                    <Fade
+                      in={this.state.addressStep}
+                      style={{
+                        display: !this.state.addressStep ? "none" : "block",
+                        transitionDelay: this.state.addressStep
+                          ? "500ms"
+                          : "0ms",
+                      }}
+                    >
+                      <div>
+                        <Address
+                          center={this.state.center}
+                          zoom={this.state.zoom}
+                          address={this.state.address}
+                          markerLat={this.state.markerLat}
+                          markerLong={this.state.markerLong}
+                          renderMarker={this.state.renderMarker}
+                          addressPreferences={this.state.addressPreferences}
+                          handleAddressSelect={this.handleAddressSelect}
+                          handleAddressChange={this.handleAddressChange}
+                          handleAddressPrefsChange={
+                            this.handleAddressPrefsChange
+                          }
+                          handleMapChange={this.handleMapChange}
+                        />
+                      </div>
+                    </Fade>
+                    <Fade
+                      in={this.state.pricingStep}
+                      style={{
+                        display: !this.state.pricingStep ? "none" : "block",
+                        transitionDelay: this.state.pricingStep
+                          ? "500ms"
+                          : "0ms",
+                      }}
+                    >
+                      <div>
+                        <Pricing />
+                      </div>
+                    </Fade>
+                    <Fade
+                      in={this.state.reviewStep}
+                      style={{
+                        display: !this.state.reviewStep ? "none" : "block",
+                        transitionDelay: this.state.reviewStep
+                          ? "500ms"
+                          : "0ms",
+                      }}
+                    >
+                      <div>
+                        <Review
+                          address={this.state.address}
+                          addressPreferences={this.state.addressPreferences}
+                          scented={this.state.scented}
+                          delicates={this.state.delicates}
+                          separate={this.state.separate}
+                          towelsSheets={this.state.towelsSheets}
+                          washerPreferences={this.state.washerPreferences}
+                          pickupDate={this.state.date}
+                          pickupTime={this.state.formattedTime}
+                        />
+                      </div>
+                    </Fade>
+                    <div className={classes.buttons}>
+                      {this.state.activeStep !== 0 && (
+                        <Button
+                          onClick={this.handleBack}
+                          className={classes.button}
+                        >
+                          Back
+                        </Button>
+                      )}
                       <Button
-                        onClick={this.handleBack}
+                        variant="contained"
+                        color="primary"
+                        onClick={this.handleNext}
                         className={classes.button}
                       >
-                        Back
+                        {this.state.activeStep === steps.length - 1
+                          ? "Place order"
+                          : "Next"}
                       </Button>
-                    )}
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={this.handleNext}
-                      className={classes.button}
-                    >
-                      {this.state.activeStep === steps.length - 1
-                        ? "Place order"
-                        : "Next"}
-                    </Button>
-                  </div>
-                </React.Fragment>
-              )}
-            </React.Fragment>
-          </Paper>
+                    </div>
+                  </React.Fragment>
+                )}
+              </React.Fragment>
+            </CardContent>
+          </Card>
         </main>
       </React.Fragment>
     );
