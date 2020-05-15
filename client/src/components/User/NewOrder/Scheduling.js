@@ -4,11 +4,6 @@ import {
   Typography,
   Button,
   withStyles,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
   TextField,
 } from "@material-ui/core";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
@@ -31,40 +26,6 @@ class Scheduling extends Component {
         <Typography component="h1" variant="h6" gutterBottom>
           What day would you like your order to be picked up?
         </Typography>
-        <Dialog
-          open={this.state.openTime}
-          onClose={() => {
-            this.setState({ openTime: false });
-          }}
-          container={() => document.getElementById("schedulingContainer")}
-          aria-labelledby="form-dialog-title"
-          style={{ position: "absolute" }}
-          BackdropProps={{
-            style: {
-              position: "absolute",
-              backgroundColor: "transparent",
-            },
-          }}
-        >
-          <DialogContent>
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <TimePicker
-                margin="normal"
-                variant="static"
-                id="time-picker"
-                label="Click to select a time"
-                onChange={(value) => {
-                  this.props.handleTimeChange(value);
-                }}
-                helperText="*Must be at least 1 hour in advance"
-                value={this.props.rawTime}
-                PopoverProps={{
-                  anchorEl: document.getElementById("orderStatusContainer"),
-                }}
-              />
-            </MuiPickersUtilsProvider>
-          </DialogContent>
-        </Dialog>
         <Grid
           container
           spacing={3}
@@ -106,27 +67,33 @@ class Scheduling extends Component {
             </Button>
           </Grid>
         </Grid>
-        <Typography
-          component="h1"
-          variant="h6"
-          gutterBottom
-          className={classes.title}
-        >
+        <Typography component="h1" variant="h6" className={classes.title}>
           What's your preferred pickup time?
         </Typography>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6}>
-            <TextField
-              label="Click to select a time"
-              helperText="*Must be at least 1 hour in advance"
-              InputProps={{
-                readOnly: true,
-              }}
-              value={this.props.formattedTime}
-              onClick={() => {
-                this.setState({ openTime: true });
-              }}
-            />
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <TimePicker
+                margin="normal"
+                variant="dialog"
+                label="Click to select a time"
+                onChange={(value) => {
+                  this.props.handleTimeChange(value);
+                }}
+                helperText="*Must be at least 1 hour in advance"
+                value={this.props.rawTime}
+                DialogProps={{
+                  container: document.getElementById("newOrderContainer"),
+                  style: { position: "absolute" },
+                  BackdropProps: {
+                    style: {
+                      position: "absolute",
+                      backgroundColor: "transparent",
+                    },
+                  },
+                }}
+              />
+            </MuiPickersUtilsProvider>
             <br />
           </Grid>
         </Grid>
