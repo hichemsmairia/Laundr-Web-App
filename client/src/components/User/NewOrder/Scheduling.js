@@ -84,7 +84,7 @@ class Scheduling extends Component {
                 value={this.props.rawTime}
                 DialogProps={{
                   container: document.getElementById("newOrderContainer"),
-                  style: { position: "absolute" },
+                  style: { position: "absolute", marginBottom: -25 },
                   BackdropProps: {
                     style: {
                       position: "absolute",
