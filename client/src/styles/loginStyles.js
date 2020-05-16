@@ -15,7 +15,7 @@ export default (theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
     backgroundImage:
-      "linear-gradient( 136deg, rgb(102, 255, 255) 0%, rgb(0, 153, 255) 50%, rgb(0, 51, 204) 100%)",
+      "linear-gradient( 136deg, rgb(102, 255, 255) 0%, rgb(0, 153, 255) 50%, rgb(1, 201, 226) 100%)",
     color: "white",
   },
   center: {
