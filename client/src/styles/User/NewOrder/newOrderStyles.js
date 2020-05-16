@@ -13,7 +13,7 @@ export default (theme) => ({
     },
   },
   paper: {
-    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {},
+    width: "100%",
     position: "relative",
   },
   stepper: {
@@ -26,5 +26,11 @@ export default (theme) => ({
   button: {
     marginTop: theme.spacing(3),
     marginLeft: theme.spacing(1),
+  },
+  root: {
+    position: "absolute",
+  },
+  backdrop: {
+    position: "absolute",
   },
 });

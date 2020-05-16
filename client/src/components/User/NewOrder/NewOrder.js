@@ -443,11 +443,12 @@ class NewOrder extends Component {
               <ProgressBar step={this.state.activeStep} />
               <React.Fragment>
                 <Dialog
+                  disableEnforceFocus
                   open={this.state.error}
                   onClose={this.handleErrorClose}
                   container={() => document.getElementById("newOrderContainer")}
                   aria-labelledby="form-dialog-title"
-                  style={{ position: "absolute" }}
+                  style={{ position: "absolute", zIndex: 0 }}
                   BackdropProps={{
                     style: {
                       position: "absolute",

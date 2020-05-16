@@ -117,10 +117,11 @@ class OrderStatus extends Component {
         <main className={classes.layout}>
           <Card className={classes.root}>
             <Dialog
+              disableEnforceFocus
               open={this.state.dialog}
               onClose={this.handleDialogClose}
               container={() => document.getElementById("orderStatusContainer")}
-              style={{ position: "absolute" }}
+              style={{ position: "absolute", zIndex: 0 }}
               BackdropProps={{
                 style: {
                   position: "absolute",

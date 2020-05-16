@@ -1,11 +1,5 @@
 import React, { Component } from "react";
-import {
-  Grid,
-  Typography,
-  Button,
-  withStyles,
-  TextField,
-} from "@material-ui/core";
+import { Grid, Typography, Button, withStyles } from "@material-ui/core";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import { MuiPickersUtilsProvider, TimePicker } from "@material-ui/pickers";
 import PropTypes from "prop-types";
@@ -84,7 +78,8 @@ class Scheduling extends Component {
                 value={this.props.rawTime}
                 DialogProps={{
                   container: document.getElementById("newOrderContainer"),
-                  style: { position: "absolute", marginBottom: -25 },
+                  disableEnforceFocus: true,
+                  style: { position: "absolute", marginBottom: -25, zIndex: 1 },
                   BackdropProps: {
                     style: {
                       position: "absolute",
