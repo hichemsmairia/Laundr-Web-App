@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {
   withStyles,
-  Typography,
   Backdrop,
   CircularProgress,
   Card,
