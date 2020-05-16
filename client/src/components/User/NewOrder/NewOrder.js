@@ -444,6 +444,8 @@ class NewOrder extends Component {
               <React.Fragment>
                 <Dialog
                   disableEnforceFocus
+                  disableAutoFocus
+                  disableRestoreFocus
                   open={this.state.error}
                   onClose={this.handleErrorClose}
                   container={() => document.getElementById("newOrderContainer")}

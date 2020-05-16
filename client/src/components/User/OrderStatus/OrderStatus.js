@@ -118,6 +118,8 @@ class OrderStatus extends Component {
           <Card className={classes.root}>
             <Dialog
               disableEnforceFocus
+              disableAutoFocus
+              disableRestoreFocus
               open={this.state.dialog}
               onClose={this.handleDialogClose}
               container={() => document.getElementById("orderStatusContainer")}
@@ -211,7 +213,8 @@ class OrderStatus extends Component {
                       <Button
                         variant="contained"
                         style={{
-                          background: "rgb(0, 153, 255)",
+                          backgroundImage:
+                            "linear-gradient( 136deg, rgb(102, 255, 255) 0%, rgb(0, 153, 255) 50%, rgb(0, 51, 204) 100%)",
                           color: "white",
                         }}
                         onClick={() => {
