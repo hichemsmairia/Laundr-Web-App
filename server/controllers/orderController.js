@@ -124,7 +124,7 @@ const getCurrentOrder = async (req, res) => {
   //find the order that isn't cancelled or done, should only ever be one. if more than one, undefined behavior since findOne returns only one
   await Order.findOne({
     "userInfo.email": req.body.userEmail,
-    "orderInfo.status": { $ne: 7, $ne: 6 },
+    "orderInfo.status": { $nin: [6, 7] },
   })
     .then(async (order) => {
       if (order) {

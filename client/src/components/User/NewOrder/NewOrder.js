@@ -448,7 +448,7 @@ class NewOrder extends Component {
                   onClose={this.handleErrorClose}
                   container={() => document.getElementById("newOrderContainer")}
                   aria-labelledby="form-dialog-title"
-                  style={{ position: "absolute", zIndex: 0 }}
+                  style={{ position: "absolute", zIndex: 1 }}
                   BackdropProps={{
                     style: {
                       position: "absolute",

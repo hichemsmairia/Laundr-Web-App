@@ -121,7 +121,7 @@ class OrderStatus extends Component {
               open={this.state.dialog}
               onClose={this.handleDialogClose}
               container={() => document.getElementById("orderStatusContainer")}
-              style={{ position: "absolute", zIndex: 0 }}
+              style={{ position: "absolute", zIndex: 1 }}
               BackdropProps={{
                 style: {
                   position: "absolute",

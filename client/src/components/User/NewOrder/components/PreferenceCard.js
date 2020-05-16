@@ -84,7 +84,13 @@ class PreferenceCard extends Component {
             TransitionComponent={Fade}
             arrow
           >
-            <InfoIcon color="primary" style={{ cursor: "pointer" }} />
+            <InfoIcon
+              color="primary"
+              style={{
+                cursor: "pointer",
+                color: "rgb(0, 153, 255)",
+              }}
+            />
           </LightTooltip>
         </CardActions>
       </Card>
