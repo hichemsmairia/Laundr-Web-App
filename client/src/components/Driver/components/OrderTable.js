@@ -186,7 +186,7 @@ class OrderTable extends Component {
     }
   };
 
-  renderDialogActions = () => {
+  renderDialogActions = (classes) => {
     let order = this.state.currentOrder;
 
     if (order) {
@@ -194,7 +194,12 @@ class OrderTable extends Component {
       if (status === 0) {
         return (
           <React.Fragment>
-            <Button onClick={this.handleDialogClose} color="primary">
+            <Button
+              onClick={this.handleDialogClose}
+              color="primary"
+              variant="contained"
+              className={classes.gradient}
+            >
               Cancel
             </Button>
             <Button
@@ -209,6 +214,8 @@ class OrderTable extends Component {
                 }
               }}
               color="primary"
+              variant="contained"
+              className={classes.gradient}
             >
               Confirm
             </Button>
@@ -217,7 +224,12 @@ class OrderTable extends Component {
       } else if (status === 1) {
         return (
           <React.Fragment>
-            <Button onClick={this.handleDialogClose} color="primary">
+            <Button
+              onClick={this.handleDialogClose}
+              color="primary"
+              variant="contained"
+              className={classes.gradient}
+            >
               Cancel
             </Button>
             <Button
@@ -232,6 +244,8 @@ class OrderTable extends Component {
                 }
               }}
               color="primary"
+              variant="contained"
+              className={classes.gradient}
             >
               Confirm
             </Button>
@@ -240,7 +254,12 @@ class OrderTable extends Component {
       } else if (status === 2) {
         return (
           <React.Fragment>
-            <Button onClick={this.handleDialogClose} color="primary">
+            <Button
+              onClick={this.handleDialogClose}
+              color="primary"
+              variant="contained"
+              className={classes.gradient}
+            >
               Cancel
             </Button>
             <Button
@@ -255,6 +274,8 @@ class OrderTable extends Component {
                 }
               }}
               color="primary"
+              variant="contained"
+              className={classes.gradient}
             >
               Confirm
             </Button>
@@ -263,7 +284,12 @@ class OrderTable extends Component {
       } else if (status === 4) {
         return (
           <React.Fragment>
-            <Button onClick={this.handleDialogClose} color="primary">
+            <Button
+              onClick={this.handleDialogClose}
+              color="primary"
+              variant="contained"
+              className={classes.gradient}
+            >
               Cancel
             </Button>
             <Button
@@ -278,6 +304,8 @@ class OrderTable extends Component {
                 }
               }}
               color="primary"
+              variant="contained"
+              className={classes.gradient}
             >
               Confirm
             </Button>
@@ -286,7 +314,12 @@ class OrderTable extends Component {
       } else if (status === 5) {
         return (
           <React.Fragment>
-            <Button onClick={this.handleDialogClose} color="primary">
+            <Button
+              onClick={this.handleDialogClose}
+              color="primary"
+              variant="contained"
+              className={classes.gradient}
+            >
               Cancel
             </Button>
             <Button
@@ -301,6 +334,8 @@ class OrderTable extends Component {
                 }
               }}
               color="primary"
+              variant="contained"
+              className={classes.gradient}
             >
               Confirm
             </Button>
@@ -418,8 +453,12 @@ class OrderTable extends Component {
             <React.Fragment>
               <Dialog open={this.state.dialog} onClose={this.handleDialogClose}>
                 <DialogTitle>{this.state.dialogTitle}</DialogTitle>
-                <DialogContent>{this.renderDialogContent()}</DialogContent>
-                <DialogActions>{this.renderDialogActions()}</DialogActions>
+                <DialogContent>
+                  {this.renderDialogContent(classes)}
+                </DialogContent>
+                <DialogActions>
+                  {this.renderDialogActions(classes)}
+                </DialogActions>
               </Dialog>
             </React.Fragment>
             <div className={classes.inner}>
@@ -522,6 +561,7 @@ class OrderTable extends Component {
                       <TableCell>
                         <Button
                           variant="contained"
+                          className={classes.gradient}
                           color="primary"
                           onClick={() => {
                             this.handleActionClicked(

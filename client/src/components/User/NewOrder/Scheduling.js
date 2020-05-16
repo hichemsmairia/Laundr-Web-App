@@ -10,7 +10,7 @@ import schedulingStyles from "../../../styles/User/NewOrder/schedulingStyles";
 const timeTheme = createMuiTheme({
   palette: {
     primary: {
-      main: "rgb(0, 153, 255) ",
+      main: "rgb(0, 153, 255)",
     },
   },
 });

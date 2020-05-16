@@ -4,6 +4,10 @@ import {
   Typography,
   Backdrop,
   CircularProgress,
+  Card,
+  CardHeader,
+  CardContent,
+  Divider,
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import axios from "axios";
@@ -117,18 +121,27 @@ class AvailableDashboard extends Component {
 
     return (
       <React.Fragment>
-        <Typography variant="h1" gutterBottom>
-          Available Orders
-        </Typography>
-        <OrderTable
-          orders={this.state.orders}
-          getOrders={this.getOrders}
-          handlePickupAccept={this.handlePickupAccept}
-          handleDropoffAccept={this.handleDropoffAccept}
-        />
-        <Backdrop className={classes.backdrop} open={this.state.showLoading}>
-          <CircularProgress color="inherit" />
-        </Backdrop>
+        <Card>
+          <CardHeader
+            title="Available Orders"
+            titleTypographyProps={{ variant: "h1", align: "center" }}
+          />
+          <Divider />
+          <CardContent>
+            <OrderTable
+              orders={this.state.orders}
+              getOrders={this.getOrders}
+              handlePickupAccept={this.handlePickupAccept}
+              handleDropoffAccept={this.handleDropoffAccept}
+            />
+            <Backdrop
+              className={classes.backdrop}
+              open={this.state.showLoading}
+            >
+              <CircularProgress color="inherit" />
+            </Backdrop>
+          </CardContent>
+        </Card>
       </React.Fragment>
     );
   }

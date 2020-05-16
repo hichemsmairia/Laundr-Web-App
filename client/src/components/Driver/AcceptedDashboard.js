@@ -4,6 +4,10 @@ import {
   Typography,
   Backdrop,
   CircularProgress,
+  Card,
+  CardHeader,
+  CardContent,
+  Divider,
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import axios from "axios";
@@ -148,21 +152,30 @@ class AcceptedDashboard extends Component {
 
     return (
       <React.Fragment>
-        <Typography variant="h1" gutterBottom>
-          Accepted Orders
-        </Typography>
-        <OrderTable
-          orders={this.state.orders}
-          getOrders={this.getOrders}
-          weight={this.state.weight}
-          handleWeightChange={this.handleWeightChange}
-          handleWeightEntered={this.handleWeightEntered}
-          handleWasherReceived={this.handleWasherReceived}
-          handleUserReceived={this.handleUserReceived}
-        />
-        <Backdrop className={classes.backdrop} open={this.state.showLoading}>
-          <CircularProgress color="inherit" />
-        </Backdrop>
+        <Card>
+          <CardHeader
+            title="Accepted Orders"
+            titleTypographyProps={{ variant: "h1", align: "center" }}
+          />
+          <Divider />
+          <CardContent>
+            <OrderTable
+              orders={this.state.orders}
+              getOrders={this.getOrders}
+              weight={this.state.weight}
+              handleWeightChange={this.handleWeightChange}
+              handleWeightEntered={this.handleWeightEntered}
+              handleWasherReceived={this.handleWasherReceived}
+              handleUserReceived={this.handleUserReceived}
+            />
+            <Backdrop
+              className={classes.backdrop}
+              open={this.state.showLoading}
+            >
+              <CircularProgress color="inherit" />
+            </Backdrop>
+          </CardContent>
+        </Card>
       </React.Fragment>
     );
   }

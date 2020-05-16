@@ -447,16 +447,14 @@ class Register extends Component {
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
-          <Container className={classes.center}>
-            <img
-              alt="Company Logo"
-              src={Logo}
-              style={{
-                width: 400,
-                height: 160,
-              }}
-            ></img>
-          </Container>
+          <img
+            alt="Company Logo"
+            src={Logo}
+            style={{
+              width: 400,
+              height: 160,
+            }}
+          />
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
