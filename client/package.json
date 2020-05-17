@@ -11,9 +11,11 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
+    "classnames": "^2.2.6",
     "fbjs": "^1.0.0",
     "geolib": "^3.2.1",
     "google-map-react": "^1.1.7",
+    "material-ui-dots": "^2.0.1",
     "moment": "^2.24.0",
     "mui-places-autocomplete": "^2.0.0",
     "react": "^16.13.1",
@@ -21,7 +23,8 @@
     "react-geocode": "^0.2.1",
     "react-perfect-scrollbar": "^1.5.8",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "react-swipeable-views": "^0.13.9"
   },
   "scripts": {
     "start": "react-scripts start",

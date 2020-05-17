@@ -6,4 +6,14 @@ export default (theme) => ({
   welcomeText: {
     color: "white",
   },
+  root: {
+    width: 1200,
+    height: 600,
+    //height: "100vh",
+    //width: "100vw",
+    position: "relative",
+  },
+  layout: {
+    width: "auto",
+  },
 });

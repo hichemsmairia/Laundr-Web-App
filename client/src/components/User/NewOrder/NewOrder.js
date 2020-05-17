@@ -433,7 +433,7 @@ class NewOrder extends Component {
     return (
       <React.Fragment>
         <main className={classes.layout}>
-          <Card className={classes.paper}>
+          <Card className={classes.root}>
             <CardHeader
               title="New Order"
               titleTypographyProps={{ variant: "h1", align: "center" }}

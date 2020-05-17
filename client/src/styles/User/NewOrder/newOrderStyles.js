@@ -12,7 +12,7 @@ export default (theme) => ({
       marginRight: "auto",
     },
   },
-  paper: {
+  root: {
     width: "100%",
     position: "relative",
   },
