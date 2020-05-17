@@ -8,7 +8,7 @@ import AvailableDriverDashboard from "./components/Driver/AvailableDashboard";
 import AcceptedDriverDashboard from "./components/Driver/AcceptedDashboard";
 import AssignedWasherDashboard from "./components/Washer/AssignedDashboard";
 import UserOrderStatus from "./components/User/OrderStatus/OrderStatus";
-import UserDashboardTest from "./components/User/DashboardTest";
+import UserDashboardTest from "./components/User/Dashboard";
 import theme from "./theme";
 import { ThemeProvider } from "@material-ui/styles";
 import { Main as MainLayout } from "./layouts";

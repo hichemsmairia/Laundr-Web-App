@@ -610,6 +610,7 @@ class NewOrder extends Component {
                     <div className={classes.buttons}>
                       {this.state.activeStep !== 0 && (
                         <Button
+                          variant="contained"
                           onClick={this.handleBack}
                           className={classes.button}
                         >
@@ -617,12 +618,7 @@ class NewOrder extends Component {
                         </Button>
                       )}
                       <Button
-                        style={{
-                          backgroundImage:
-                            "linear-gradient( 136deg, rgb(102, 255, 255) 0%, rgb(0, 153, 255) 50%, rgb(0, 51, 204) 100%)",
-                        }}
                         variant="contained"
-                        color="primary"
                         onClick={this.handleNext}
                         className={classes.button}
                       >

@@ -26,11 +26,13 @@ export default (theme) => ({
   button: {
     marginTop: theme.spacing(3),
     marginLeft: theme.spacing(1),
+    backgroundImage:
+      "linear-gradient( 136deg, rgb(102, 255, 255) 0%, rgb(0, 153, 255) 50%, rgb(0, 51, 204) 100%)",
+    color: "white",
   },
-  root: {
-    position: "absolute",
-  },
-  backdrop: {
-    position: "absolute",
+  hoverCard: {
+    boxShadow: "0 0 2px 1px rgb(0, 153, 255)",
+    background:
+      "linear-gradient( 136deg, rgb(102, 255, 255) 0%, rgb(0, 153, 255) 50%, rgb(0, 51, 204) 100%)",
   },
 });

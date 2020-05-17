@@ -3,11 +3,27 @@ const Order = require("../models/Order");
 const placeOrder = async (req, res) => {
   let orderCount;
 
-  /*
-  return res.json({
-    success: false,
-    message: "Testing order fail",
-  });*/
+  let activeOrder = false;
+
+  await Order.findOne({
+    "userInfo.email": req.body.email,
+    "orderInfo.status": { $nin: [7, 8] },
+  })
+    .then((order) => {
+      if (order) {
+        activeOrder = true;
+      }
+    })
+    .catch((error) => {
+      return res.json({ success: false, message: error });
+    });
+
+  if (activeOrder) {
+    return res.json({
+      success: false,
+      message: "User already has an active order",
+    });
+  }
 
   await Order.countDocuments({})
     .then((count) => {
@@ -27,19 +43,6 @@ const placeOrder = async (req, res) => {
         message: error,
       });
     });
-
-  /*
-  await Order.countDocuments({}, (err, count) => {
-    if (err) {
-      return res.json({
-        success: false,
-        message: "Error with getting number of total orders: " + err,
-      });
-    } else {
-      console.log("2");
-      orderCount = count;
-    }
-  });*/
 
   console.log("2");
   Order.create({
@@ -124,9 +127,9 @@ const getCurrentOrder = async (req, res) => {
   //find the order that isn't cancelled or done, should only ever be one. if more than one, undefined behavior since findOne returns only one
   await Order.findOne({
     "userInfo.email": req.body.userEmail,
-    "orderInfo.status": { $nin: [6, 7] },
+    "orderInfo.status": { $nin: [7, 8] },
   })
-    .then(async (order) => {
+    .then((order) => {
       if (order) {
         return res.json({
           success: true,

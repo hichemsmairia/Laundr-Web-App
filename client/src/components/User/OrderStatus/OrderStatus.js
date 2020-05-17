@@ -14,14 +14,11 @@ import {
   DialogContent,
   DialogTitle,
 } from "@material-ui/core";
-import axios from "axios";
-import jwtDecode from "jwt-decode";
 import HomeRoundedIcon from "@material-ui/icons/HomeRounded";
 import QueryBuilderIcon from "@material-ui/icons/QueryBuilder";
 import LocalMallIcon from "@material-ui/icons/LocalMall";
 import ProgressBar from "./components/ProgressBar";
 import orderStatusStyles from "../../../styles/User/OrderStatus/orderStatusStyles";
-import baseURL from "../../../baseURL";
 
 //0: order just placed
 //1: order accepted by driver to be picked up from user
@@ -31,75 +28,14 @@ import baseURL from "../../../baseURL";
 //5: order accept by driver to be delivered back to user
 //6: order delivered to user
 //7: canceled
-
-//todo: change user file structure components to have new order and order status
-//todo: make this display info only, on user dashboard first fetch if the user has an order and if so, display this and pass the order down as props
+//8: fulfilled (user confirmed theyve seen the status on it)
 
 class OrderStatus extends Component {
   constructor(props) {
     super(props);
 
-    this.defaultOrder = {
-      userInfo: {
-        email: "N/A",
-        phone: "N/A",
-        fname: "N/A",
-        lname: "N/A",
-      },
-      washerInfo: {
-        scented: false,
-        delicates: false,
-        separate: false,
-        towelsSheets: false,
-        prefs: "N/A",
-        address: "N/A",
-        email: "N/A",
-        phone: "N/A",
-      },
-      pickupInfo: {
-        prefs: "N/A",
-        date: "N/A",
-        time: "N/A",
-        driverEmail: "N/A",
-      },
-      dropoffInfo: { date: "N/A", time: "N/A", driverEmail: "N/A" },
-      orderInfo: {
-        coupon: "N/A",
-        status: 0,
-        weight: "N/A",
-        cost: 99.99,
-        address: "N/A",
-        orderID: -1,
-      },
-      __v: 0,
-    };
-
-    this.state = { order: this.defaultOrder, dialog: false };
+    this.state = { dialog: false };
   }
-
-  componentDidMount = async () => {
-    let token = localStorage.getItem("token");
-    const data = jwtDecode(token);
-    let userEmail = data.email;
-
-    await axios
-      .post(baseURL + "/order/getCurrentOrder", { userEmail })
-      .then((res) => {
-        if (res.data.success) {
-          if (res.data.message === "N/A") {
-            alert("Order not found for user.");
-          } else {
-            this.setState({ order: res.data.message });
-            console.log(res.data.message);
-          }
-        } else {
-          alert("Error with fetching orders, please contact us.");
-        }
-      })
-      .catch((error) => {
-        alert("Error: " + error);
-      });
-  };
 
   handleOrderCancel = () => {
     alert("order canceled");
@@ -152,7 +88,7 @@ class OrderStatus extends Component {
             />
             <Divider />
             <CardContent id="orderStatusContainer">
-              <ProgressBar step={2} />
+              <ProgressBar status={this.props.order.orderInfo.status} />
               <Grid
                 container
                 direction="row"
@@ -162,7 +98,7 @@ class OrderStatus extends Component {
                 <Grid item>
                   <Card className={classes.infoCard}>
                     <CardHeader
-                      title="Order ID: #420"
+                      title={`Order ID: #${this.props.order.orderInfo.orderID}`}
                       titleTypographyProps={{ variant: "h5" }}
                     />
                     <Divider />
@@ -175,7 +111,7 @@ class OrderStatus extends Component {
                         Address
                       </Typography>
                       <Typography color="textSecondary">
-                        {this.state.order.orderInfo.address}
+                        {this.props.order.orderInfo.address}
                       </Typography>
                       <Typography>
                         <QueryBuilderIcon
@@ -185,7 +121,7 @@ class OrderStatus extends Component {
                         Pickup Time
                       </Typography>
                       <Typography color="textSecondary">
-                        {this.state.order.pickupInfo.time}
+                        {this.props.order.pickupInfo.time}
                       </Typography>
                       <Typography>
                         <QueryBuilderIcon
@@ -195,7 +131,8 @@ class OrderStatus extends Component {
                         Dropoff Time
                       </Typography>
                       <Typography color="textSecondary">
-                        {this.state.order.dropoffInfo.time}
+                        {this.props.order.dropoffInfo.time}
+                        "functionality later"
                       </Typography>
                       <Typography>
                         <LocalMallIcon
@@ -205,18 +142,14 @@ class OrderStatus extends Component {
                         Weight
                       </Typography>
                       <Typography color="textSecondary">
-                        {this.state.order.orderInfo.weight} lbs
+                        {this.props.order.orderInfo.weight} lbs
                       </Typography>
                       <Typography variant="h5">
-                        Price: {this.state.order.orderInfo.cost}
+                        Price: {this.props.order.orderInfo.cost}
                       </Typography>
                       <Button
                         variant="contained"
-                        style={{
-                          backgroundImage:
-                            "linear-gradient( 136deg, rgb(102, 255, 255) 0%, rgb(0, 153, 255) 50%, rgb(0, 51, 204) 100%)",
-                          color: "white",
-                        }}
+                        className={classes.gradient}
                         onClick={() => {
                           this.setState({ dialog: true });
                         }}

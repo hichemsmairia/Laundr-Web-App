@@ -115,6 +115,14 @@ const steps = [
 ];
 
 class ProgressBar extends Component {
+  renderStep = (status) => {
+    if (status === 0 || status === 1) {
+      return 0;
+    } else {
+      return status - 1;
+    }
+  };
+
   render() {
     const classes = this.props.classes;
 
@@ -123,7 +131,7 @@ class ProgressBar extends Component {
         <div className={classes.root}>
           <Stepper
             alternativeLabel
-            activeStep={this.props.step}
+            activeStep={this.renderStep(this.props.status)}
             connector={<ColorlibConnector />}
           >
             {steps.map((label) => (

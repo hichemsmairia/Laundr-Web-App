@@ -39,12 +39,8 @@ class Scheduling extends Component {
             <Button
               disabled={this.props.todaySelected}
               onClick={this.props.handleTodayChange}
-              style={{
-                backgroundImage:
-                  "linear-gradient( 136deg, rgb(102, 255, 255) 0%, rgb(0, 153, 255) 50%, rgb(0, 51, 204) 100%)",
-              }}
               variant="contained"
-              color="primary"
+              className={classes.gradient}
               fullWidth
               size="large"
               startIcon={<CalendarTodayIcon />}
@@ -56,12 +52,8 @@ class Scheduling extends Component {
             <Button
               disabled={this.props.tomorrowSelected}
               onClick={this.props.handleTomorrowChange}
-              style={{
-                backgroundImage:
-                  "linear-gradient( 136deg, rgb(102, 255, 255) 0%, rgb(0, 153, 255) 50%, rgb(0, 51, 204) 100%)",
-              }}
               variant="contained"
-              color="primary"
+              className={classes.gradient}
               fullWidth
               size="large"
               startIcon={<CalendarTodayIcon />}
