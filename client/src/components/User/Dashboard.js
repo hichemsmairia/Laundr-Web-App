@@ -22,7 +22,7 @@ import Slide from "./components/Carousel/Slide";
 //todo: implement status 8 feature for order status when order is delivered
 //todo: test button gradients, normal vs login one
 //todo: refine carousel to expand correctly, edit the actual component itself
-//todo: order status not centering properly on mobile like new order does, maybe because its too big??
+//todo: order status not centering properly on mobile like new order does, maybe because its too big?? definitely - removing delivered fixes it...
 
 class Dashboard extends Component {
   constructor(props) {
