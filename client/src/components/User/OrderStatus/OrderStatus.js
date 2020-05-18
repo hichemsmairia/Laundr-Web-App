@@ -51,7 +51,7 @@ class OrderStatus extends Component {
     return (
       <React.Fragment>
         <main className={classes.layout}>
-          <Card className={classes.root}>
+          <div className={classes.root}>
             <Dialog
               disableEnforceFocus
               disableAutoFocus
@@ -82,11 +82,6 @@ class OrderStatus extends Component {
                 </Button>
               </DialogActions>
             </Dialog>
-            <CardHeader
-              title="Order Status"
-              titleTypographyProps={{ variant: "h1", align: "center" }}
-            />
-            <Divider />
             <CardContent id="orderStatusContainer">
               <ProgressBar status={this.props.order.orderInfo.status} />
               <Grid
@@ -161,7 +156,7 @@ class OrderStatus extends Component {
                 </Grid>
               </Grid>
             </CardContent>
-          </Card>
+          </div>
         </main>
       </React.Fragment>
     );

@@ -4,12 +4,10 @@ export default (theme) => ({
   },
   layout: {
     width: "auto",
-    marginLeft: theme.spacing(2),
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
+    marginLeft: "auto",
+    marginRight: "auto",
+    [theme.breakpoints.up(600)]: {
       width: 600,
-      marginLeft: "auto",
-      marginRight: "auto",
     },
   },
   root: {

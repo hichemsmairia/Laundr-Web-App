@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {
   Grid,
   Card,
-  CardHeader,
   CardContent,
   withStyles,
   Paper,
@@ -20,12 +19,12 @@ import sectionBorder from "../../images/UserDashboard/sectionBorder.png";
 import AutoRotatingCarousel from "./components/Carousel/AutoRotatingCarousel";
 import Slide from "./components/Carousel/Slide";
 
-//todo: ensure only one order at a time
 //todo: add loading backdrop
 //todo: implement status 8 feature for order status when order is delivered
 //todo: test button gradients, normal vs login one
 //todo: refine carousel to expand correctly, edit the actual component itself
 //todo: order status not centering properly on mobile like new order does, maybe because its too big?? definitely - removing delivered fixes it...
+//todo: change time picker in scheduling so no scrollbar on desktop view
 
 class Dashboard extends Component {
   constructor(props) {
@@ -147,16 +146,21 @@ class Dashboard extends Component {
           style={{ paddingTop: 8, backgroundColor: "#21d0e5" }}
         >
           <Grid item>
-            <Paper elevation={3} className={classes.hoverCard}>
+            <Paper elevation={3} className={classes.welcomeCard}>
               <Typography variant="h3" className={classes.welcomeText}>
                 {`Welcome, ${this.userFname}`}
               </Typography>
             </Paper>
-            <CardHeader
+          </Grid>
+          <Grid item>
+            <Typography variant="h1" className={classes.orderComponentName}>
+              {this.state.orderComponentName}
+            </Typography>
+            {/* <CardHeader
               title={this.state.orderComponentName}
               titleTypographyProps={{ variant: "h1", align: "center" }}
               classes={{ title: classes.orderComponentName }}
-            />
+            /> */}
           </Grid>
         </Grid>
         <Grid
@@ -169,6 +173,7 @@ class Dashboard extends Component {
           <img
             src={sectionBorder}
             style={{ width: "100%", height: "100%", paddingTop: 8 }}
+            alt="Section border"
           />
         </Grid>
         <Grid

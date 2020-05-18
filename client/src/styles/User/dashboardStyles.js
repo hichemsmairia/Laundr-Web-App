@@ -1,5 +1,5 @@
 export default (theme) => ({
-  hoverCard: {
+  welcomeCard: {
     background: "#21d0e5",
   },
   welcomeText: {

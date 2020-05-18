@@ -9,9 +9,6 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Card,
-  CardHeader,
-  Divider,
   CardContent,
 } from "@material-ui/core";
 import PropTypes from "prop-types";
