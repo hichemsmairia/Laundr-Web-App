@@ -5,6 +5,8 @@ import {
   CardHeader,
   CardContent,
   withStyles,
+  Paper,
+  Typography,
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import axios from "axios";
@@ -13,6 +15,7 @@ import NewOrder from "./NewOrder/NewOrder";
 import OrderStatus from "./OrderStatus/OrderStatus";
 import baseURL from "../../baseURL";
 import dashboardStyles from "../../styles/User/dashboardStyles";
+import sectionBorder from "../../images/UserDashboard/sectionBorder.png";
 
 import AutoRotatingCarousel from "./components/Carousel/AutoRotatingCarousel";
 import Slide from "./components/Carousel/Slide";
@@ -32,7 +35,7 @@ class Dashboard extends Component {
     const data = jwtDecode(token);
     this.userFname = data.fname;
 
-    this.state = { orderComponent: null };
+    this.state = { orderComponent: null, orderComponentName: "" };
   }
 
   componentDidMount = () => {
@@ -45,6 +48,7 @@ class Dashboard extends Component {
     let userEmail = data.email;
 
     let component = null;
+    let componentName = "";
 
     await axios
       .post(baseURL + "/order/getCurrentOrder", { userEmail })
@@ -52,8 +56,10 @@ class Dashboard extends Component {
         if (res.data.success) {
           if (res.data.message === "N/A") {
             component = <NewOrder />;
+            componentName = "New Order";
           } else {
             component = <OrderStatus order={res.data.message} />;
+            componentName = "Order Status";
           }
         } else {
           alert("Error with fetching orders, please contact us.");
@@ -63,7 +69,10 @@ class Dashboard extends Component {
         alert("Error: " + error);
       });
 
-    this.setState({ orderComponent: component });
+    this.setState({
+      orderComponent: component,
+      orderComponentName: componentName,
+    });
   };
 
   renderCarousel = (option, classes) => {
@@ -128,30 +137,52 @@ class Dashboard extends Component {
     const classes = this.props.classes;
 
     return (
-      <div style={{ backgroundColor: "grey" }}>
-        <React.Fragment>
-          <Grid
-            container
-            spacing={2}
-            direction="column"
-            justify="center"
-            alignItems="center" /*main page column*/
-            style={{ paddingTop: 8 }}
-          >
-            <Grid item>
-              <Card className={classes.hoverCard}>
-                <CardHeader
-                  title={`Welcome, ${this.userFname}`}
-                  titleTypographyProps={{ variant: "h1" }}
-                  classes={{ title: classes.welcomeText }}
-                />
-              </Card>
-            </Grid>
-            <Grid item>{this.state.orderComponent}</Grid>
-            <Grid item>{this.renderCarousel(false, classes)}</Grid>
+      <React.Fragment>
+        <Grid
+          container
+          spacing={2}
+          direction="column"
+          justify="center"
+          alignItems="center" /*main page column*/
+          style={{ paddingTop: 8, backgroundColor: "#21d0e5" }}
+        >
+          <Grid item>
+            <Paper elevation={3} className={classes.hoverCard}>
+              <Typography variant="h3" className={classes.welcomeText}>
+                {`Welcome, ${this.userFname}`}
+              </Typography>
+            </Paper>
+            <CardHeader
+              title={this.state.orderComponentName}
+              titleTypographyProps={{ variant: "h1", align: "center" }}
+              classes={{ title: classes.orderComponentName }}
+            />
           </Grid>
-        </React.Fragment>
-      </div>
+        </Grid>
+        <Grid
+          container
+          spacing={2}
+          direction="column"
+          justify="center"
+          alignItems="center" /*main page column*/
+        >
+          <img
+            src={sectionBorder}
+            style={{ width: "100%", height: "100%", paddingTop: 8 }}
+          />
+        </Grid>
+        <Grid
+          container
+          spacing={2}
+          direction="column"
+          justify="center"
+          alignItems="center" /*main page column*/
+          style={{ paddingTop: 8 }}
+        >
+          <Grid item>{this.state.orderComponent}</Grid>
+          <Grid item>{this.renderCarousel(false, classes)}</Grid>
+        </Grid>
+      </React.Fragment>
     );
   }
 }

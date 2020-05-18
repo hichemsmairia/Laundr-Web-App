@@ -94,7 +94,7 @@ class Review extends React.Component {
     return (
       <React.Fragment>
         <Typography variant="h6" gutterBottom>
-          Summary (rough markup)
+          Summary
         </Typography>
         <Grid
           container

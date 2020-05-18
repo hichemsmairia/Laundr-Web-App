@@ -433,12 +433,7 @@ class NewOrder extends Component {
     return (
       <React.Fragment>
         <main className={classes.layout}>
-          <Card className={classes.root}>
-            <CardHeader
-              title="New Order"
-              titleTypographyProps={{ variant: "h1", align: "center" }}
-            />
-            <Divider />
+          <div className={classes.root}>
             <CardContent id="newOrderContainer">
               <ProgressBar step={this.state.activeStep} />
               <React.Fragment>
@@ -631,7 +626,7 @@ class NewOrder extends Component {
                 )}
               </React.Fragment>
             </CardContent>
-          </Card>
+          </div>
         </main>
       </React.Fragment>
     );
