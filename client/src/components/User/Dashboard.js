@@ -28,6 +28,7 @@ import Slide from "./components/Carousel/Slide";
 //todo: change time picker in scheduling so no scrollbar on desktop view
 //todo: fix odd pixel line on section section border
 //todo: review carousel resizing
+//todo: refactor carousel to be more organized/reusable (button, images, etc)
 //todo: fix bottom scrollbar appearing before sm resize?
 //todo: post vs put? ehh...
 
@@ -116,7 +117,7 @@ class Dashboard extends Component {
                     mediaBackgroundStyle={{ backgroundColor: "#2F92EA" }}
                     style={{ backgroundColor: "#0E62AE" }}
                     title="Ever wanted to be popular?"
-                    subtitle="Well just mix two colors and your are good to go!"
+                    subtitle="Well just mix two colors and you are good to go!"
                   />
                   <Slide
                     media={

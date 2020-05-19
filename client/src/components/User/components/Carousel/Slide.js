@@ -1,89 +1,90 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Typography from '@material-ui/core/Typography'
-import blue from '@material-ui/core/colors/blue'
-import withStyles from '@material-ui/core/styles/withStyles'
-import classNames from 'classnames'
+import React from "react";
+import PropTypes from "prop-types";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import blue from "@material-ui/core/colors/blue";
+import withStyles from "@material-ui/core/styles/withStyles";
+import classNames from "classnames";
 
 const styles = {
   root: {
     backgroundColor: blue[500],
-    height: '100%'
+    height: "100%",
   },
   rootMobileLandscape: {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'row'
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
   },
   media: {
-    height: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    '& > *': {
-      maxHeight: '100%'
-    }
+    height: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    "& > *": {
+      maxHeight: "100%",
+    },
   },
   mediaMobile: {
-    position: 'relative',
-    top: '50%',
-    transform: 'translateY(-50%)'
+    position: "relative",
+    top: "50%",
+    transform: "translateY(-50%)",
   },
   mediaMobileLandscape: {},
   mediaBackground: {
     backgroundColor: blue[700],
-    height: 'calc(100% - 216px)',
-    textAlign: 'center'
+    height: "calc(100% - 216px)",
+    textAlign: "center",
   },
   mediaBackgroundMobile: {
-    height: 'calc(100% - 241px)'
+    height: "calc(100% - 241px)",
   },
   mediaBackgroundMobileLandscape: {
-    height: '100%',
-    flex: '1 1',
-    alignSelf: 'stretch'
+    height: "100%",
+    flex: "1 1",
+    alignSelf: "stretch",
   },
   text: {
-    textAlign: 'center',
-    maxWidth: '80%',
-    margin: '0 auto',
-    paddingTop: 32
+    textAlign: "center",
+    maxWidth: "80%",
+    margin: "0 auto",
+    paddingTop: 32,
   },
   textMobile: {
     paddingTop: 30,
-    '& $title': {
-      marginBottom: 8
-    }
+    "& $title": {
+      marginBottom: 8,
+    },
   },
   textMobileLandscape: {
     minWidth: 300,
-    maxWidth: 'calc(50% - 48px)',
-    padding: '24px 24px 128px',
-    flex: '0 1',
-    alignSelf: 'center',
-    textAlign: 'left',
-    margin: 0
+    maxWidth: "calc(50% - 48px)",
+    padding: "24px 24px 128px",
+    flex: "0 1",
+    alignSelf: "center",
+    textAlign: "left",
+    margin: 0,
   },
   title: {
-    fontSize: '24px',
+    fontSize: "24px",
     fontWeight: 700,
-    lineHeight: '32px',
+    lineHeight: "32px",
     marginBottom: 12,
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    color: '#fff'
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    color: "#fff",
   },
   subtitle: {
-    fontSize: '15px',
+    fontSize: "15px",
     fontWeight: 400,
-    lineHeight: '18px',
+    lineHeight: "18px",
     margin: 0,
-    color: '#fff'
-  }
-}
+    color: "#fff",
+  },
+};
 
-function Slide (props) {
+function Slide(props) {
   const {
     classes,
     media,
@@ -93,47 +94,48 @@ function Slide (props) {
     mobile,
     landscape,
     ...other
-  } = props
+  } = props;
 
-  const mobileLandscape = mobile && landscape
+  const mobileLandscape = mobile && landscape;
 
   return (
     <div
       className={classNames(classes.root, {
         [classes.rootMobile]: mobile,
-        [classes.rootMobileLandscape]: mobileLandscape
+        [classes.rootMobileLandscape]: mobileLandscape,
       })}
       {...other}
     >
       <div
         className={classNames(classes.mediaBackground, {
           [classes.mediaBackgroundMobile]: mobile,
-          [classes.mediaBackgroundMobileLandscape]: mobileLandscape
+          [classes.mediaBackgroundMobileLandscape]: mobileLandscape,
         })}
         style={mediaBackgroundStyle}
       >
-        <div className={classNames(classes.media, {
-          [classes.mediaMobile]: mobile,
-          [classes.mediaMobileLandscape]: mobileLandscape
-        })}>
+        <div
+          className={classNames(classes.media, {
+            [classes.mediaMobile]: mobile,
+            [classes.mediaMobileLandscape]: mobileLandscape,
+          })}
+        >
           {media}
         </div>
       </div>
       <div
         className={classNames(classes.text, {
           [classes.textMobile]: mobile,
-          [classes.textMobileLandscape]: mobileLandscape
+          [classes.textMobileLandscape]: mobileLandscape,
         })}
       >
-        <Typography className={classes.title}>
-          {title}
-        </Typography>
-        <Typography className={classes.subtitle}>
-          {subtitle}
-        </Typography>
+        <Typography className={classes.title}>{title}</Typography>
+        <Typography className={classes.subtitle}>{subtitle}</Typography>
+        <Button variant="contained" style={{ marginTop: 5 }}>
+          Test
+        </Button>
       </div>
     </div>
-  )
+  );
 }
 
 Slide.propTypes = {
@@ -166,7 +168,7 @@ Slide.propTypes = {
    * If `true`, slide will adjust content for wide mobile screens.
    * @ignore
    */
-  landscape: PropTypes.bool
-}
+  landscape: PropTypes.bool,
+};
 
-export default withStyles(styles)(Slide)
+export default withStyles(styles)(Slide);
