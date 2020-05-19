@@ -12,8 +12,11 @@ export default (theme) => ({
     textAlign: "center",
   },
   root: {
-    width: 1200,
-    height: 600,
+    [theme.breakpoints.up(1482)]: {
+      width: 1200,
+      height: 600,
+    },
+
     //height: "100vh",
     //width: "100vw",
     position: "relative",
