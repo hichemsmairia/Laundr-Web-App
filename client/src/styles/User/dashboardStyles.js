@@ -18,11 +18,11 @@ export default (theme) => ({
     },
     [theme.breakpoints.up(800)]: {
       width: 700,
-      height: 550,
+      height: 600,
     },
     [theme.breakpoints.up(1034)]: {
       width: 1000,
-      height: 500,
+      height: 600,
     },
     [theme.breakpoints.up(1482)]: {
       width: 1200,

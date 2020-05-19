@@ -11,11 +11,11 @@ export default (theme) => ({
     width: "auto",
     marginLeft: "auto",
     marginRight: "auto",
-    [theme.breakpoints.up(600)]: {
+    [theme.breakpoints.up(635)]: {
       width: 600,
     },
-    [theme.breakpoints.down(600)]: {
-      width: 470,
+    [theme.breakpoints.down(634)]: {
+      width: 460,
     },
   },
   gradient: {
