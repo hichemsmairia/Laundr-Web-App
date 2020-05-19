@@ -15,6 +15,7 @@ import OrderStatus from "./OrderStatus/OrderStatus";
 import baseURL from "../../baseURL";
 import dashboardStyles from "../../styles/User/dashboardStyles";
 import sectionBorder from "../../images/UserDashboard/sectionBorder.png";
+import sectionBorderWhite from "../../images/UserDashboard/sectionBorderWhite.jpeg";
 
 import AutoRotatingCarousel from "./components/Carousel/AutoRotatingCarousel";
 import Slide from "./components/Carousel/Slide";
@@ -27,6 +28,7 @@ import Slide from "./components/Carousel/Slide";
 //todo: change time picker in scheduling so no scrollbar on desktop view
 //todo: fix odd pixel line on section section border
 //todo: resize carousel as screen becomes smaller
+//todo: post vs put? ehh...
 
 class Dashboard extends Component {
   constructor(props) {
@@ -81,7 +83,7 @@ class Dashboard extends Component {
     if (option) {
       return (
         <main className={classes.layout}>
-          <Card className={classes.root}>
+          <div className={classes.root}>
             <CardContent id="carouselContainer">
               <AutoRotatingCarousel
                 label="Get started"
@@ -128,7 +130,7 @@ class Dashboard extends Component {
                 />
               </AutoRotatingCarousel>
             </CardContent>
-          </Card>
+          </div>
         </main>
       );
     }
@@ -198,11 +200,10 @@ class Dashboard extends Component {
           alignItems="center" /*main page column*/
         >
           <img
-            src={sectionBorder}
+            src={sectionBorderWhite}
             style={{
               width: "100%",
               height: "100%",
-              paddingTop: 7,
               transform: "rotate(180deg)",
             }}
             alt="Section border"
@@ -216,7 +217,25 @@ class Dashboard extends Component {
           alignItems="center" /*main page column*/
           style={{ backgroundColor: "#21d0e5" }}
         >
+          <Grid item>
+            <Typography variant="h1" className={classes.carouselTitle}>
+              Check these out!
+            </Typography>
+          </Grid>
           <Grid item>{this.renderCarousel(true, classes)}</Grid>
+        </Grid>
+        <Grid
+          container
+          spacing={2}
+          direction="column"
+          justify="center"
+          alignItems="center" /*main page column*/
+        >
+          <img
+            src={sectionBorder}
+            style={{ width: "100%", height: "100%", paddingTop: 8 }}
+            alt="Section border"
+          />
         </Grid>
       </React.Fragment>
     );
